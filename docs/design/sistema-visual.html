@@ -146,7 +146,8 @@ a { color: var(--azul); }
 .c-azul { --tom: #e7edf8; --forte: var(--azul); }
 
 /* Avisos */
-.aviso-faixa { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1rem; background: var(--amarelo); color: var(--marinho); padding: .75rem 1rem; border-radius: 10px; font-weight: 600; }
+.aviso-faixa { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1rem; background: #eff4f4; border: 1px solid #dae5e5; color: var(--marinho); padding: .75rem 1rem; border-radius: 10px; font-weight: 600; }
+.aviso-faixa::before { content: ""; width: .6rem; height: .6rem; border-radius: 50%; background: var(--turquesa); box-shadow: 0 0 0 4px rgb(36 169 179 / .22); }
 .aviso-faixa b { font-family: var(--titulo); }
 .modal { max-width: 460px; background: var(--branco); border-radius: 18px; box-shadow: var(--sombra-alta); overflow: hidden; border: 1px solid var(--borda); }
 .modal .topo { background: var(--coral-escuro); color: var(--branco); padding: .8rem 1.2rem; font-family: var(--titulo); font-weight: 700; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
@@ -250,7 +251,7 @@ a { color: var(--azul); }
 
     <h3>Cores vivas · Educação (meio da página)</h3>
     <div class="grupo-cores">
-      <div class="cor"><div class="amostra" style="background:var(--amarelo);color:var(--marinho)">Amarelo-lápis</div><div class="dados"><code>#f5b700</code><span>Chamadas de ação, avisos informativos</span><span class="selo ok">✓ texto petróleo 6,2</span></div></div>
+      <div class="cor"><div class="amostra" style="background:var(--amarelo);color:var(--marinho)">Amarelo-lápis</div><div class="dados"><code>#f5b700</code><span>Botões de chamada e detalhes; nunca em faixa colada ao menu</span><span class="selo ok">✓ texto petróleo 6,2</span></div></div>
       <div class="cor"><div class="amostra" style="background:var(--coral-escuro);color:#fff">Coral</div><div class="dados"><code>#e8604c · #c2412d</code><span>Avisos urgentes, eventos</span><span class="selo ok">✓ texto branco 5,1 (escuro)</span></div></div>
       <div class="cor"><div class="amostra" style="background:var(--anil);color:#fff">Anil</div><div class="dados"><code>#3b4fb8</code><span>Educação em Números, programas, gráficos</span><span class="selo ok">✓ texto branco 7,0</span></div></div>
       <div class="cor"><div class="amostra" style="background:var(--lilas);color:#fff">Lilás</div><div class="dados"><code>#7356c4</code><span>Área do Estudante, conteúdos</span><span class="selo ok">✓ texto branco 5,4</span></div></div>
