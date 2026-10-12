@@ -18,7 +18,7 @@ Registro do diagnóstico do projeto Supabase **Portal Municipal** (`qgywucdnaehe
 Situação das migrações em 12/10/2026:
 
 - **Homologação:** 0001–0020.
-- **Produção:** 0001–0011 e 0015–0020. **Faltam 0012–0014** (verificação de links e exportação): a ferramenta de migração desta sessão trava nesses arquivos (pede uma confirmação que não aparece). O roteiro `supabase/producao/aplicar-0012-0014.sql` aplica as três de uma vez pelo SQL Editor, registra no histórico e move a extensão `pg_net` para fora do schema `public` (aviso do verificador). Nenhuma migração nova depende delas.
+- **Produção:** 0001–0020, igual à homologação (0012–0014 aplicadas pelo roteiro `supabase/producao/aplicar-0012-0014.sql` em 12/10/2026; `pg_net` movido para o schema `extensions`). O verificador de segurança só aponta as tabelas internas fechadas de propósito.
 - A 0011 (cache) foi aplicada na produção em 12/10/2026. Sem os segredos `portal_cache_url` e `portal_cache_segredo` no Vault, a rotina de limpeza roda a cada minuto e não faz nada (checklist de ir ao ar do `portal-municipal`).
 
 ## 2. Diagnóstico (resumo)
@@ -88,7 +88,7 @@ Os 16 testes novos cobrem:
 
 - [x] Ligar a proteção contra senhas vazadas (item 4), na produção e na homologação.
 - [x] Patch aplicado na `main` do `portal-municipal` em 12/10/2026 (commits `599d5e6` e `a431d78`): migrações, testes (164 ok), D-37, D-38, doc 03, pendências (doc 07) e checklist (doc 11).
-- [ ] Rodar `supabase/producao/aplicar-0012-0014.sql` no SQL Editor da produção.
+- [x] `supabase/producao/aplicar-0012-0014.sql` rodado na produção em 12/10/2026 (0012–0014 aplicadas, `pg_net` em `extensions`, 3 rotinas agendadas).
 - [ ] O `CLAUDE.md` do `portal-municipal` diz que o repositório é privado, mas ele está **público** (contém inventário do site de Jeriquara e arquivos `.env.*` com chaves publicáveis). Avaliar torná-lo privado.
 - [ ] Domínio do portal (`educacao.paulinia.sp.gov.br` sugerido) para cadastrar em `municipio_dominios`; sem ele, o portal não resolve a organização pelo endereço.
 - [ ] Código IBGE de Paulínia e CNPJ da organização (deixados em branco até confirmação).
