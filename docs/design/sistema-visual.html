@@ -18,7 +18,7 @@
   --coral: #e8604c;
   --coral-escuro: #c2412d;
   --verde: #2e9e5b;
-  --verde-escuro: #1e7a44;
+  --verde-escuro: #005c2e; /* o verde do brasão */
   --lilas: #7356c4;
   /* Tons de seção (fundos alternados) */
   --tom-turquesa: #e6f6f7;
@@ -59,7 +59,14 @@ a { color: var(--azul); }
 .cabecalho { background: var(--branco); border-bottom: 4px solid var(--turquesa); padding: 1rem 16px; }
 .cabecalho .miolo { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; }
 .marca { display: flex; align-items: center; gap: .9rem; text-decoration: none; }
-.brasao { width: 52px; height: 60px; flex-shrink: 0; }
+.brasao { width: 62px; height: 64px; flex-shrink: 0; object-fit: contain; }
+.marcas { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); }
+.marca-op { border-radius: var(--raio); border: 1px solid var(--borda); overflow: hidden; display: grid; }
+.marca-op .fundo { padding: 1.5rem; display: grid; place-items: center; min-height: 170px; }
+.marca-op .fundo img { width: 100%; max-width: 320px; height: auto; }
+.marca-op .leg { padding: .8rem 1rem; display: grid; gap: .2rem; font-size: .9rem; background: var(--branco); }
+.marca-op .leg b { font-family: var(--titulo); color: var(--marinho); }
+.recomendado { display: inline-block; justify-self: start; font-family: var(--titulo); font-size: .7rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: .2rem .55rem; border-radius: 999px; background: var(--tom-verde); color: var(--verde-escuro); }
 .marca small { display: block; font-family: var(--corpo); font-size: .8125rem; color: var(--texto-suave); letter-spacing: .02em; }
 .marca strong { display: block; font-family: var(--titulo); font-weight: 800; font-size: 1.125rem; color: var(--marinho); line-height: 1.15; }
 .nav { display: flex; flex-wrap: wrap; gap: .25rem 1.25rem; font-family: var(--titulo); font-weight: 600; font-size: .9375rem; }
@@ -178,10 +185,7 @@ a { color: var(--azul); }
 <header class="cabecalho">
   <div class="miolo">
     <a class="marca" href="#">
-      <svg class="brasao" viewBox="0 0 52 60" role="img" aria-label="Espaço do brasão de Paulínia">
-        <path d="M26 2 L49 10 V30 C49 45 38 54 26 58 C14 54 3 45 3 30 V10 Z" fill="#e6f6f7" stroke="#113567" stroke-width="2.5"/>
-        <text x="26" y="34" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="8" font-weight="700" fill="#113567">BRASÃO</text>
-      </svg>
+      <img class="brasao" src="marca/brasao-verde-128.png" alt="Brasão de Paulínia" width="62" height="64">
       <span><small>Prefeitura de Paulínia</small><strong>Secretaria Municipal<br>de Educação</strong></span>
     </a>
     <nav class="nav" aria-label="Menu de exemplo">
@@ -209,6 +213,28 @@ a { color: var(--azul); }
   </div>
 </section>
 
+<section class="faixa" style="background:var(--cinza)">
+  <div class="miolo">
+    <span class="rotulo">Marca</span>
+    <h2>O brasão em três aplicações</h2>
+    <p class="intro">O arquivo enviado tem uma cor só, então ele pode ser aplicado no verde original, no marinho da Prefeitura ou em branco sobre fundos escuros. No portal, o nome da Secretaria ao lado do brasão é escrito em texto, não em imagem: fica nítido em qualquer tela e é lido por leitores de tela.</p>
+    <div class="marcas">
+      <div class="marca-op">
+        <div class="fundo" style="background:var(--branco)"><img src="marca/logo-smedu-verde-640.png" alt="Marca da Secretaria Municipal de Educação de Paulínia em verde" width="640" height="246"></div>
+        <div class="leg"><span class="recomendado">Recomendado</span><b>Verde original · fundos claros</b><span>Mantém a cor do arquivo oficial e marca a Educação como “casa própria”, ao lado das cores da Prefeitura. O verde vira o verde escuro da paleta.</span></div>
+      </div>
+      <div class="marca-op">
+        <div class="fundo" style="background:var(--branco)"><img src="marca/logo-smedu-marinho-640.png" alt="Marca da Secretaria Municipal de Educação de Paulínia em marinho" width="640" height="246"></div>
+        <div class="leg"><b>Marinho · fundos claros</b><span>Alternativa mais próxima do site da Prefeitura, com tudo no mesmo azul.</span></div>
+      </div>
+      <div class="marca-op">
+        <div class="fundo" style="background:var(--marinho)"><img src="marca/logo-smedu-branco-640.png" alt="Marca da Secretaria Municipal de Educação de Paulínia em branco" width="640" height="246"></div>
+        <div class="leg"><b>Branco · fundos escuros</b><span>Rodapé, destaque e qualquer faixa marinho ou colorida.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="faixa" style="background:var(--branco)">
   <div class="miolo">
     <span class="rotulo">1 · Paleta</span>
@@ -228,7 +254,7 @@ a { color: var(--azul); }
     <div class="grupo-cores">
       <div class="cor"><div class="amostra" style="background:var(--amarelo);color:var(--marinho)">Amarelo-lápis</div><div class="dados"><code>#f5b700</code><span>Chamadas de ação, avisos informativos</span><span class="selo ok">✓ texto marinho 6,7</span></div></div>
       <div class="cor"><div class="amostra" style="background:var(--coral-escuro);color:#fff">Coral</div><div class="dados"><code>#e8604c · #c2412d</code><span>Avisos urgentes, eventos</span><span class="selo ok">✓ texto branco 5,1 (escuro)</span></div></div>
-      <div class="cor"><div class="amostra" style="background:var(--verde-escuro);color:#fff">Verde-folha</div><div class="dados"><code>#2e9e5b · #1e7a44</code><span>Programas, escolas, números da rede</span><span class="selo ok">✓ texto branco 5,4 (escuro)</span></div></div>
+      <div class="cor"><div class="amostra" style="background:var(--verde-escuro);color:#fff">Verde do brasão</div><div class="dados"><code>#2e9e5b · #005c2e</code><span>Programas, escolas, números da rede; o tom escuro é o mesmo do brasão</span><span class="selo ok">✓ texto branco 8,2 (escuro)</span></div></div>
       <div class="cor"><div class="amostra" style="background:var(--lilas);color:#fff">Lilás</div><div class="dados"><code>#7356c4</code><span>Área do Estudante, conteúdos</span><span class="selo ok">✓ texto branco 5,4</span></div></div>
     </div>
 
@@ -371,12 +397,13 @@ a { color: var(--azul); }
       <li>No modo de alto contraste do portal, as cores dão lugar a preto, branco e amarelo (já existe no portal base).</li>
       <li>Todas as cores ficam em <code>municipios.tema</code>, editáveis pelo painel: outro órgão troca a paleta sem mudar código.</li>
     </ul>
-    <p class="nota">Proposta para aprovação · 12/10/2026 · cores extraídas do CSS de www.paulinia.sp.gov.br. O brasão entra no lugar do escudo provisório quando o arquivo chegar.</p>
+    <p class="nota">Proposta para aprovação · 12/10/2026 · cores extraídas do CSS de www.paulinia.sp.gov.br. Brasão: arquivo enviado em 12/10/2026, aplicado em verde, marinho e branco.</p>
   </div>
 </section>
 
 <footer style="background:var(--marinho);color:#fff;padding:2rem 16px">
   <div class="miolo" style="gap:.4rem">
+    <img src="marca/brasao-branco-128.png" alt="Brasão de Paulínia" width="62" height="64">
     <strong style="font-family:var(--titulo)">Secretaria Municipal de Educação · Paulínia/SP</strong>
     <span style="color:#c9d6e6">Rodapé no marinho da Prefeitura, com endereço, telefone e horário (dados a confirmar).</span>
   </div>
