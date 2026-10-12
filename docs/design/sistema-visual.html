@@ -1,0 +1,383 @@
+<title>Portal Educação Paulínia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Source+Sans+3:wght@400;600;700&display=swap">
+<style>
+/* Layout: amostra de faixas de largura total, alternando tons, como o portal será montado.
+   Página de aprovação de um site claro: um só visual, cores explícitas. */
+:root {
+  color-scheme: light;
+  /* Estrutura: cores do site da Prefeitura (www.paulinia.sp.gov.br) */
+  --marinho: #113567;
+  --turquesa: #24a9b3;
+  --turquesa-escuro: #127882;
+  --azul: #325497;
+  --ceu: #2996cc;
+  /* Cores vivas da Educação */
+  --amarelo: #f5b700;
+  --coral: #e8604c;
+  --coral-escuro: #c2412d;
+  --verde: #2e9e5b;
+  --verde-escuro: #1e7a44;
+  --lilas: #7356c4;
+  /* Tons de seção (fundos alternados) */
+  --tom-turquesa: #e6f6f7;
+  --tom-amarelo: #fff4d1;
+  --tom-lilas: #efeafa;
+  --tom-coral: #fdebe7;
+  --tom-verde: #e5f4ea;
+  --cinza: #f4f6f9;
+  /* Neutros com viés azul */
+  --texto: #1c2b3a;
+  --texto-suave: #4b5b6b;
+  --borda: #d8e0e8;
+  --branco: #ffffff;
+  --foco: #f5b700;
+  /* Tipos */
+  --titulo: "Montserrat", "Segoe UI", system-ui, sans-serif;
+  --corpo: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --raio: 14px;
+  --sombra: 0 1px 2px rgb(17 53 103 / .08), 0 6px 18px rgb(17 53 103 / .08);
+  --sombra-alta: 0 4px 8px rgb(17 53 103 / .10), 0 18px 36px rgb(17 53 103 / .16);
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--branco); color: var(--texto); font-family: var(--corpo); font-size: 1.0625rem; line-height: 1.6; }
+h1, h2, h3, h4 { font-family: var(--titulo); line-height: 1.2; text-wrap: balance; margin: 0; color: var(--marinho); }
+p { margin: 0; }
+a { color: var(--azul); }
+:focus-visible { outline: 3px solid var(--foco); outline-offset: 3px; }
+.faixa { padding-block: clamp(2.5rem, 6vw, 4.5rem); padding-inline: 16px; }
+.miolo { width: min(100%, 1180px); margin-inline: auto; display: grid; gap: 1.5rem; }
+.rotulo { font-family: var(--titulo); font-weight: 700; font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; color: var(--turquesa-escuro); }
+.intro { max-width: 62ch; color: var(--texto-suave); }
+
+/* Barra da Prefeitura + cabeçalho */
+.barra-pref { background: var(--marinho); color: var(--branco); font-size: .875rem; padding: .4rem 16px; }
+.barra-pref .miolo { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem 1.5rem; }
+.barra-pref a { color: var(--branco); text-decoration: none; font-weight: 600; }
+.barra-pref a:hover { text-decoration: underline; }
+.cabecalho { background: var(--branco); border-bottom: 4px solid var(--turquesa); padding: 1rem 16px; }
+.cabecalho .miolo { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; }
+.marca { display: flex; align-items: center; gap: .9rem; text-decoration: none; }
+.brasao { width: 52px; height: 60px; flex-shrink: 0; }
+.marca small { display: block; font-family: var(--corpo); font-size: .8125rem; color: var(--texto-suave); letter-spacing: .02em; }
+.marca strong { display: block; font-family: var(--titulo); font-weight: 800; font-size: 1.125rem; color: var(--marinho); line-height: 1.15; }
+.nav { display: flex; flex-wrap: wrap; gap: .25rem 1.25rem; font-family: var(--titulo); font-weight: 600; font-size: .9375rem; }
+.nav a { color: var(--marinho); text-decoration: none; padding-block: .25rem; border-bottom: 2px solid transparent; transition: border-color .2s; }
+.nav a:hover { border-bottom-color: var(--turquesa); }
+
+/* Destaque */
+.hero { position: relative; background: var(--marinho); color: var(--branco); overflow: hidden; padding-inline: 16px; }
+.hero .miolo { min-height: clamp(260px, 46vh, 420px); align-content: center; padding-block: 2.5rem; position: relative; z-index: 1; }
+.hero h1 { color: var(--branco); font-weight: 800; font-size: clamp(1.9rem, 4.5vw, 3.1rem); max-width: 18ch; }
+.hero p { max-width: 46ch; font-size: 1.125rem; color: #dbe6f3; }
+.hero .acoes { display: flex; flex-wrap: wrap; gap: .75rem; }
+.hero-arte { position: absolute; inset: 0; pointer-events: none; }
+.hero-arte span { position: absolute; border-radius: 50%; opacity: .9; }
+.indicadores { display: flex; gap: .5rem; }
+.indicadores i { width: 28px; height: 6px; border-radius: 3px; background: rgb(255 255 255 / .35); }
+.indicadores i:first-child { background: var(--amarelo); }
+
+/* Botões */
+.btn { --cor: var(--marinho); display: inline-flex; align-items: center; gap: .55rem; font-family: var(--titulo); font-weight: 700; font-size: .9375rem; padding: .8rem 1.3rem; border-radius: 999px; border: 2px solid var(--cor); background: var(--cor); color: var(--branco); text-decoration: none; cursor: pointer; transition: transform .2s ease, box-shadow .2s ease, background .2s ease; }
+.btn svg { width: 1.1em; height: 1.1em; transition: transform .2s ease; }
+.btn:hover { transform: translateY(-2px); box-shadow: var(--sombra-alta); }
+.btn:hover svg { transform: translateX(3px); }
+.btn:active { transform: translateY(0); box-shadow: none; }
+.btn-amarelo { --cor: var(--amarelo); color: var(--marinho); }
+.btn-turquesa { --cor: var(--turquesa-escuro); }
+.btn-contorno { background: transparent; color: var(--marinho); }
+.btn-contorno:hover { background: var(--marinho); color: var(--branco); }
+.btn-claro { background: transparent; border-color: rgb(255 255 255 / .7); color: var(--branco); }
+.btn-claro:hover { background: var(--branco); color: var(--marinho); }
+.btn[aria-disabled="true"] { background: var(--cinza); border-color: var(--borda); color: var(--texto-suave); cursor: not-allowed; transform: none; box-shadow: none; }
+
+/* Paleta */
+.grupo-cores { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr)); }
+.cor { border-radius: var(--raio); overflow: hidden; border: 1px solid var(--borda); background: var(--branco); }
+.cor .amostra { height: 96px; display: flex; align-items: flex-end; padding: .7rem .9rem; font-family: var(--titulo); font-weight: 700; font-size: 1.05rem; }
+.cor .dados { padding: .75rem .9rem; display: grid; gap: .25rem; font-size: .9rem; }
+.cor code { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; font-size: .8125rem; color: var(--texto-suave); }
+.selo { display: inline-flex; align-items: center; gap: .3rem; font-size: .8rem; font-weight: 600; }
+.selo.ok { color: var(--verde-escuro); }
+.selo.so-grande { color: #8a5a00; }
+.tons { display: grid; gap: .6rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr)); }
+.tom { border-radius: 10px; padding: .9rem; border: 1px solid var(--borda); font-size: .875rem; }
+.tom b { display: block; font-family: var(--titulo); color: var(--marinho); }
+
+/* Tipografia */
+.tipos { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); }
+.tipo-cartao { background: var(--branco); border-radius: var(--raio); border: 1px solid var(--borda); padding: 1.5rem; display: grid; gap: .75rem; min-width: 0; }
+.escala { display: grid; gap: .6rem; }
+.escala div { display: flex; align-items: baseline; gap: 1rem; border-bottom: 1px dashed var(--borda); padding-bottom: .5rem; min-width: 0; }
+.escala span { font-size: .75rem; color: var(--texto-suave); min-width: 4.5rem; font-variant-numeric: tabular-nums; }
+
+/* Cards de serviço */
+.servicos { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); }
+.servico { --tom: var(--tom-turquesa); --forte: var(--turquesa-escuro); position: relative; display: grid; gap: .6rem; align-content: start; padding: 1.4rem; border-radius: var(--raio); background: var(--branco); border: 1px solid var(--borda); box-shadow: var(--sombra); text-decoration: none; color: var(--texto); transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+.servico:hover, .servico:focus-visible { transform: translateY(-6px); box-shadow: var(--sombra-alta); border-color: var(--forte); }
+.servico .icone { width: 56px; height: 56px; border-radius: 16px; display: grid; place-items: center; background: var(--tom); color: var(--forte); transition: transform .3s ease, background .25s ease, color .25s ease; }
+.servico .icone svg { width: 28px; height: 28px; }
+.servico:hover .icone { transform: rotate(-6deg) scale(1.06); background: var(--forte); color: var(--branco); }
+.servico h3 { font-size: 1.125rem; }
+.servico p { color: var(--texto-suave); font-size: .975rem; }
+.servico .ir { font-family: var(--titulo); font-weight: 700; font-size: .875rem; color: var(--forte); display: inline-flex; align-items: center; gap: .35rem; }
+.servico .ir svg { width: 1em; height: 1em; transition: transform .2s; }
+.servico:hover .ir svg { transform: translateX(4px); }
+.servico.breve { cursor: default; }
+.servico.breve:hover { transform: none; box-shadow: var(--sombra); border-color: var(--borda); }
+.servico.breve:hover .icone { transform: none; background: var(--tom); color: var(--forte); }
+.chip { position: absolute; top: 1rem; right: 1rem; font-family: var(--titulo); font-size: .7rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: .25rem .6rem; border-radius: 999px; background: var(--tom-amarelo); color: #6b4a00; border: 1px solid #f0d78a; }
+.c-turquesa { --tom: var(--tom-turquesa); --forte: var(--turquesa-escuro); }
+.c-amarelo { --tom: var(--tom-amarelo); --forte: #8a5a00; }
+.c-lilas { --tom: var(--tom-lilas); --forte: var(--lilas); }
+.c-coral { --tom: var(--tom-coral); --forte: var(--coral-escuro); }
+.c-verde { --tom: var(--tom-verde); --forte: var(--verde-escuro); }
+.c-azul { --tom: #e7edf8; --forte: var(--azul); }
+
+/* Avisos */
+.aviso-faixa { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1rem; background: var(--amarelo); color: var(--marinho); padding: .75rem 1rem; border-radius: 10px; font-weight: 600; }
+.aviso-faixa b { font-family: var(--titulo); }
+.modal { max-width: 460px; background: var(--branco); border-radius: 18px; box-shadow: var(--sombra-alta); overflow: hidden; border: 1px solid var(--borda); }
+.modal .topo { background: var(--coral-escuro); color: var(--branco); padding: .8rem 1.2rem; font-family: var(--titulo); font-weight: 700; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.modal .corpo { padding: 1.2rem; display: grid; gap: .9rem; }
+.avisos { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); align-items: start; }
+
+/* Notícias (ritmo de seções) */
+.noticias { display: grid; gap: 1rem; grid-template-columns: 1.4fr 1fr; }
+.noticias .lista { display: grid; gap: 1rem; }
+.noticia { background: var(--branco); border-radius: var(--raio); overflow: hidden; box-shadow: var(--sombra); display: grid; transition: transform .25s, box-shadow .25s; text-decoration: none; color: var(--texto); }
+.noticia:hover { transform: translateY(-4px); box-shadow: var(--sombra-alta); }
+.noticia .foto { aspect-ratio: 16/9; max-width: 100%; }
+.noticia .txt { padding: 1rem 1.2rem 1.2rem; display: grid; gap: .4rem; }
+.noticia .cat { font-family: var(--titulo); font-weight: 700; font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--turquesa-escuro); }
+.noticia.pequena { grid-template-columns: 120px 1fr; }
+.noticia.pequena .foto { aspect-ratio: auto; height: 100%; min-height: 96px; }
+.noticia h3 { font-size: 1.05rem; }
+.noticia.grande h3 { font-size: 1.4rem; }
+
+.regras { display: grid; gap: .5rem; padding-left: 1.2rem; margin: 0; max-width: 75ch; }
+.nota { font-size: .875rem; color: var(--texto-suave); }
+
+@media (max-width: 760px) {
+  .noticias { grid-template-columns: 1fr; }
+  .nav { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
+</style>
+
+<div class="barra-pref">
+  <div class="miolo">
+    <span>Prefeitura Municipal de Paulínia</span>
+    <a href="#" aria-label="Voltar ao site da Prefeitura (exemplo)">← Voltar ao site da Prefeitura</a>
+  </div>
+</div>
+
+<header class="cabecalho">
+  <div class="miolo">
+    <a class="marca" href="#">
+      <svg class="brasao" viewBox="0 0 52 60" role="img" aria-label="Espaço do brasão de Paulínia">
+        <path d="M26 2 L49 10 V30 C49 45 38 54 26 58 C14 54 3 45 3 30 V10 Z" fill="#e6f6f7" stroke="#113567" stroke-width="2.5"/>
+        <text x="26" y="34" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="8" font-weight="700" fill="#113567">BRASÃO</text>
+      </svg>
+      <span><small>Prefeitura de Paulínia</small><strong>Secretaria Municipal<br>de Educação</strong></span>
+    </a>
+    <nav class="nav" aria-label="Menu de exemplo">
+      <a href="#">Início</a><a href="#">A Secretaria</a><a href="#">Escolas</a><a href="#">Notícias</a><a href="#">Transparência</a><a href="#">Entrar</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero" aria-label="Exemplo do destaque">
+  <div class="hero-arte" aria-hidden="true">
+    <span style="width:420px;height:420px;right:-120px;top:-140px;background:var(--turquesa);opacity:.55"></span>
+    <span style="width:220px;height:220px;right:180px;bottom:-110px;background:var(--amarelo);opacity:.9"></span>
+    <span style="width:120px;height:120px;right:60px;bottom:40px;background:var(--coral);opacity:.85"></span>
+    <span style="width:70px;height:70px;right:320px;top:40px;background:var(--lilas);opacity:.8"></span>
+  </div>
+  <div class="miolo">
+    <span class="rotulo" style="color:var(--amarelo)">Exemplo de slide do destaque</span>
+    <h1>Matrículas abertas para a rede municipal</h1>
+    <p>Ocupa cerca de metade da tela, para que as notícias apareçam sem rolar. Troca de slide com esmaecimento a cada 7–8 segundos e pausa com o mouse.</p>
+    <div class="acoes">
+      <a class="btn btn-amarelo" href="#">Faça a matrícula <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="btn btn-claro" href="#">Saiba mais</a>
+    </div>
+    <div class="indicadores" aria-hidden="true"><i></i><i></i><i></i></div>
+  </div>
+</section>
+
+<section class="faixa" style="background:var(--branco)">
+  <div class="miolo">
+    <span class="rotulo">1 · Paleta</span>
+    <h2>Mesma família da Prefeitura, casa própria</h2>
+    <p class="intro">As cores do site oficial (marinho, turquesa, azul e azul-céu, com a fonte Montserrat) ficam nos elementos estruturais: cabeçalho, rodapé, títulos e botões principais. Quatro cores vivas marcam a Educação nas seções e nos cards. Cada combinação de texto foi medida pelo critério de contraste do eMAG/WCAG (mínimo 4,5 para texto comum; 3 para texto grande).</p>
+
+    <h3>Estrutura · cores do site da Prefeitura</h3>
+    <div class="grupo-cores">
+      <div class="cor"><div class="amostra" style="background:var(--marinho);color:#fff">Marinho</div><div class="dados"><code>#113567</code><span>Cabeçalho, rodapé, títulos, botão principal</span><span class="selo ok">✓ texto branco 12,2</span></div></div>
+      <div class="cor"><div class="amostra" style="background:var(--turquesa);color:var(--marinho)">Turquesa</div><div class="dados"><code>#24a9b3</code><span>Cor-assinatura da Prefeitura: linhas, ícones, detalhes</span><span class="selo so-grande">texto branco 2,8: só como detalhe</span></div></div>
+      <div class="cor"><div class="amostra" style="background:var(--turquesa-escuro);color:#fff">Turquesa escuro</div><div class="dados"><code>#127882</code><span>Botões e links sobre a turquesa</span><span class="selo ok">✓ texto branco 5,2</span></div></div>
+      <div class="cor"><div class="amostra" style="background:var(--azul);color:#fff">Azul</div><div class="dados"><code>#325497</code><span>Links, botões secundários</span><span class="selo ok">✓ texto branco 7,4</span></div></div>
+      <div class="cor"><div class="amostra" style="background:var(--ceu);color:var(--marinho)">Azul-céu</div><div class="dados"><code>#2996cc</code><span>Ilustrações e gráficos</span><span class="selo so-grande">texto branco 3,3: só títulos grandes</span></div></div>
+    </div>
+
+    <h3>Cores vivas · Educação</h3>
+    <div class="grupo-cores">
+      <div class="cor"><div class="amostra" style="background:var(--amarelo);color:var(--marinho)">Amarelo-lápis</div><div class="dados"><code>#f5b700</code><span>Chamadas de ação, avisos informativos</span><span class="selo ok">✓ texto marinho 6,7</span></div></div>
+      <div class="cor"><div class="amostra" style="background:var(--coral-escuro);color:#fff">Coral</div><div class="dados"><code>#e8604c · #c2412d</code><span>Avisos urgentes, eventos</span><span class="selo ok">✓ texto branco 5,1 (escuro)</span></div></div>
+      <div class="cor"><div class="amostra" style="background:var(--verde-escuro);color:#fff">Verde-folha</div><div class="dados"><code>#2e9e5b · #1e7a44</code><span>Programas, escolas, números da rede</span><span class="selo ok">✓ texto branco 5,4 (escuro)</span></div></div>
+      <div class="cor"><div class="amostra" style="background:var(--lilas);color:#fff">Lilás</div><div class="dados"><code>#7356c4</code><span>Área do Estudante, conteúdos</span><span class="selo ok">✓ texto branco 5,4</span></div></div>
+    </div>
+
+    <h3>Tons das seções (fundos alternados de ponta a ponta)</h3>
+    <div class="tons">
+      <div class="tom" style="background:var(--tom-turquesa)"><b>Turquesa claro</b><code>#e6f6f7</code> · texto 13,0</div>
+      <div class="tom" style="background:var(--tom-amarelo)"><b>Amarelo claro</b><code>#fff4d1</code> · texto 13,1</div>
+      <div class="tom" style="background:var(--tom-lilas)"><b>Lilás claro</b><code>#efeafa</code> · texto 12,2</div>
+      <div class="tom" style="background:var(--tom-coral)"><b>Coral claro</b><code>#fdebe7</code> · texto 12,5</div>
+      <div class="tom" style="background:var(--tom-verde)"><b>Verde claro</b><code>#e5f4ea</code> · texto 12,7</div>
+      <div class="tom" style="background:var(--cinza)"><b>Cinza-azulado</b><code>#f4f6f9</code> · texto 13,3</div>
+    </div>
+  </div>
+</section>
+
+<section class="faixa" style="background:var(--tom-turquesa)">
+  <div class="miolo">
+    <span class="rotulo">2 · Tipografia</span>
+    <h2>Títulos fortes, textos confortáveis</h2>
+    <div class="tipos">
+      <div class="tipo-cartao">
+        <span class="rotulo">Títulos · Montserrat</span>
+        <p style="font-family:var(--titulo);font-weight:800;font-size:2rem;color:var(--marinho);line-height:1.1">A mesma letra do site da Prefeitura</p>
+        <p class="nota">Pesos 600, 700 e 800. Liga o portal à identidade oficial logo na primeira leitura.</p>
+      </div>
+      <div class="tipo-cartao">
+        <span class="rotulo">Textos · Source Sans 3</span>
+        <p style="font-size:1.125rem">Desenhada para leitura em tela, com letras abertas que continuam legíveis no celular e para quem aumenta a fonte. Corpo de 17 px, entrelinha de 1,6, até 65 caracteres por linha.</p>
+      </div>
+    </div>
+    <div class="tipo-cartao">
+      <span class="rotulo">Escala</span>
+      <div class="escala">
+        <div><span>Destaque</span><h1 style="font-size:clamp(1.8rem,4vw,3rem);font-weight:800">Volta às aulas 2027</h1></div>
+        <div><span>Seção</span><h2 style="font-size:1.9rem;font-weight:800">Serviços</h2></div>
+        <div><span>Card</span><h3 style="font-size:1.2rem;font-weight:700">Matrícula Escolar</h3></div>
+        <div><span>Texto</span><p>Prazos, documentos e como matricular seu filho na rede municipal.</p></div>
+        <div><span>Rótulo</span><p class="rotulo" style="margin:0">Educação infantil</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="faixa" style="background:var(--branco)">
+  <div class="miolo">
+    <span class="rotulo">3 · Botões</span>
+    <h2>Botões que respondem ao toque</h2>
+    <p class="intro">Passe o mouse ou toque: o botão sobe, ganha sombra e a seta avança. Com movimento reduzido ligado no aparelho, nada se mexe.</p>
+    <div style="display:flex;flex-wrap:wrap;gap:.75rem">
+      <a class="btn" href="#">Ação principal <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="btn btn-amarelo" href="#">Chamada de campanha</a>
+      <a class="btn btn-turquesa" href="#">Secundária</a>
+      <a class="btn btn-contorno" href="#">Contorno</a>
+      <span class="btn" aria-disabled="true">Em breve</span>
+    </div>
+  </div>
+</section>
+
+<section class="faixa" style="background:var(--tom-amarelo)">
+  <div class="miolo">
+    <span class="rotulo">4 · Área de Serviços</span>
+    <h2>Os seis cards da SMEDU</h2>
+    <p class="intro">Cada serviço ganha uma das cores vivas. O ícone gira de leve e se preenche ao passar o mouse; o card sobe. Os que ainda não existem aparecem como “em breve”, sem reagir.</p>
+    <div class="servicos">
+      <a class="servico c-turquesa" href="#">
+        <span class="icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V10l8-5 8 5v11"/><path d="M9 21v-6h6v6"/><path d="M12 5V2"/><path d="M12 2h4v2h-4"/></svg></span>
+        <h3>Matrícula Escolar</h3><p>Prazos, documentos e como matricular seu filho na rede municipal.</p>
+        <span class="ir">Acessar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <div class="servico c-lilas breve" aria-disabled="true">
+        <span class="chip">Em breve</span>
+        <span class="icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/><path d="M22 9v6"/></svg></span>
+        <h3>Área do Estudante</h3><p>Estudo, reforço, vestibulinhos e contato com professores.</p>
+      </div>
+      <a class="servico c-azul" href="#">
+        <span class="icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18"/><path d="M5 21V10M9.5 21V10M14.5 21V10M19 21V10"/><path d="M2 10l10-6 10 6z"/></svg></span>
+        <h3>Secretaria de Educação</h3><p>Organograma, equipe gestora e como a Secretaria está organizada.</p>
+        <span class="ir">Acessar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <a class="servico c-verde" href="#">
+        <span class="icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V4"/><path d="M4 20h16"/><path d="M8 16v-5M12 16V8M16 16v-3"/></svg></span>
+        <h3>Educação em Números</h3><p>Escolas, alunos, vagas e indicadores da rede municipal.</p>
+        <span class="ir">Acessar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <a class="servico c-amarelo" href="#">
+        <span class="icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h11v8H8l-4 3z"/><path d="M15 9h5v8l-3-2h-6v-2"/></svg></span>
+        <h3>Fale com o Supervisor</h3><p>Encontre a escola do seu filho e o supervisor responsável.</p>
+        <span class="ir">Buscar escola <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <div class="servico c-coral breve" aria-disabled="true">
+        <span class="chip">Em breve</span>
+        <span class="icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11v2l13 5V6z"/><path d="M16 9a3 3 0 0 1 0 6"/><path d="M6 13l1 6h3l-1-5"/></svg></span>
+        <h3>Ouvidoria</h3><p>Reclamações, sugestões, elogios e denúncias, por áudio ou texto.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="faixa" style="background:var(--branco)">
+  <div class="miolo">
+    <span class="rotulo">5 · Notícias</span>
+    <h2>Manchete maior, demais ao lado, sempre com foto</h2>
+    <div class="noticias">
+      <a class="noticia grande" href="#">
+        <svg class="foto" viewBox="0 0 160 90" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="160" height="90" fill="#2996cc"/><circle cx="120" cy="20" r="40" fill="#24a9b3"/><rect y="62" width="160" height="28" fill="#2e9e5b"/><text x="10" y="80" font-family="Montserrat" font-size="8" fill="#fff">foto real da notícia</text></svg>
+        <div class="txt"><span class="cat">Rede municipal</span><h3>Manchete principal do momento ocupa o espaço maior</h3><p class="nota">Exemplo de layout; o conteúdo real entra na carga inicial.</p></div>
+      </a>
+      <div class="lista">
+        <a class="noticia pequena" href="#"><svg class="foto" viewBox="0 0 120 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="120" height="100" fill="#f5b700"/><circle cx="30" cy="70" r="35" fill="#e8604c"/></svg><div class="txt"><span class="cat">Escolas</span><h3>Notícia secundária com foto</h3></div></a>
+        <a class="noticia pequena" href="#"><svg class="foto" viewBox="0 0 120 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="120" height="100" fill="#7356c4"/><circle cx="90" cy="30" r="30" fill="#24a9b3"/></svg><div class="txt"><span class="cat">Programas</span><h3>Outra notícia secundária</h3></div></a>
+        <a class="noticia pequena" href="#"><svg class="foto" viewBox="0 0 120 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="120" height="100" fill="#113567"/><rect x="0" y="60" width="120" height="40" fill="#2e9e5b"/></svg><div class="txt"><span class="cat">Eventos</span><h3>Mais uma, sempre com imagem</h3></div></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="faixa" style="background:var(--tom-lilas)">
+  <div class="miolo">
+    <span class="rotulo">6 · Avisos</span>
+    <h2>Avisos que se impõem, com freio</h2>
+    <p class="intro">Informativo vira faixa discreta no topo. Urgente abre por cima de tudo. Cada visitante vê uma vez, fecha com um clique ou com a tecla Esc, e o aviso some sozinho na data de fim.</p>
+    <div class="avisos">
+      <div class="aviso-faixa" role="note"><b>Informativo</b> Rematrícula até 30/11 pelo portal.<a href="#" style="color:var(--marinho);margin-left:auto">Saiba mais</a></div>
+      <div class="modal" role="note" aria-label="Exemplo de aviso urgente">
+        <div class="topo"><span>Aviso urgente</span><span aria-hidden="true">✕</span></div>
+        <div class="corpo"><h3>Aulas suspensas nesta sexta-feira</h3><p>Exemplo de aviso urgente sobre todo o conteúdo, acessível por teclado e leitor de tela.</p><a class="btn" href="#">Entendi</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="faixa" style="background:var(--branco)">
+  <div class="miolo">
+    <span class="rotulo">Regras de uso</span>
+    <h2>Para a paleta continuar acessível</h2>
+    <ul class="regras">
+      <li>Texto branco só sobre marinho, azul, turquesa escuro, coral escuro, verde escuro e lilás.</li>
+      <li>Sobre amarelo, turquesa e azul-céu, o texto é marinho; turquesa e azul-céu com texto branco só em títulos grandes.</li>
+      <li>As seções alternam branco e um tom claro; nunca duas cores vivas lado a lado.</li>
+      <li>No modo de alto contraste do portal, as cores dão lugar a preto, branco e amarelo (já existe no portal base).</li>
+      <li>Todas as cores ficam em <code>municipios.tema</code>, editáveis pelo painel: outro órgão troca a paleta sem mudar código.</li>
+    </ul>
+    <p class="nota">Proposta para aprovação · 12/10/2026 · cores extraídas do CSS de www.paulinia.sp.gov.br. O brasão entra no lugar do escudo provisório quando o arquivo chegar.</p>
+  </div>
+</section>
+
+<footer style="background:var(--marinho);color:#fff;padding:2rem 16px">
+  <div class="miolo" style="gap:.4rem">
+    <strong style="font-family:var(--titulo)">Secretaria Municipal de Educação · Paulínia/SP</strong>
+    <span style="color:#c9d6e6">Rodapé no marinho da Prefeitura, com endereço, telefone e horário (dados a confirmar).</span>
+  </div>
+</footer>
