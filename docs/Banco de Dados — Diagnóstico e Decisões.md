@@ -87,7 +87,7 @@ Os 16 testes novos cobrem:
 ## 6. Pendências
 
 - [x] Ligar a proteção contra senhas vazadas (item 4), na produção e na homologação.
-- [ ] Aplicar o patch `supabase/portal-municipal-0016-0020.patch` no repositório `portal-municipal` (migrações + testes) e registrar lá as decisões (D-37 organização contratante, D-38 permissões por papel) e o schema (doc 03), conforme o CLAUDE.md daquele repositório.
+- [x] Patch aplicado no `portal-municipal`, na branch `claude/fase-1a-banco` (migrações, testes 164 ok, D-37, D-38 e doc 03). Falta levar para a `main`.
 - [ ] Rodar `supabase/producao/aplicar-0012-0014.sql` no SQL Editor da produção.
 - [ ] O `CLAUDE.md` do `portal-municipal` diz que o repositório é privado, mas ele está **público** (contém inventário do site de Jeriquara e arquivos `.env.*` com chaves publicáveis). Avaliar torná-lo privado.
 - [ ] Domínio do portal (`educacao.paulinia.sp.gov.br` sugerido) para cadastrar em `municipio_dominios`; sem ele, o portal não resolve a organização pelo endereço.
