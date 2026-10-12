@@ -1,0 +1,1230 @@
+diff --git a/supabase/migrations/0016_seguranca.sql b/supabase/migrations/0016_seguranca.sql
+new file mode 100644
+index 0000000..3366deb
+--- /dev/null
++++ b/supabase/migrations/0016_seguranca.sql
+@@ -0,0 +1,132 @@
++-- =============================================================
++-- 0016 · Correções de segurança do diagnóstico de 12/10/2026
++--   1. perfis: o admin só cria perfil de quem é membro do SEU município
++--      (antes bastava ser admin em qualquer município).
++--   2. Funções SECURITY DEFINER saem do schema exposto pela Data API.
++--      Elas vão para o schema "seguranca" (não exposto); em public ficam
++--      invólucros SECURITY INVOKER com o mesmo nome e assinatura, então as
++--      policies, o painel e o portal continuam funcionando sem mudança.
++--   3. midias: o visitante só lê a mídia usada em conteúdo que ele pode ver
++--      (publicado). Antes a tabela era pública por inteiro, e o storage_path
++--      de anexos de rascunho (ex.: edital ainda não publicado) permitia
++--      baixá-los pelo bucket público.
++-- =============================================================
++
++-- -------------------------------------------------------------
++-- 1. perfis
++-- -------------------------------------------------------------
++-- O convite (Edge Function convidar-usuario) grava o perfil com a chave de
++-- serviço, depois de criar o vínculo em membros; não depende desta policy.
++-- ALTER (e não DROP + CREATE): mesma policy, regra nova.
++alter policy "perfis: admin cria" on public.perfis
++  with check (
++    user_id = (select auth.uid()) or public.is_plataforma() or exists (
++      select 1 from public.membros m
++      where m.user_id = perfis.user_id and public.is_admin(m.municipio_id)
++    )
++  );
++
++-- -------------------------------------------------------------
++-- 2. Funções SECURITY DEFINER fora da Data API
++-- -------------------------------------------------------------
++-- As policies rodam com o papel de quem consulta, então anon e authenticated
++-- precisam de USAGE no schema e EXECUTE nas funções; o que muda é que elas
++-- deixam de ser chamáveis por /rest/v1/rpc diretamente.
++create schema if not exists seguranca;
++revoke all on schema seguranca from public;
++grant usage on schema seguranca to anon, authenticated, service_role;
++
++create or replace function seguranca.is_plataforma()
++returns boolean
++language sql stable security definer
++set search_path = ''
++as $$
++  select exists (select 1 from public.equipe_plataforma where user_id = (select auth.uid()))
++$$;
++
++create or replace function seguranca.tem_papel(p_municipio uuid, p_papeis public.papel_usuario[])
++returns boolean
++language sql stable security definer
++set search_path = ''
++as $$
++  select seguranca.is_plataforma() or exists (
++    select 1 from public.membros m
++    where m.municipio_id = p_municipio
++      and m.user_id = (select auth.uid())
++      and m.ativo
++      and m.papel = any (p_papeis)
++  )
++$$;
++
++-- Contador estatístico do 301; o anon não tem UPDATE em redirecionamentos.
++create or replace function seguranca.registrar_acesso_redirecionamento(p_id uuid)
++returns void
++language sql security definer
++set search_path = ''
++as $$
++  update public.redirecionamentos set acessos = acessos + 1, ultimo_acesso = now() where id = p_id
++$$;
++
++revoke all on all functions in schema seguranca from public;
++grant execute on all functions in schema seguranca to anon, authenticated, service_role;
++
++-- Invólucros em public: mesma assinatura, agora SECURITY INVOKER.
++create or replace function public.is_plataforma()
++returns boolean
++language sql stable security invoker
++set search_path = ''
++as $$ select seguranca.is_plataforma() $$;
++
++create or replace function public.tem_papel(p_municipio uuid, p_papeis public.papel_usuario[])
++returns boolean
++language sql stable security invoker
++set search_path = ''
++as $$ select seguranca.tem_papel(p_municipio, p_papeis) $$;
++
++create or replace function public.registrar_acesso_redirecionamento(p_id uuid)
++returns void
++language sql security invoker
++set search_path = ''
++as $$ select seguranca.registrar_acesso_redirecionamento(p_id) $$;
++
++-- -------------------------------------------------------------
++-- 3. midias: leitura pública só do que está em conteúdo visível
++-- -------------------------------------------------------------
++-- A conferência é feita por função SECURITY DEFINER (sem RLS) porque a
++-- policy de documento_arquivos já consulta midias: um EXISTS direto daqui
++-- para lá entraria em recursão. A função repete as mesmas regras das
++-- policies públicas (0005, 0007): publicado e com publicado_em <= now();
++-- órgão ativo. Membros do município continuam vendo tudo.
++-- O brasão e as imagens do tema são lidos pelo caminho guardado em
++-- municipios.tema e não dependem desta tabela.
++create or replace function seguranca.midia_publica(p_midia uuid)
++returns boolean
++language sql stable security definer
++set search_path = ''
++as $$
++  select exists (select 1 from public.publicacoes p
++                 where p.imagem_destaque_id = p_midia and p.status = 'publicado' and p.publicado_em <= now())
++      or exists (select 1 from public.publicacao_midias pm join public.publicacoes p on p.id = pm.publicacao_id
++                 where pm.midia_id = p_midia and p.status = 'publicado' and p.publicado_em <= now())
++      or exists (select 1 from public.destaques d
++                 where d.imagem_id = p_midia and d.status = 'publicado' and d.publicado_em <= now())
++      or exists (select 1 from public.eventos e
++                 where e.imagem_id = p_midia and e.status = 'publicado' and e.publicado_em <= now())
++      or exists (select 1 from public.orgaos o
++                 where o.responsavel_foto_id = p_midia and o.ativo)
++      or exists (select 1 from public.documento_arquivos a join public.documentos d on d.id = a.documento_id
++                 where a.midia_id = p_midia and d.status = 'publicado' and d.publicado_em <= now())
++$$;
++revoke all on function seguranca.midia_publica(uuid) from public;
++grant execute on function seguranca.midia_publica(uuid) to anon, authenticated, service_role;
++
++alter policy "midias: público lê" on public.midias rename to "midias: público lê as usadas em conteúdo visível";
++alter policy "midias: público lê as usadas em conteúdo visível" on public.midias
++  using (public.is_membro(municipio_id) or seguranca.midia_publica(id));
++
++create index if not exists publicacoes_imagem_destaque_idx on public.publicacoes (imagem_destaque_id) where imagem_destaque_id is not null;
++create index if not exists publicacao_midias_midia_idx     on public.publicacao_midias (midia_id);
++create index if not exists destaques_imagem_idx            on public.destaques (imagem_id) where imagem_id is not null;
++create index if not exists eventos_imagem_idx              on public.eventos (imagem_id) where imagem_id is not null;
++create index if not exists orgaos_responsavel_foto_idx     on public.orgaos (responsavel_foto_id) where responsavel_foto_id is not null;
++create index if not exists documento_arquivos_midia_idx    on public.documento_arquivos (midia_id) where midia_id is not null;
+diff --git a/supabase/migrations/0017_organizacao_contratante.sql b/supabase/migrations/0017_organizacao_contratante.sql
+new file mode 100644
+index 0000000..3918094
+--- /dev/null
++++ b/supabase/migrations/0017_organizacao_contratante.sql
+@@ -0,0 +1,46 @@
++-- =============================================================
++-- 0017 · A linha de "municipios" é a organização contratante (tenant)
++-- Decisão de 12/10/2026 (opção A): cada portal é uma organização isolada,
++-- seja a prefeitura inteira, uma secretaria (ex.: SMEDU de Paulínia), uma
++-- câmara ou uma autarquia. Duas organizações da mesma cidade NÃO
++-- compartilham dados: o isolamento continua por municipio_id, com as
++-- mesmas policies, FKs compostas e pastas do Storage.
++-- O nome "municipio_id" fica por compatibilidade; dentro de cada
++-- organização, "orgaos" continua sendo o organograma.
++-- =============================================================
++
++comment on table public.municipios is
++  'Organização contratante (tenant): prefeitura, secretaria, câmara, autarquia... '
++  'Todo dado com municipio_id pertence a uma organização e é isolado das demais por RLS.';
++
++alter table public.municipios
++  add column tipo_ente   text not null default 'prefeitura'
++                         check (tipo_ente in ('prefeitura', 'secretaria', 'camara', 'autarquia',
++                                              'fundacao', 'consorcio', 'outro')),
++  add column cidade      text,
++  add column codigo_ibge char(7) check (codigo_ibge ~ '^[0-9]{7}$');
++
++comment on column public.municipios.nome is 'Nome oficial da organização (ex.: Secretaria Municipal de Educação de Paulínia).';
++comment on column public.municipios.tipo_ente is 'Tipo de organização; orienta o pacote padrão e os textos do portal.';
++comment on column public.municipios.cidade is 'Município onde a organização atua (agrupamento e exibição; não dá acesso a nada).';
++comment on column public.municipios.codigo_ibge is 'Código IBGE do município (7 dígitos).';
++
++create index on public.municipios (codigo_ibge) where codigo_ibge is not null;
++
++-- Identidade oficial também é da SECKE (amplia 0010, D-20): o admin da
++-- organização continua alterando só tema e config.
++create or replace function public.checar_campos_municipio()
++returns trigger
++language plpgsql
++set search_path = ''
++as $$
++begin
++  if auth.uid() is not null and not public.is_plataforma()
++     and (new.nome, new.slug, new.uf, new.cnpj, new.ativo, new.tipo_ente, new.cidade, new.codigo_ibge)
++         is distinct from
++         (old.nome, old.slug, old.uf, old.cnpj, old.ativo, old.tipo_ente, old.cidade, old.codigo_ibge) then
++    raise exception 'Somente a SECKE altera nome, endereço, UF, CNPJ, tipo, cidade e situação da organização'
++      using errcode = '42501';
++  end if;
++  return new;
++end $$;
+diff --git a/supabase/migrations/0018_estrutura_permissoes.sql b/supabase/migrations/0018_estrutura_permissoes.sql
+new file mode 100644
+index 0000000..1f0e841
+--- /dev/null
++++ b/supabase/migrations/0018_estrutura_permissoes.sql
+@@ -0,0 +1,629 @@
++-- =============================================================
++-- 0018 · Unidades, regiões e permissões configuráveis por papel (fase 1A)
++-- Plano: docs/Plano de Migração — Fase 1.md (Portais-Publicos).
++--
++-- Cada organização cria seus papéis e liga/desliga cada permissão, com escopo:
++--   rede     toda a organização
++--   regiao   as unidades da região do vínculo
++--   unidade  só a unidade do vínculo (ex.: diretor e a sua escola)
++--   proprio  só o que a própria pessoa criou (a policy compara o dono)
++-- O catálogo de permissões é global e vem do código (sincronizar_permissoes).
++-- Fase 1A: só os módulos novos usam pode(); notícias, páginas, destaques e
++-- serviços continuam com membros.papel (admin/publicador/editor) até a fase 1B.
++-- O master é a equipe_plataforma (SECKE): não é um papel, ninguém o edita.
++-- =============================================================
++
++-- -------------------------------------------------------------
++-- Regiões e unidades (escolas, creches, conveniadas, UBS...)
++-- -------------------------------------------------------------
++create table public.regioes (
++  id            uuid primary key default gen_random_uuid(),
++  municipio_id  uuid not null references public.municipios on delete cascade,
++  nome          text not null,
++  slug          text not null check (slug ~ '^[a-z0-9-]+$'),
++  descricao     text,
++  ordem         int not null default 0,
++  ativo         boolean not null default true,
++  criado_em     timestamptz not null default now(),
++  atualizado_em timestamptz not null default now(),
++  unique (municipio_id, slug),
++  unique (id, municipio_id)
++);
++
++create table public.unidades (
++  id             uuid primary key default gen_random_uuid(),
++  municipio_id   uuid not null references public.municipios on delete cascade,
++  regiao_id      uuid,
++  -- Livre por organização: escola, creche, cei, emef, conveniada, administrativa, ubs...
++  tipo           text not null default 'escola' check (tipo ~ '^[a-z_]+$'),
++  nome           text not null,
++  sigla          text,
++  slug           text not null check (slug ~ '^[a-z0-9-]+$'),
++  etapas         text[] not null default '{}',   -- ex.: {educacao_infantil, fundamental_1}
++  codigo_inep    char(8) check (codigo_inep ~ '^[0-9]{8}$'),
++  conveniada     boolean not null default false,
++  endereco       text,
++  bairro         text,
++  cep            text,
++  telefone       text,
++  email          text,
++  site           text,
++  latitude       numeric(9, 6),
++  longitude      numeric(9, 6),
++  foto_id        uuid,
++  ordem          int not null default 0,
++  ativo          boolean not null default true,
++  legado         jsonb,
++  criado_por     uuid default auth.uid() references auth.users on delete set null,
++  atualizado_por uuid default auth.uid() references auth.users on delete set null,
++  criado_em      timestamptz not null default now(),
++  atualizado_em  timestamptz not null default now(),
++  busca          tsvector generated always as (
++    public.tsv_pt('A', nome) || public.tsv_pt('A', sigla) || public.tsv_pt('B', bairro) || public.tsv_pt('C', endereco)
++  ) stored,
++  unique (municipio_id, slug),
++  unique (id, municipio_id),
++  foreign key (regiao_id, municipio_id) references public.regioes (id, municipio_id) on delete set null (regiao_id),
++  foreign key (foto_id, municipio_id)   references public.midias (id, municipio_id) on delete set null (foto_id)
++);
++create index on public.unidades (municipio_id, regiao_id, ordem);
++create index on public.unidades using gin (busca);
++
++-- -------------------------------------------------------------
++-- Catálogo global de permissões (gerado a partir do código)
++-- -------------------------------------------------------------
++create table public.permissoes (
++  codigo        text primary key check (codigo ~ '^[a-z_]+(\.[a-z_]+)+$'),
++  modulo        text not null,
++  nome          text not null,
++  descricao     text,
++  escopos       text[] not null default '{rede}'
++                check (escopos <@ array['rede', 'regiao', 'unidade', 'proprio'] and cardinality(escopos) > 0),
++  ordem         int not null default 0,
++  -- false = saiu do código; fica pelo histórico e deixa de valer em pode().
++  ativa         boolean not null default true,
++  criado_em     timestamptz not null default now(),
++  atualizado_em timestamptz not null default now()
++);
++
++-- -------------------------------------------------------------
++-- Papéis de cada organização e a chave liga/desliga por permissão
++-- -------------------------------------------------------------
++create table public.papeis (
++  id            uuid primary key default gen_random_uuid(),
++  municipio_id  uuid not null references public.municipios on delete cascade,
++  slug          text not null check (slug ~ '^[a-z0-9-]+$'),
++  nome          text not null,
++  descricao     text,
++  sistema       boolean not null default false,  -- criado pelo provisionamento
++  protegido     boolean not null default false,  -- Administrador: não é excluído nem perde o essencial
++  ativo         boolean not null default true,
++  criado_em     timestamptz not null default now(),
++  atualizado_em timestamptz not null default now(),
++  unique (municipio_id, slug),
++  unique (id, municipio_id)
++);
++
++-- Sem linha = desligada (permissão nova do catálogo nasce desligada para todos).
++create table public.papel_permissoes (
++  municipio_id     uuid not null references public.municipios on delete cascade,
++  papel_id         uuid not null,
++  permissao_codigo text not null references public.permissoes on update cascade,
++  ativo            boolean not null default false,
++  escopo           text not null default 'rede' check (escopo in ('rede', 'regiao', 'unidade', 'proprio')),
++  atualizado_por   uuid default auth.uid() references auth.users on delete set null,
++  atualizado_em    timestamptz not null default now(),
++  primary key (papel_id, permissao_codigo),
++  foreign key (papel_id, municipio_id) references public.papeis (id, municipio_id) on delete cascade
++);
++create index on public.papel_permissoes (municipio_id, permissao_codigo);
++
++-- Uma pessoa pode ter vários papéis; o vínculo pode apontar a unidade ou a região do escopo.
++create table public.usuario_papeis (
++  id           uuid primary key default gen_random_uuid(),
++  municipio_id uuid not null references public.municipios on delete cascade,
++  user_id      uuid not null references auth.users on delete cascade,
++  papel_id     uuid not null,
++  unidade_id   uuid,
++  regiao_id    uuid,
++  ativo        boolean not null default true,
++  criado_por   uuid default auth.uid() references auth.users on delete set null,
++  criado_em    timestamptz not null default now(),
++  foreign key (papel_id, municipio_id)   references public.papeis (id, municipio_id) on delete cascade,
++  foreign key (unidade_id, municipio_id) references public.unidades (id, municipio_id) on delete cascade,
++  foreign key (regiao_id, municipio_id)  references public.regioes (id, municipio_id) on delete cascade,
++  check (num_nonnulls(unidade_id, regiao_id) <= 1),
++  unique nulls not distinct (user_id, papel_id, unidade_id, regiao_id)
++);
++create index on public.usuario_papeis (user_id, municipio_id);
++create index on public.usuario_papeis (papel_id);
++
++-- Histórico de toda mudança de papel, permissão e vínculo (quem, quando, de → para).
++create table public.log_permissoes (
++  id               bigint generated always as identity primary key,
++  municipio_id     uuid not null references public.municipios on delete cascade,
++  em               timestamptz not null default now(),
++  user_id          uuid,                       -- quem fez (null = rotina/servidor)
++  tabela           text not null check (tabela in ('papeis', 'papel_permissoes', 'usuario_papeis')),
++  acao             text not null check (acao in ('INSERT', 'UPDATE', 'DELETE')),
++  papel_id         uuid,
++  permissao_codigo text,
++  alvo_user_id     uuid,                       -- de quem é o vínculo (usuario_papeis)
++  de               jsonb,
++  para             jsonb
++);
++create index on public.log_permissoes (municipio_id, em desc);
++
++-- -------------------------------------------------------------
++-- Auditoria (corrige 0004): ao excluir uma organização inteira, as linhas
++-- apagadas em cascata não têm mais onde ser registradas; antes, a auditoria
++-- tentava gravá-las e a exclusão da organização falhava (FK).
++-- -------------------------------------------------------------
++create or replace function public.registrar_auditoria()
++returns trigger
++language plpgsql security definer
++set search_path = ''
++as $$
++declare
++  v_antes  jsonb := case when tg_op <> 'INSERT' then to_jsonb(old) end;
++  v_depois jsonb := case when tg_op <> 'DELETE' then to_jsonb(new) end;
++  v_linha  jsonb := coalesce(v_depois, v_antes);
++  v_mid    uuid;
++begin
++  -- O vetor de busca é derivado do conteúdo; não precisa ir para o log.
++  v_antes  := v_antes - 'busca';
++  v_depois := v_depois - 'busca';
++  if tg_op = 'UPDATE' and v_antes - 'atualizado_em' = v_depois - 'atualizado_em' then
++    return null;
++  end if;
++  -- Na tabela municipios, o próprio registro é o município (coluna id).
++  v_mid := case when tg_table_name = 'municipios' then (v_linha ->> 'id')::uuid
++                else (v_linha ->> 'municipio_id')::uuid end;
++  if tg_op = 'DELETE' and v_mid is not null
++     and not exists (select 1 from public.municipios m where m.id = v_mid) then
++    return null;
++  end if;
++  insert into public.auditoria (municipio_id, tabela, registro_id, acao, user_id, antes, depois)
++  values (
++    v_mid,
++    tg_table_name,
++    coalesce(v_linha ->> 'id', v_linha ->> 'user_id', v_linha ->> 'criterio_id'),
++    tg_op,
++    auth.uid(),
++    v_antes,
++    v_depois
++  );
++  return null;
++end $$;
++
++-- Mesmo caso na fila de limpeza do cache (corrige 0011).
++create or replace function interno.marcar_cache_pendente()
++returns trigger
++language plpgsql
++security definer
++set search_path = ''
++as $$
++declare
++  v_linha jsonb := coalesce(to_jsonb(new), to_jsonb(old));
++  v_mid   uuid;
++begin
++  v_mid := case tg_table_name
++    when 'municipios'            then (v_linha->>'id')::uuid
++    when 'documento_arquivos'    then (select d.municipio_id from public.documentos d where d.id = (v_linha->>'documento_id')::uuid)
++    when 'publicacao_categorias' then (select p.municipio_id from public.publicacoes p where p.id = (v_linha->>'publicacao_id')::uuid)
++    else (v_linha->>'municipio_id')::uuid
++  end;
++  if v_mid is not null and exists (select 1 from public.municipios m where m.id = v_mid) then
++    insert into interno.cache_pendente (municipio_id) values (v_mid) on conflict do nothing;
++  end if;
++  return null;
++end $$;
++revoke all on function interno.marcar_cache_pendente() from public, anon, authenticated;
++
++-- -------------------------------------------------------------
++-- Autorização: pode(organização, permissão, unidade, dono)
++-- -------------------------------------------------------------
++create or replace function seguranca.pode(p_municipio uuid, p_permissao text, p_unidade uuid default null, p_dono uuid default null)
++returns boolean
++language sql stable security definer
++set search_path = ''
++as $$
++  select seguranca.is_plataforma() or exists (
++    select 1
++      from public.usuario_papeis up
++      join public.papeis pa           on pa.id = up.papel_id and pa.ativo
++      join public.papel_permissoes pp on pp.papel_id = up.papel_id and pp.ativo and pp.permissao_codigo = p_permissao
++      join public.permissoes pe       on pe.codigo = pp.permissao_codigo and pe.ativa
++     where up.municipio_id = p_municipio
++       and up.user_id = (select auth.uid())
++       and up.ativo
++       and (pp.escopo = 'rede'
++            or (pp.escopo = 'unidade' and p_unidade is not null and up.unidade_id = p_unidade)
++            or (pp.escopo = 'regiao' and p_unidade is not null and up.regiao_id is not null
++                and exists (select 1 from public.unidades u where u.id = p_unidade and u.regiao_id = up.regiao_id))
++            or (pp.escopo = 'proprio' and p_dono is not null and p_dono = (select auth.uid())))
++  )
++$$;
++revoke all on function seguranca.pode(uuid, text, uuid, uuid) from public;
++grant execute on function seguranca.pode(uuid, text, uuid, uuid) to anon, authenticated, service_role;
++
++create or replace function public.pode(p_municipio uuid, p_permissao text, p_unidade uuid default null, p_dono uuid default null)
++returns boolean
++language sql stable security invoker
++set search_path = ''
++as $$ select seguranca.pode(p_municipio, p_permissao, p_unidade, p_dono) $$;
++revoke all on function public.pode(uuid, text, uuid, uuid) from public;
++grant execute on function public.pode(uuid, text, uuid, uuid) to anon, authenticated, service_role;
++
++-- Para o painel mostrar/esconder telas: o que o usuário pode, com escopo e alvo.
++-- SECURITY INVOKER: só enxerga os próprios vínculos (RLS).
++create or replace function public.minhas_permissoes(p_municipio uuid)
++returns table (permissao text, escopo text, unidade_id uuid, regiao_id uuid)
++language sql stable security invoker
++set search_path = ''
++as $$
++  select pe.codigo, 'rede'::text, null::uuid, null::uuid
++    from public.permissoes pe where pe.ativa and public.is_plataforma()
++  union
++  select pp.permissao_codigo, pp.escopo, up.unidade_id, up.regiao_id
++    from public.usuario_papeis up
++    join public.papeis pa           on pa.id = up.papel_id and pa.ativo
++    join public.papel_permissoes pp on pp.papel_id = up.papel_id and pp.ativo
++    join public.permissoes pe       on pe.codigo = pp.permissao_codigo and pe.ativa
++   where up.municipio_id = p_municipio and up.user_id = (select auth.uid()) and up.ativo
++$$;
++revoke all on function public.minhas_permissoes(uuid) from public;
++grant execute on function public.minhas_permissoes(uuid) to authenticated, service_role;
++
++-- -------------------------------------------------------------
++-- Salvaguardas
++-- -------------------------------------------------------------
++-- Permissões que o papel protegido (Administrador) nunca perde: a organização
++-- sempre tem quem configure. A SECKE (e rotinas do servidor) podem tudo.
++create or replace function seguranca.essenciais_admin()
++returns text[] language sql immutable set search_path = ''
++as $$ select array['permissoes.gerenciar', 'usuarios.vincular'] $$;
++
++create or replace function seguranca.proteger_papeis()
++returns trigger
++language plpgsql
++security definer
++set search_path = ''
++as $$
++begin
++  if auth.uid() is null or seguranca.is_plataforma() then
++    return coalesce(new, old);
++  end if;
++  if tg_op = 'INSERT' then
++    if new.sistema or new.protegido then
++      raise exception 'Papéis de sistema são criados só pelo provisionamento' using errcode = '42501';
++    end if;
++  elsif tg_op = 'UPDATE' then
++    if (new.sistema, new.protegido) is distinct from (old.sistema, old.protegido)
++       or (old.protegido and (new.slug, new.ativo, new.municipio_id) is distinct from (old.slug, old.ativo, old.municipio_id)) then
++      raise exception 'O papel Administrador não pode ser desativado nem ter a identidade alterada' using errcode = '42501';
++    end if;
++  elsif tg_op = 'DELETE' and old.protegido then
++    raise exception 'O papel Administrador não pode ser excluído' using errcode = '42501';
++  end if;
++  return coalesce(new, old);
++end $$;
++
++create or replace function seguranca.validar_papel_permissao()
++returns trigger
++language plpgsql
++security definer
++set search_path = ''
++as $$
++declare v_protegido boolean;
++begin
++  if tg_op <> 'DELETE' and not exists (
++    select 1 from public.permissoes pe where pe.codigo = new.permissao_codigo and new.escopo = any (pe.escopos)
++  ) then
++    raise exception 'Escopo % não se aplica à permissão %', new.escopo, new.permissao_codigo using errcode = '23514';
++  end if;
++  if auth.uid() is null or seguranca.is_plataforma() then
++    return coalesce(new, old);
++  end if;
++  select pa.protegido into v_protegido from public.papeis pa where pa.id = coalesce(old.papel_id, new.papel_id);
++  if v_protegido and coalesce(old.permissao_codigo, new.permissao_codigo) = any (seguranca.essenciais_admin())
++     and (tg_op = 'DELETE' or not new.ativo or new.escopo <> 'rede') then
++    raise exception 'O Administrador não perde a permissão %', coalesce(old.permissao_codigo, new.permissao_codigo)
++      using errcode = '42501';
++  end if;
++  if tg_op <> 'DELETE' then
++    new.atualizado_por := auth.uid();
++    new.atualizado_em := now();
++  end if;
++  return coalesce(new, old);
++end $$;
++
++create or replace function seguranca.registrar_log_permissoes()
++returns trigger
++language plpgsql
++security definer
++set search_path = ''
++as $$
++declare v_linha jsonb := coalesce(to_jsonb(new), to_jsonb(old));
++begin
++  -- Exclusão da organização inteira (cascata): não há onde registrar.
++  if not exists (select 1 from public.municipios m where m.id = (v_linha->>'municipio_id')::uuid) then
++    return null;
++  end if;
++  if tg_op = 'UPDATE' and to_jsonb(old) - 'atualizado_em' - 'atualizado_por' = to_jsonb(new) - 'atualizado_em' - 'atualizado_por' then
++    return null;
++  end if;
++  insert into public.log_permissoes (municipio_id, user_id, tabela, acao, papel_id, permissao_codigo, alvo_user_id, de, para)
++  values (
++    (v_linha->>'municipio_id')::uuid, auth.uid(), tg_table_name, tg_op,
++    coalesce(v_linha->>'papel_id', case when tg_table_name = 'papeis' then v_linha->>'id' end)::uuid,
++    v_linha->>'permissao_codigo',
++    (v_linha->>'user_id')::uuid,
++    case when tg_op <> 'INSERT' then to_jsonb(old) end,
++    case when tg_op <> 'DELETE' then to_jsonb(new) end
++  );
++  return null;
++end $$;
++
++-- Quem só pode "editar" uma unidade (diretor, escopo unidade/região) não muda
++-- o que é da rede: região, situação, tipo, identificação oficial.
++create or replace function seguranca.checar_campos_unidade()
++returns trigger
++language plpgsql
++security definer
++set search_path = ''
++as $$
++begin
++  if auth.uid() is not null and not seguranca.pode(old.municipio_id, 'unidades.gerenciar')
++     and (new.municipio_id, new.regiao_id, new.ativo, new.tipo, new.slug, new.codigo_inep, new.conveniada, new.ordem)
++         is distinct from
++         (old.municipio_id, old.regiao_id, old.ativo, old.tipo, old.slug, old.codigo_inep, old.conveniada, old.ordem) then
++    raise exception 'Somente quem gerencia as unidades altera região, situação, tipo, INEP e ordem' using errcode = '42501';
++  end if;
++  return new;
++end $$;
++
++revoke all on function seguranca.essenciais_admin(), seguranca.proteger_papeis(), seguranca.validar_papel_permissao(),
++  seguranca.registrar_log_permissoes(), seguranca.checar_campos_unidade() from public;
++
++create trigger trg_papeis_proteger before insert or update or delete on public.papeis
++  for each row execute function seguranca.proteger_papeis();
++create trigger trg_papel_permissoes_validar before insert or update or delete on public.papel_permissoes
++  for each row execute function seguranca.validar_papel_permissao();
++create trigger trg_unidades_campos before update on public.unidades
++  for each row execute function seguranca.checar_campos_unidade();
++
++do $$
++declare t text;
++begin
++  foreach t in array array['papeis', 'papel_permissoes', 'usuario_papeis'] loop
++    execute format(
++      'create trigger trg_%1$s_log after insert or update or delete on public.%1$I
++         for each row execute function seguranca.registrar_log_permissoes()', t);
++  end loop;
++  foreach t in array array['regioes', 'unidades', 'papeis', 'permissoes'] loop
++    execute format(
++      'create trigger trg_%1$s_atualizado before update on public.%1$I
++         for each row execute function public.set_atualizado_em()', t);
++  end loop;
++  execute 'create trigger trg_unidades_atualizado_por before update on public.unidades
++             for each row execute function public.set_atualizado_por()';
++  -- Auditoria geral (as tabelas de permissão já têm o log_permissoes).
++  foreach t in array array['regioes', 'unidades', 'usuario_papeis', 'papeis'] loop
++    execute format(
++      'create trigger trg_%1$s_auditoria after insert or update or delete on public.%1$I
++         for each row execute function public.registrar_auditoria()', t);
++  end loop;
++  -- Cache do portal (0011): o que o visitante vê.
++  foreach t in array array['regioes', 'unidades'] loop
++    execute format(
++      'create trigger trg_%1$s_cache after insert or update or delete on public.%1$I
++         for each row execute function interno.marcar_cache_pendente()', t);
++  end loop;
++end $$;
++
++-- Auxiliares das policies: leem sem RLS para que papeis e usuario_papeis
++-- não consultem um ao outro (o Postgres acusaria recursão).
++create or replace function seguranca.tenho_o_papel(p_papel uuid)
++returns boolean
++language sql stable security definer
++set search_path = ''
++as $$
++  select exists (select 1 from public.usuario_papeis up
++                 where up.papel_id = p_papel and up.user_id = (select auth.uid()) and up.ativo)
++$$;
++
++create or replace function seguranca.papel_protegido(p_papel uuid)
++returns boolean
++language sql stable security definer
++set search_path = ''
++as $$ select coalesce((select pa.protegido from public.papeis pa where pa.id = p_papel), false) $$;
++
++revoke all on function seguranca.tenho_o_papel(uuid), seguranca.papel_protegido(uuid) from public;
++grant execute on function seguranca.tenho_o_papel(uuid), seguranca.papel_protegido(uuid) to anon, authenticated, service_role;
++
++-- -------------------------------------------------------------
++-- RLS
++-- -------------------------------------------------------------
++alter table public.regioes          enable row level security;
++alter table public.unidades         enable row level security;
++alter table public.permissoes       enable row level security;
++alter table public.papeis           enable row level security;
++alter table public.papel_permissoes enable row level security;
++alter table public.usuario_papeis   enable row level security;
++alter table public.log_permissoes   enable row level security;
++
++create policy "regioes: público lê ativas" on public.regioes for select to anon, authenticated
++  using (ativo or public.is_membro(municipio_id) or public.pode(municipio_id, 'unidades.gerenciar'));
++create policy "regioes: gestor gerencia" on public.regioes for all to authenticated
++  using (public.pode(municipio_id, 'unidades.gerenciar'))
++  with check (public.pode(municipio_id, 'unidades.gerenciar'));
++
++create policy "unidades: público lê ativas" on public.unidades for select to anon, authenticated
++  using (ativo or public.is_membro(municipio_id) or public.pode(municipio_id, 'unidades.editar', id));
++create policy "unidades: gestor cria" on public.unidades for insert to authenticated
++  with check (public.pode(municipio_id, 'unidades.gerenciar'));
++create policy "unidades: gestor ou responsável edita" on public.unidades for update to authenticated
++  using (public.pode(municipio_id, 'unidades.gerenciar') or public.pode(municipio_id, 'unidades.editar', id))
++  with check (public.pode(municipio_id, 'unidades.gerenciar') or public.pode(municipio_id, 'unidades.editar', id));
++create policy "unidades: gestor exclui" on public.unidades for delete to authenticated
++  using (public.pode(municipio_id, 'unidades.gerenciar'));
++
++create policy "permissoes: catálogo para o painel" on public.permissoes for select to authenticated using (true);
++
++create policy "papeis: quem administra ou tem o papel vê" on public.papeis for select to authenticated
++  using (public.pode(municipio_id, 'permissoes.gerenciar') or public.pode(municipio_id, 'usuarios.vincular')
++         or seguranca.tenho_o_papel(id));
++create policy "papeis: administrador gerencia" on public.papeis for all to authenticated
++  using (public.pode(municipio_id, 'permissoes.gerenciar'))
++  with check (public.pode(municipio_id, 'permissoes.gerenciar'));
++
++create policy "papel_permissoes: quem administra ou tem o papel vê" on public.papel_permissoes for select to authenticated
++  using (public.pode(municipio_id, 'permissoes.gerenciar')
++         or seguranca.tenho_o_papel(papel_id));
++create policy "papel_permissoes: administrador liga e desliga" on public.papel_permissoes for all to authenticated
++  using (public.pode(municipio_id, 'permissoes.gerenciar'))
++  with check (public.pode(municipio_id, 'permissoes.gerenciar'));
++
++-- Ninguém se promove sozinho; dar o papel Administrador exige permissoes.gerenciar.
++create policy "usuario_papeis: próprio ou quem vincula vê" on public.usuario_papeis for select to authenticated
++  using (user_id = (select auth.uid()) or public.pode(municipio_id, 'usuarios.vincular')
++         or public.pode(municipio_id, 'permissoes.gerenciar'));
++create policy "usuario_papeis: quem vincula gerencia" on public.usuario_papeis for all to authenticated
++  using (public.pode(municipio_id, 'usuarios.vincular') and user_id <> (select auth.uid()))
++  with check (
++    public.pode(municipio_id, 'usuarios.vincular') and user_id <> (select auth.uid())
++    and (not seguranca.papel_protegido(papel_id) or public.pode(municipio_id, 'permissoes.gerenciar'))
++  );
++
++create policy "log_permissoes: administrador lê" on public.log_permissoes for select to authenticated
++  using (public.pode(municipio_id, 'permissoes.gerenciar'));
++
++-- -------------------------------------------------------------
++-- Permissões explícitas (D-13)
++-- -------------------------------------------------------------
++grant select on public.regioes, public.unidades to anon;
++grant select, insert, update, delete on
++  public.regioes, public.unidades, public.papeis, public.papel_permissoes, public.usuario_papeis
++to authenticated;
++grant select on public.permissoes, public.log_permissoes to authenticated;
++grant all on public.regioes, public.unidades, public.permissoes, public.papeis,
++  public.papel_permissoes, public.usuario_papeis, public.log_permissoes to service_role;
++grant usage on all sequences in schema public to authenticated, service_role;
++
++-- -------------------------------------------------------------
++-- Catálogo: sincronização a partir do código (só a chave de serviço)
++-- -------------------------------------------------------------
++-- p_catalogo: [{codigo, modulo, nome, descricao, escopos, ordem}]. Insere as novas
++-- (desligadas para todos os papéis), atualiza as existentes e marca como inativas
++-- as que saíram do código, sem apagar o histórico.
++create or replace function public.sincronizar_permissoes(p_catalogo jsonb)
++returns jsonb
++language plpgsql
++security invoker
++set search_path = ''
++as $$
++declare v_novas int; v_inativas int;
++begin
++  with entrada as (
++    select e->>'codigo' codigo, e->>'modulo' modulo, e->>'nome' nome, e->>'descricao' descricao,
++           coalesce(array(select jsonb_array_elements_text(e->'escopos')), '{rede}') escopos,
++           coalesce((e->>'ordem')::int, 0) ordem
++      from jsonb_array_elements(p_catalogo) e
++  ), gravadas as (
++    insert into public.permissoes as p (codigo, modulo, nome, descricao, escopos, ordem, ativa)
++    select codigo, modulo, nome, descricao, escopos, ordem, true from entrada
++    on conflict (codigo) do update
++      set modulo = excluded.modulo, nome = excluded.nome, descricao = excluded.descricao,
++          escopos = excluded.escopos, ordem = excluded.ordem, ativa = true
++    returning (xmax = 0) as nova
++  )
++  select count(*) filter (where nova) into v_novas from gravadas;
++
++  update public.permissoes set ativa = false
++   where ativa and codigo not in (select e->>'codigo' from jsonb_array_elements(p_catalogo) e);
++  get diagnostics v_inativas = row_count;
++  return jsonb_build_object('novas', v_novas, 'inativadas', v_inativas);
++end $$;
++revoke all on function public.sincronizar_permissoes(jsonb) from public;
++grant execute on function public.sincronizar_permissoes(jsonb) to service_role;
++
++-- Catálogo inicial da fase 1A (depois, mantido pelo registro no código do painel).
++select public.sincronizar_permissoes('[
++  {"codigo": "permissoes.gerenciar", "modulo": "Usuários e permissões", "nome": "Configurar papéis e permissões",
++   "descricao": "Criar papéis, ligar e desligar permissões e ver o histórico.", "escopos": ["rede"], "ordem": 1},
++  {"codigo": "usuarios.vincular", "modulo": "Usuários e permissões", "nome": "Atribuir papéis a usuários",
++   "descricao": "Dar e retirar papéis das pessoas (nunca de si mesmo).", "escopos": ["rede"], "ordem": 2},
++  {"codigo": "unidades.gerenciar", "modulo": "Unidades", "nome": "Gerenciar unidades e regiões",
++   "descricao": "Cadastrar, excluir e organizar unidades, regiões e supervisores.", "escopos": ["rede"], "ordem": 10},
++  {"codigo": "unidades.editar", "modulo": "Unidades", "nome": "Editar dados da unidade",
++   "descricao": "Atualizar contato, endereço, foto e etapas da unidade.", "escopos": ["rede", "regiao", "unidade"], "ordem": 11},
++  {"codigo": "equipe.gerenciar", "modulo": "Equipe gestora", "nome": "Gerenciar a equipe gestora",
++   "descricao": "Cadastrar membros, fotos autorizadas e o que aparece no portal.", "escopos": ["rede"], "ordem": 20}
++]'::jsonb);
++
++-- -------------------------------------------------------------
++-- Papéis padrão de cada organização (idempotente)
++-- -------------------------------------------------------------
++create or replace function public.provisionar_papeis(p_municipio uuid)
++returns void
++language plpgsql
++security invoker
++set search_path = ''
++as $$
++declare v_admin uuid; v_diretor uuid;
++begin
++  if auth.uid() is not null and not public.is_plataforma() then
++    raise exception 'Somente a SECKE provisiona papéis' using errcode = '42501';
++  end if;
++
++  insert into public.papeis (municipio_id, slug, nome, descricao, sistema, protegido) values
++    (p_municipio, 'administrador', 'Administrador', 'Toda a organização, inclusive usuários e permissões.', true, true),
++    (p_municipio, 'diretor',       'Diretor',       'Responsável por uma unidade (ex.: diretor de escola).', true, false),
++    (p_municipio, 'professor',     'Professor',     'Professores da rede.', true, false),
++    (p_municipio, 'estudante',     'Estudante',     'Estudantes da rede.', true, false)
++  on conflict (municipio_id, slug) do nothing;
++
++  select id into v_admin   from public.papeis where municipio_id = p_municipio and slug = 'administrador';
++  select id into v_diretor from public.papeis where municipio_id = p_municipio and slug = 'diretor';
++
++  -- Administrador: tudo o que existe hoje no catálogo, na rede inteira.
++  insert into public.papel_permissoes (municipio_id, papel_id, permissao_codigo, ativo, escopo)
++  select p_municipio, v_admin, pe.codigo, true, 'rede' from public.permissoes pe where pe.ativa
++  on conflict do nothing;
++  -- Diretor: edita a própria unidade.
++  insert into public.papel_permissoes (municipio_id, papel_id, permissao_codigo, ativo, escopo)
++  values (p_municipio, v_diretor, 'unidades.editar', true, 'unidade')
++  on conflict do nothing;
++end $$;
++revoke all on function public.provisionar_papeis(uuid) from public;
++grant execute on function public.provisionar_papeis(uuid) to authenticated, service_role;
++
++-- Organização nova já nasce com os papéis (amplia 0007).
++create or replace function public.criar_municipio(
++  p_slug    text,
++  p_nome    text,
++  p_uf      char(2),
++  p_dominio text default null
++)
++returns uuid
++language plpgsql
++set search_path = ''
++as $$
++declare v_id uuid;
++begin
++  if auth.uid() is not null and not public.is_plataforma() then
++    raise exception 'Somente a SECKE cria municípios' using errcode = '42501';
++  end if;
++  insert into public.municipios (slug, nome, uf) values (p_slug, p_nome, upper(p_uf)) returning id into v_id;
++  if p_dominio is not null then
++    insert into public.municipio_dominios (dominio, municipio_id, ambiente, principal)
++    values (lower(p_dominio), v_id, 'producao', true);
++  end if;
++  perform public.provisionar_municipio(v_id);
++  perform public.provisionar_papeis(v_id);
++  return v_id;
++end $$;
++
++-- Organizações que já existem recebem os papéis padrão.
++select public.provisionar_papeis(id) from public.municipios;
+diff --git a/supabase/migrations/0019_equipe_gestora.sql b/supabase/migrations/0019_equipe_gestora.sql
+new file mode 100644
+index 0000000..d5d056d
+--- /dev/null
++++ b/supabase/migrations/0019_equipe_gestora.sql
+@@ -0,0 +1,141 @@
++-- =============================================================
++-- 0019 · Equipe gestora, supervisor da unidade e busca de unidade (fase 1A)
++-- Equipe em três níveis (1 dirigentes · 2 supervisores · 3 diretores de
++-- divisão), com a divisão apontando para o organograma (orgaos).
++-- Foto só com autorização de uso de imagem (ECA/LGPD): regra no banco.
++-- O portal mostra só quem está visível; a seção inteira some com
++-- config.modulos.equipe_gestora = false.
++-- =============================================================
++
++create table public.equipe (
++  id                 uuid primary key default gen_random_uuid(),
++  municipio_id       uuid not null references public.municipios on delete cascade,
++  nome               text not null,
++  cargo              text not null,
++  nivel              smallint not null check (nivel between 1 and 3),
++  orgao_id           uuid,                          -- divisão/departamento no organograma
++  foto_id            uuid,
++  autorizacao_imagem boolean not null default false,
++  email              text,                          -- contato institucional
++  telefone           text,
++  resumo             text,
++  ordem              int not null default 0,
++  visivel            boolean not null default false, -- só aparece no portal quando autorizado
++  dados_confirmados  boolean not null default false, -- false = pendente de confirmação (não inventar dados oficiais)
++  user_id            uuid references auth.users on delete set null,
++  criado_por         uuid default auth.uid() references auth.users on delete set null,
++  atualizado_por     uuid default auth.uid() references auth.users on delete set null,
++  criado_em          timestamptz not null default now(),
++  atualizado_em      timestamptz not null default now(),
++  unique (id, municipio_id),
++  foreign key (orgao_id, municipio_id) references public.orgaos (id, municipio_id) on delete set null (orgao_id),
++  foreign key (foto_id, municipio_id)  references public.midias (id, municipio_id) on delete set null (foto_id),
++  check (foto_id is null or autorizacao_imagem)
++);
++create index on public.equipe (municipio_id, nivel, ordem);
++
++-- Supervisor responsável pela unidade (um por unidade).
++alter table public.unidades add column supervisor_id uuid,
++  add foreign key (supervisor_id, municipio_id) references public.equipe (id, municipio_id) on delete set null (supervisor_id);
++create index on public.unidades (supervisor_id) where supervisor_id is not null;
++
++-- O supervisor é decisão da rede, não do diretor (amplia 0018).
++create or replace function seguranca.checar_campos_unidade()
++returns trigger
++language plpgsql
++security definer
++set search_path = ''
++as $$
++begin
++  if auth.uid() is not null and not seguranca.pode(old.municipio_id, 'unidades.gerenciar')
++     and (new.municipio_id, new.regiao_id, new.ativo, new.tipo, new.slug, new.codigo_inep, new.conveniada, new.ordem, new.supervisor_id)
++         is distinct from
++         (old.municipio_id, old.regiao_id, old.ativo, old.tipo, old.slug, old.codigo_inep, old.conveniada, old.ordem, old.supervisor_id) then
++    raise exception 'Somente quem gerencia as unidades altera região, supervisor, situação, tipo, INEP e ordem' using errcode = '42501';
++  end if;
++  return new;
++end $$;
++
++do $$
++declare t text;
++begin
++  execute 'create trigger trg_equipe_atualizado before update on public.equipe
++             for each row execute function public.set_atualizado_em()';
++  execute 'create trigger trg_equipe_atualizado_por before update on public.equipe
++             for each row execute function public.set_atualizado_por()';
++  execute 'create trigger trg_equipe_auditoria after insert or update or delete on public.equipe
++             for each row execute function public.registrar_auditoria()';
++  execute 'create trigger trg_equipe_cache after insert or update or delete on public.equipe
++             for each row execute function interno.marcar_cache_pendente()';
++end $$;
++
++alter table public.equipe enable row level security;
++
++create policy "equipe: público lê os visíveis" on public.equipe for select to anon, authenticated
++  using (
++    (visivel and coalesce((select (m.config->'modulos'->>'equipe_gestora')::boolean
++                             from public.municipios m where m.id = equipe.municipio_id), true))
++    or public.is_membro(municipio_id) or public.pode(municipio_id, 'equipe.gerenciar')
++  );
++create policy "equipe: gestor gerencia" on public.equipe for all to authenticated
++  using (public.pode(municipio_id, 'equipe.gerenciar'))
++  with check (public.pode(municipio_id, 'equipe.gerenciar'));
++
++grant select on public.equipe to anon;
++grant select, insert, update, delete on public.equipe to authenticated;
++grant all on public.equipe to service_role;
++
++-- -------------------------------------------------------------
++-- Busca de unidade por nome, sigla ou bairro (card "Fale com o supervisor")
++-- SECURITY INVOKER: o supervisor só vem se estiver visível ao visitante.
++-- -------------------------------------------------------------
++create or replace function public.buscar_unidade(p_municipio uuid, p_termo text, p_limite int default 10)
++returns table (
++  id uuid, nome text, sigla text, tipo text, bairro text, endereco text, telefone text, email text,
++  supervisor_nome text, supervisor_cargo text, supervisor_email text, supervisor_telefone text
++)
++language sql stable security invoker
++set search_path = ''
++as $$
++  with q as (select '%' || public.f_unaccent(lower(trim(p_termo))) || '%' as t)
++  select u.id, u.nome, u.sigla, u.tipo, u.bairro, u.endereco, u.telefone, u.email,
++         e.nome, e.cargo, e.email, e.telefone
++    from public.unidades u
++    cross join q
++    left join public.equipe e on e.id = u.supervisor_id
++   where u.municipio_id = p_municipio and u.ativo and length(trim(p_termo)) >= 2
++     and (public.f_unaccent(lower(u.nome)) like q.t
++          or public.f_unaccent(lower(coalesce(u.sigla, ''))) like q.t
++          or public.f_unaccent(lower(coalesce(u.bairro, ''))) like q.t)
++   order by (public.f_unaccent(lower(u.nome)) like q.t) desc, u.nome
++   limit least(p_limite, 50)
++$$;
++revoke all on function public.buscar_unidade(uuid, text, int) from public;
++grant execute on function public.buscar_unidade(uuid, text, int) to anon, authenticated, service_role;
++
++-- -------------------------------------------------------------
++-- Mídias públicas: também foto de unidade ativa e de membro visível e autorizado (amplia 0016).
++-- -------------------------------------------------------------
++create or replace function seguranca.midia_publica(p_midia uuid)
++returns boolean
++language sql stable security definer
++set search_path = ''
++as $$
++  select exists (select 1 from public.publicacoes p
++                 where p.imagem_destaque_id = p_midia and p.status = 'publicado' and p.publicado_em <= now())
++      or exists (select 1 from public.publicacao_midias pm join public.publicacoes p on p.id = pm.publicacao_id
++                 where pm.midia_id = p_midia and p.status = 'publicado' and p.publicado_em <= now())
++      or exists (select 1 from public.destaques d
++                 where d.imagem_id = p_midia and d.status = 'publicado' and d.publicado_em <= now())
++      or exists (select 1 from public.eventos e
++                 where e.imagem_id = p_midia and e.status = 'publicado' and e.publicado_em <= now())
++      or exists (select 1 from public.orgaos o
++                 where o.responsavel_foto_id = p_midia and o.ativo)
++      or exists (select 1 from public.documento_arquivos a join public.documentos d on d.id = a.documento_id
++                 where a.midia_id = p_midia and d.status = 'publicado' and d.publicado_em <= now())
++      or exists (select 1 from public.unidades u where u.foto_id = p_midia and u.ativo)
++      or exists (select 1 from public.equipe q where q.foto_id = p_midia and q.visivel and q.autorizacao_imagem)
++$$;
++
++create index if not exists unidades_foto_idx on public.unidades (foto_id) where foto_id is not null;
++create index if not exists equipe_foto_idx   on public.equipe (foto_id) where foto_id is not null;
+diff --git a/supabase/migrations/0020_home_portal.sql b/supabase/migrations/0020_home_portal.sql
+new file mode 100644
+index 0000000..795b6bc
+--- /dev/null
++++ b/supabase/migrations/0020_home_portal.sql
+@@ -0,0 +1,47 @@
++-- =============================================================
++-- 0020 · Página inicial: avisos, carrossel, manchete e cards de serviço (fase 1A)
++-- Só colunas novas em tabelas existentes; regras de acesso inalteradas.
++--   destaques    banner = slide do carrossel; alerta urgente = modal; alerta
++--                informativo/atenção = faixa. O fim automático já é fim_em.
++--                "Uma vez por visitante": o navegador guarda id + versao; editar
++--                o aviso sobe a versão e ele volta a aparecer.
++--   publicacoes  prioridade 'principal' = manchete maior na grade de notícias.
++--   servicos     cards da Área de Serviços, com "em breve" e ligação ao sistema
++--                satélite (sistemas_externos) quando ele existir.
++-- =============================================================
++
++alter table public.destaques
++  add column botao_rotulo  text,
++  add column frequencia    text not null default 'uma_vez' check (frequencia in ('uma_vez', 'por_sessao', 'sempre')),
++  add column versao        int not null default 1,
++  add column publicacao_id uuid,
++  add foreign key (publicacao_id, municipio_id) references public.publicacoes (id, municipio_id) on delete set null (publicacao_id);
++create index on public.destaques (publicacao_id) where publicacao_id is not null;
++
++create or replace function public.versionar_destaque()
++returns trigger
++language plpgsql
++set search_path = ''
++as $$
++begin
++  if (new.titulo, new.texto, new.url, new.nivel, new.tipo, new.botao_rotulo, new.imagem_id)
++     is distinct from (old.titulo, old.texto, old.url, old.nivel, old.tipo, old.botao_rotulo, old.imagem_id) then
++    new.versao := old.versao + 1;
++  end if;
++  return new;
++end $$;
++create trigger trg_destaques_versao before update on public.destaques
++  for each row execute function public.versionar_destaque();
++
++alter table public.publicacoes
++  add column prioridade text not null default 'secundaria' check (prioridade in ('principal', 'secundaria'));
++create index on public.publicacoes (municipio_id, prioridade, publicado_em desc) where status = 'publicado';
++
++alter table public.servicos
++  add column icone     text,
++  add column ordem     int not null default 0,
++  add column na_home   boolean not null default false,
++  add column em_breve  boolean not null default false,
++  add column sistema_id uuid,
++  add foreign key (sistema_id, municipio_id) references public.sistemas_externos (id, municipio_id) on delete set null (sistema_id);
++create index on public.servicos (municipio_id, ordem) where na_home;
+diff --git a/supabase/tests/rls.test.mjs b/supabase/tests/rls.test.mjs
+index 9bb54b4..1efb018 100644
+--- a/supabase/tests/rls.test.mjs
++++ b/supabase/tests/rls.test.mjs
+@@ -349,5 +349,200 @@ espera('outro município NÃO vê o acompanhamento do PNTP', Number(r.rows?.[0]?
+ r = await como('admin', `insert into pntp_criterios (id, ciclo, dimensao, descricao) values ('x', 2026, 'x', 'x')`)
+ espera('admin do município NÃO altera a matriz', !!r.erro)
+ 
++
++console.log('\nSegurança (0016)')
++const novoU = 'a0000000-0000-4000-8000-000000000005'
++await db.exec(`insert into auth.users values ('${novoU}', 'novo@x'); insert into membros (municipio_id, user_id, papel) values ('${J}', '${novoU}', 'editor')`)
++r = await como('outro', `insert into perfis (user_id, nome, email) values ('${novoU}', 'Intruso', 'novo@x')`)
++espera('admin de outro município NÃO cria perfil de membro de Jeriquara', !!r.erro)
++r = await como('admin', `insert into perfis (user_id, nome, email) values ('${novoU}', 'Novo', 'novo@x') returning 1`)
++espera('admin cria perfil de membro do próprio município', r.rows?.length === 1)
++r = await como('admin', `select p.proname from pg_proc p where p.pronamespace = 'public'::regnamespace and p.prosecdef and p.prorettype <> 'trigger'::regtype
++     and (has_function_privilege('anon', p.oid, 'execute') or has_function_privilege('authenticated', p.oid, 'execute')) order by 1`)
++espera('nenhuma função SECURITY DEFINER do schema public é chamável por anon ou authenticated', r.rows?.length === 0)
++const acessosAntes = Number((await db.query(`select acessos from redirecionamentos where id = '${redir}'`)).rows[0].acessos)
++r = await como('anon', `select registrar_acesso_redirecionamento('${redir}')`)
++const acessosDepois = Number((await db.query(`select acessos from redirecionamentos where id = '${redir}'`)).rows[0].acessos)
++espera('anon ainda conta acesso de redirecionamento', !r.erro && acessosDepois === acessosAntes + 1)
++r = await como('anon', `select count(*)::int n from municipios where public.is_membro(id)`)
++espera('policies continuam funcionando para o anon (is_membro = falso)', r.rows?.[0]?.n === 0)
++r = await como('admin', `select is_admin('${J}') a, is_admin('${O}') b`)
++espera('is_admin continua respondendo pelo usuário', r.rows?.[0]?.a === true && r.rows?.[0]?.b === false)
++const midiaRasc = (await db.query(`insert into midias (municipio_id, storage_path, nome_original, mime_type) values ('${J}', '${J}/edital-rascunho.pdf', 'edital.pdf', 'application/pdf') returning id`)).rows[0].id
++await db.exec(`insert into documento_arquivos (documento_id, midia_id, rotulo) values ('${leiNova}', '${midiaRasc}', 'Edital')`)
++r = await como('anon', `select count(*)::int n from midias where id = '${midiaRasc}'`)
++espera('anon NÃO vê mídia de documento em rascunho (nem o storage_path)', r.rows?.[0]?.n === 0)
++r = await como('anon', `select count(*)::int n from midias where id = '${midiaJ}'`)
++espera('anon vê mídia da galeria de notícia publicada', r.rows?.[0]?.n === 1)
++r = await como('anon', `select g.midia from publicacoes p, lateral (select json_agg(m.storage_path) midia from publicacao_midias pm join midias m on m.id = pm.midia_id where pm.publicacao_id = p.id) g where p.id = '${pubId}'`)
++espera('portal monta a galeria da notícia publicada', JSON.stringify(r.rows?.[0]?.midia) === JSON.stringify([`${J}/foto1.jpg`]))
++r = await como('outro', `select count(*)::int n from midias where id = '${midiaRasc}'`)
++espera('admin de outro município NÃO vê mídia de rascunho de Jeriquara', r.rows?.[0]?.n === 0)
++r = await como('editor', `select count(*)::int n from midias where id = '${midiaRasc}'`)
++espera('membro vê todas as mídias do próprio município', r.rows?.[0]?.n === 1)
++
++console.log('\nOrganização contratante (0017)')
++r = await como('admin', `update municipios set tipo_ente = 'camara' where id = '${J}'`)
++espera('admin NÃO altera o tipo da organização', !!r.erro)
++r = await como('admin', `update municipios set cidade = 'Outra' where id = '${J}'`)
++espera('admin NÃO altera a cidade da organização', !!r.erro)
++r = await como('plat', `select criar_municipio('cidade-educacao', 'Secretaria de Educação de Cidade', 'sp') id`)
++const sec = r.rows?.[0]?.id
++r = await como('plat', `update municipios set tipo_ente = 'secretaria', cidade = 'Cidade', codigo_ibge = '3500000' where id = '${sec}' returning 1`)
++espera('SECKE cadastra secretaria como organização própria', r.rows?.length === 1)
++r = await como('admin', `insert into publicacoes (municipio_id, titulo, slug) values ('${sec}', 'Invasão', 'invasao-sec')`)
++espera('admin da prefeitura NÃO escreve na secretaria (organizações isoladas)', !!r.erro)
++r = await como('plat', `update municipios set codigo_ibge = '123' where id = '${sec}'`)
++espera('código IBGE exige 7 dígitos', !!r.erro)
++
++
++console.log('\nPermissões configuráveis (0018)')
++const UP = { dir: 'a0000000-0000-4000-8000-000000000011', viz: 'a0000000-0000-4000-8000-000000000012',
++             adm: 'a0000000-0000-4000-8000-000000000013', vinc: 'a0000000-0000-4000-8000-000000000014',
++             reg: 'a0000000-0000-4000-8000-000000000015' }
++Object.assign(U, UP)
++await db.exec(`insert into auth.users values ${Object.values(UP).map(u => `('${u}', '${u}@x')`).join(',')}`)
++// No teste as organizações vêm do seed (depois das migrações); em produção a 0018 já as provisiona.
++await db.exec(`select provisionar_papeis(id) from municipios`)
++const papel = async (m, slug) => (await db.query(`select id from papeis where municipio_id = '${m}' and slug = '${slug}'`)).rows[0]?.id
++espera('organizações existentes recebem os papéis padrão', !!(await papel(J, 'administrador')) && !!(await papel(J, 'diretor')))
++r = await db.query(`select count(*)::int n from papel_permissoes pp join papeis p on p.id = pp.papel_id where p.municipio_id = '${J}' and p.slug = 'administrador' and pp.ativo`)
++espera('Administrador nasce com todo o catálogo ligado', r.rows[0].n === Number((await db.query(`select count(*) n from permissoes where ativa`)).rows[0].n))
++r = await como('plat', `select criar_municipio('org-nova-papeis', 'Org Nova', 'sp') id`)
++espera('organização criada já nasce com papéis', !!(await papel(r.rows?.[0]?.id, 'administrador')))
++
++// Unidades e região de Jeriquara
++await db.exec(`
++  insert into regioes (id, municipio_id, nome, slug) values ('c0000000-0000-4000-8000-000000000001', '${J}', 'Norte', 'norte');
++  insert into unidades (id, municipio_id, nome, slug, bairro, regiao_id) values
++    ('b0000000-0000-4000-8000-000000000001', '${J}', 'EMEF João Aranha', 'emef-joao-aranha', 'Jardim Bela Vista', 'c0000000-0000-4000-8000-000000000001'),
++    ('b0000000-0000-4000-8000-000000000002', '${J}', 'EMEI Vizinha', 'emei-vizinha', 'Centro', null);
++  insert into unidades (id, municipio_id, nome, slug) values ('b0000000-0000-4000-8000-000000000009', '${O}', 'Escola de Outra', 'escola-outra');
++`)
++const E1 = 'b0000000-0000-4000-8000-000000000001', E2 = 'b0000000-0000-4000-8000-000000000002', EO = 'b0000000-0000-4000-8000-000000000009'
++r = await como('admin', `insert into usuario_papeis (municipio_id, user_id, papel_id) values ('${J}', '${U.adm}', '${await papel(J, 'administrador')}')`)
++espera('admin antigo (membros) NÃO usa os módulos novos sem papel novo', !!r.erro)
++r = await como('plat', `insert into usuario_papeis (municipio_id, user_id, papel_id) values ('${J}', '${U.adm}', '${await papel(J, 'administrador')}') returning 1`)
++espera('SECKE atribui o primeiro Administrador', r.rows?.length === 1)
++r = await como('adm', `insert into usuario_papeis (municipio_id, user_id, papel_id, unidade_id) values ('${J}', '${U.dir}', '${await papel(J, 'diretor')}', '${E1}') returning 1`)
++espera('Administrador vincula diretor à escola', r.rows?.length === 1)
++r = await como('adm', `insert into usuario_papeis (municipio_id, user_id, papel_id) values ('${J}', '${U.adm}', '${await papel(J, 'diretor')}')`)
++espera('ninguém se dá papel sozinho', !!r.erro)
++r = await como('adm', `insert into usuario_papeis (municipio_id, user_id, papel_id, unidade_id) values ('${J}', '${U.dir}', '${await papel(J, 'diretor')}', '${EO}')`)
++espera('vínculo NÃO aponta unidade de outra organização', !!r.erro)
++r = await como('adm', `insert into usuario_papeis (municipio_id, user_id, papel_id) values ('${O}', '${U.dir}', '${await papel(O, 'administrador')}')`)
++espera('Administrador de uma organização NÃO vincula na outra', !!r.erro)
++
++r = await como('dir', `update unidades set telefone = '16 1111-1111' where id = '${E1}' returning 1`)
++espera('diretor edita a própria escola', r.rows?.length === 1)
++r = await como('dir', `update unidades set telefone = '16 2222-2222' where id = '${E2}' returning 1`)
++espera('diretor NÃO edita a escola vizinha', !r.rows?.length)
++r = await como('dir', `update unidades set ativo = false where id = '${E1}'`)
++espera('diretor NÃO desativa a própria escola (campo da rede)', !!r.erro)
++r = await como('dir', `insert into unidades (municipio_id, nome, slug) values ('${J}', 'Nova', 'nova')`)
++espera('diretor NÃO cria unidade', !!r.erro)
++r = await como('adm', `update unidades set ativo = false where id = '${E2}' returning 1`)
++espera('Administrador gerencia unidades', r.rows?.length === 1)
++await como('adm', `update unidades set ativo = true where id = '${E2}'`)
++
++// Escopo região
++const papelReg = (await como('adm', `insert into papeis (municipio_id, slug, nome) values ('${J}', 'coordenador-regional', 'Coordenador regional') returning id`)).rows?.[0]?.id
++espera('papel novo criado pelo painel', !!papelReg)
++r = await como('adm', `insert into papel_permissoes (municipio_id, papel_id, permissao_codigo, ativo, escopo) values ('${J}', '${papelReg}', 'unidades.editar', true, 'regiao') returning 1`)
++espera('Administrador liga permissão com escopo região', r.rows?.length === 1)
++r = await como('adm', `insert into papel_permissoes (municipio_id, papel_id, permissao_codigo, ativo, escopo) values ('${J}', '${papelReg}', 'equipe.gerenciar', true, 'unidade')`)
++espera('escopo que não se aplica à permissão é recusado', !!r.erro)
++await como('adm', `insert into usuario_papeis (municipio_id, user_id, papel_id, regiao_id) values ('${J}', '${U.reg}', '${papelReg}', 'c0000000-0000-4000-8000-000000000001')`)
++r = await como('reg', `update unidades set email = 'a@x' where id = '${E1}' returning 1`)
++espera('escopo região edita escola da região', r.rows?.length === 1)
++r = await como('reg', `update unidades set email = 'a@x' where id = '${E2}' returning 1`)
++espera('escopo região NÃO edita escola fora da região', !r.rows?.length)
++r = await como('adm', `update papel_permissoes set ativo = false where papel_id = '${papelReg}' and permissao_codigo = 'unidades.editar' returning 1`)
++r = await como('reg', `update unidades set email = 'b@x' where id = '${E1}' returning 1`)
++espera('permissão desligada bloqueia no banco', !r.rows?.length)
++
++// Salvaguardas
++r = await como('adm', `update papel_permissoes set ativo = false where papel_id = '${await papel(J, 'administrador')}' and permissao_codigo = 'permissoes.gerenciar' returning 1`)
++espera('Administrador NÃO perde permissoes.gerenciar', !!r.erro)
++r = await como('adm', `delete from papeis where id = '${await papel(J, 'administrador')}'`)
++espera('papel Administrador NÃO é excluído', !!r.erro)
++r = await como('adm', `update papeis set protegido = true where id = '${papelReg}'`)
++espera('ninguém marca papel como protegido pelo painel', !!r.erro)
++await db.exec(`insert into usuario_papeis (municipio_id, user_id, papel_id) select '${J}', '${U.vinc}', id from papeis where municipio_id = '${J}' and slug = 'professor'`)
++const papelVinc = (await como('adm', `insert into papeis (municipio_id, slug, nome) values ('${J}', 'secretario-escolar', 'Secretário') returning id`)).rows[0].id
++await como('adm', `insert into papel_permissoes (municipio_id, papel_id, permissao_codigo, ativo) values ('${J}', '${papelVinc}', 'usuarios.vincular', true)`)
++await como('adm', `insert into usuario_papeis (municipio_id, user_id, papel_id) values ('${J}', '${U.vinc}', '${papelVinc}')`)
++r = await como('vinc', `insert into usuario_papeis (municipio_id, user_id, papel_id) values ('${J}', '${U.viz}', '${await papel(J, 'administrador')}')`)
++espera('quem só vincula NÃO dá o papel Administrador', !!r.erro)
++r = await como('vinc', `insert into usuario_papeis (municipio_id, user_id, papel_id) values ('${J}', '${U.viz}', '${await papel(J, 'professor')}') returning 1`)
++espera('quem vincula dá papel comum', r.rows?.length === 1)
++r = await como('adm', `select tabela, acao, user_id from log_permissoes where municipio_id = '${J}' and papel_id = '${papelReg}' order by id`)
++espera('histórico registra quem ligou e desligou', r.rows?.length >= 3 && r.rows.every(x => x.user_id === U.adm))
++r = await como('dir', `select count(*)::int n from log_permissoes`)
++espera('diretor NÃO lê o histórico de permissões', r.rows?.[0]?.n === 0)
++r = await como('outro', `select count(*)::int n from papeis where municipio_id = '${J}'`)
++espera('admin de outra organização NÃO vê os papéis de Jeriquara', r.rows?.[0]?.n === 0)
++r = await como('dir', `select permissao, escopo, unidade_id from minhas_permissoes('${J}')`)
++espera('painel sabe o que o diretor pode (e onde)', r.rows?.length === 1 && r.rows[0].permissao === 'unidades.editar' && r.rows[0].unidade_id === E1)
++r = await como('anon', `select count(*)::int n from permissoes`)
++espera('anon NÃO lê o catálogo de permissões', !!r.erro || r.rows?.[0]?.n === 0)
++
++// Catálogo vindo do código
++await db.query(`select sincronizar_permissoes($1)`, [JSON.stringify([
++  ...(await db.query(`select codigo, modulo, nome, escopos from permissoes where ativa`)).rows,
++  { codigo: 'noticias.publicar', modulo: 'Notícias', nome: 'Publicar notícias', escopos: ['rede', 'unidade'] }])])
++r = await db.query(`select count(*)::int n from papel_permissoes where permissao_codigo = 'noticias.publicar' and ativo`)
++espera('permissão nova do código nasce desligada para todos', r.rows[0].n === 0)
++r = await como('adm', `select sincronizar_permissoes('[]')`)
++espera('só o servidor sincroniza o catálogo', /permission denied/.test(r.erro ?? ''))
++
++console.log('\nEquipe gestora e unidades (0019)')
++r = await como('adm', `insert into equipe (municipio_id, nome, cargo, nivel, visivel, dados_confirmados, email) values ('${J}', 'Ana Supervisora', 'Supervisora de Ensino', 2, true, true, 'ana@x') returning id`)
++const sup = r.rows?.[0]?.id
++espera('Administrador cadastra membro da equipe', !!sup)
++await como('adm', `update unidades set supervisor_id = '${sup}' where id = '${E1}'`)
++r = await como('dir', `update unidades set supervisor_id = null where id = '${E1}'`)
++espera('diretor NÃO troca o supervisor da escola', !!r.erro)
++const fotoEq = (await db.query(`insert into midias (municipio_id, storage_path, nome_original, mime_type) values ('${J}', '${J}/ana.jpg', 'ana.jpg', 'image/jpeg') returning id`)).rows[0].id
++r = await como('adm', `update equipe set foto_id = '${fotoEq}' where id = '${sup}'`)
++espera('foto sem autorização de imagem é recusada', !!r.erro)
++r = await como('adm', `update equipe set foto_id = '${fotoEq}', autorizacao_imagem = true where id = '${sup}' returning 1`)
++espera('foto com autorização é aceita', r.rows?.length === 1)
++r = await como('anon', `select count(*)::int n from midias where id = '${fotoEq}'`)
++espera('foto autorizada de membro visível é pública', r.rows?.[0]?.n === 1)
++r = await como('adm', `insert into equipe (municipio_id, nome, cargo, nivel) values ('${J}', 'Oculto', 'Diretor de Divisão', 3) returning id`)
++r = await como('anon', `select nome from equipe where municipio_id = '${J}'`)
++espera('anon vê só membros visíveis', r.rows?.length === 1 && r.rows[0].nome === 'Ana Supervisora')
++r = await como('anon', `select nome, supervisor_nome, supervisor_email from buscar_unidade('${J}', 'bela vista')`)
++espera('busca por bairro sem acento acha a escola e o supervisor', r.rows?.length === 1 && r.rows[0].supervisor_nome === 'Ana Supervisora')
++r = await como('anon', `select count(*)::int n from buscar_unidade('${O}', 'joao')`)
++espera('busca de unidade não vaza entre organizações', r.rows?.[0]?.n === 0)
++await como('plat', `update municipios set config = config || '{"modulos": {"equipe_gestora": false}}' where id = '${J}'`)
++r = await como('anon', `select count(*)::int n from equipe where municipio_id = '${J}'`)
++espera('seção desligada esconde a equipe inteira', r.rows?.[0]?.n === 0)
++r = await como('anon', `select supervisor_nome from buscar_unidade('${J}', 'aranha')`)
++espera('com a seção desligada, a busca traz a escola sem o supervisor', r.rows?.length === 1 && r.rows[0].supervisor_nome === null)
++r = await como('dir', `insert into equipe (municipio_id, nome, cargo, nivel) values ('${J}', 'X', 'Y', 1)`)
++espera('diretor NÃO mexe na equipe gestora', !!r.erro)
++r = await como('outro', `insert into equipe (municipio_id, nome, cargo, nivel) values ('${J}', 'X', 'Y', 1)`)
++espera('outra organização NÃO mexe na equipe', !!r.erro)
++
++console.log('\nPágina inicial (0020)')
++r = await como('admin', `insert into destaques (municipio_id, tipo, nivel, titulo, status, publicado_em, fim_em) values ('${J}', 'alerta', 'urgente', 'Matrículas até sexta', 'publicado', now() - interval '2 days', now() - interval '1 day') returning id, versao, frequencia`)
++const av = r.rows?.[0]
++espera('aviso nasce na versão 1, uma vez por visitante', av?.versao === 1 && av?.frequencia === 'uma_vez')
++r = await como('admin', `update destaques set titulo = 'Matrículas até segunda' where id = '${av.id}' returning versao`)
++espera('editar o aviso sobe a versão (volta a aparecer)', r.rows?.[0]?.versao === 2)
++r = await como('admin', `insert into destaques (municipio_id, tipo, titulo, publicacao_id) values ('${O}', 'alerta', 'x', '${pubId}')`)
++espera('destaque NÃO liga notícia de outra organização', !!r.erro)
++r = await como('admin', `update publicacoes set prioridade = 'manchete' where id = '${pubId}'`)
++espera('prioridade só aceita principal/secundária', !!r.erro)
++r = await como('admin', `insert into servicos (municipio_id, titulo, slug, na_home, em_breve, ordem, icone) values ('${J}', 'Área do Estudante', 'area-do-estudante', true, true, 2, 'graduation-cap') returning 1`)
++espera('card de serviço "em breve" cadastrado', r.rows?.length === 1)
++
++console.log('\nExclusão de organização com permissões')
++r = await como('plat', `delete from municipios where slug = 'org-nova-papeis' returning 1`)
++espera('SECKE exclui organização com papéis (cascata não trava)', r.rows?.length === 1)
++
+ console.log(`\n${ok} ok, ${falhas} falhas`)
+ process.exit(falhas ? 1 : 0)

@@ -12,12 +12,14 @@ Registro do diagnóstico do projeto Supabase **Portal Municipal** (`qgywucdnaehe
 | Banco de homologação | Branch `homologacao`, projeto `kvilgamsyneenjtlllcf`. Toda migração vai primeiro para cá. |
 | Migrações 0001–0015, testes de RLS, painel e portal genéricos | Repositório `willquerubim2025-oss/portal-municipal` (fonte da verdade da base) |
 | Migrações novas do Portal Educação | `supabase/migrations/` deste repositório, com a mesma numeração da base |
-| Patch para levar as migrações e os testes ao `portal-municipal` | `supabase/portal-municipal-0016-0017.patch` (`git apply` na raiz daquele repositório) |
+| Patch para levar as migrações e os testes ao `portal-municipal` | `supabase/portal-municipal-0016-0020.patch` (`git apply` na raiz daquele repositório) |
+| Roteiro para completar a produção (0012–0014 e `pg_net`) | `supabase/producao/aplicar-0012-0014.sql` (SQL Editor do Supabase) |
 
 Situação das migrações em 12/10/2026:
 
-- **Homologação:** 0001–0017.
-- **Produção:** 0001–0010, 0015, 0016 e 0017. **As migrações 0011–0014 (cache, verificação de links, exportação) ainda não foram aplicadas na produção.** Isso já era assim antes desta sessão; as novas migrações não dependem delas.
+- **Homologação:** 0001–0020.
+- **Produção:** 0001–0011 e 0015–0020. **Faltam 0012–0014** (verificação de links e exportação): a ferramenta de migração desta sessão trava nesses arquivos (pede uma confirmação que não aparece). O roteiro `supabase/producao/aplicar-0012-0014.sql` aplica as três de uma vez pelo SQL Editor, registra no histórico e move a extensão `pg_net` para fora do schema `public` (aviso do verificador). Nenhuma migração nova depende delas.
+- A 0011 (cache) foi aplicada na produção em 12/10/2026. Sem os segredos `portal_cache_url` e `portal_cache_segredo` no Vault, a rotina de limpeza roda a cada minuto e não faz nada (checklist de ir ao ar do `portal-municipal`).
 
 ## 2. Diagnóstico (resumo)
 
@@ -85,9 +87,11 @@ Os 16 testes novos cobrem:
 ## 6. Pendências
 
 - [x] Ligar a proteção contra senhas vazadas (item 4), na produção e na homologação.
-- [ ] Aplicar o patch `supabase/portal-municipal-0016-0017.patch` no repositório `portal-municipal` (migrações + testes) e registrar lá a decisão (D-37) e o schema (doc 03), conforme o CLAUDE.md daquele repositório.
+- [ ] Aplicar o patch `supabase/portal-municipal-0016-0020.patch` no repositório `portal-municipal` (migrações + testes) e registrar lá as decisões (D-37 organização contratante, D-38 permissões por papel) e o schema (doc 03), conforme o CLAUDE.md daquele repositório.
+- [ ] Rodar `supabase/producao/aplicar-0012-0014.sql` no SQL Editor da produção.
 - [ ] O `CLAUDE.md` do `portal-municipal` diz que o repositório é privado, mas ele está **público** (contém inventário do site de Jeriquara e arquivos `.env.*` com chaves publicáveis). Avaliar torná-lo privado.
 - [ ] Domínio do portal (`educacao.paulinia.sp.gov.br` sugerido) para cadastrar em `municipio_dominios`; sem ele, o portal não resolve a organização pelo endereço.
 - [ ] Código IBGE de Paulínia e CNPJ da organização (deixados em branco até confirmação).
 - [ ] O pacote padrão do provisionamento é pensado para prefeitura (Lei Orgânica, licitações, PPA etc.). Adaptá-lo por `tipo_ente` antes de publicar a Central de Transparência da SMEDU.
-- [ ] Próxima etapa (plano a apresentar antes de aplicar): catálogo de permissões por papel com escopo e histórico; unidades escolares e vínculo escola → supervisor; equipe gestora; avisos com prioridade e frequência; prioridade nas publicações.
+- [x] Fase 1A aplicada (0018–0020): ver *Plano de Migração — Fase 1*.
+- [ ] Atribuir o primeiro **Administrador** da SMEDU (papel novo) quando houver o usuário; só a Secke faz esse primeiro vínculo.

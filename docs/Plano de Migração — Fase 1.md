@@ -1,6 +1,6 @@
 # Portal Educação Paulínia — Plano de Migração da Fase 1
 
-Oct 12, 2026 · Secke Sistemas · **Para aprovação: nada deste plano foi aplicado.**
+Oct 12, 2026 · Secke Sistemas · **Fase 1A aplicada em 12/10/2026** (homologação e produção). Ver a seção 6.
 
 Continuação de *Banco de Dados — Diagnóstico e Decisões*. Tudo aqui é genérico: serve a qualquer organização da base (prefeitura, secretaria, câmara). O que é da SMEDU entra como dado, não como código.
 
@@ -132,3 +132,33 @@ Só colunas novas em tabelas existentes:
 2. **Supervisor:** cada escola tem **um** supervisor? Se puder ter mais de um, troco `supervisor_id` por uma tabela de vínculo.
 3. **Produção atrasada:** as migrações 0011–0014 (cache, links, exportação) estão só na homologação. Aplico na produção antes da 0018, para as duas bases ficarem iguais? *(Recomendado. Exige configurar no Vault da produção os segredos do cache, `portal_cache_url` e `portal_cache_segredo`, senão a rotina de cache só fica parada, sem erro.)*
 4. **Estudante e professor:** na fase 1 os papéis existem só como configuração (ninguém entra como aluno ainda). Confirma?
+
+## 6. Como ficou (aplicado em 12/10/2026)
+
+Respostas adotadas (as recomendações):
+1. **Fases:** 1A agora, 1B depois.
+2. **Supervisor:** um por unidade (`unidades.supervisor_id`).
+3. **Produção:** 0011 aplicada; 0012–0014 ficam para o roteiro `supabase/producao/aplicar-0012-0014.sql` (a ferramenta desta sessão trava nelas).
+4. **Estudante e professor:** papéis só como configuração.
+
+Diferenças em relação ao plano:
+- **Numeração:**
+  - `0018_estrutura_permissoes` (regiões, unidades, permissões, papéis, vínculos, histórico);
+  - `0019_equipe_gestora` (equipe, supervisor, busca de unidade);
+  - `0020_home_portal`.
+  - Unidades vieram para a 0018 porque os vínculos de escopo dependem delas.
+- **Satélites:** `sistemas_externos` não mudou. Os botões "em breve" são cards em `servicos` (`em_breve`, `sistema_id`). Quando o satélite existir, cadastra-se o sistema e liga-se o card. Isso evitou alterar restrições existentes.
+- **Catálogo inicial:** `permissoes.gerenciar`, `usuarios.vincular`, `unidades.gerenciar`, `unidades.editar` (rede/região/unidade), `equipe.gerenciar`.
+- **Funções novas:**
+  - `pode()`: autorização;
+  - `minhas_permissoes()`: para o painel montar o menu;
+  - `buscar_unidade()`: card do supervisor;
+  - `sincronizar_permissoes()`: só a chave de serviço;
+  - `provisionar_papeis()`.
+- **Dois defeitos antigos corrigidos na 0018:** a auditoria (0004) e a fila de cache (0011) impediam excluir uma organização inteira. As linhas apagadas em cascata tentavam ser registradas para uma organização que não existia mais.
+
+Dados cadastrados (produção e homologação):
+- **Papéis padrão** (Administrador, Diretor, Professor, Estudante) para Jeriquara e para a SMEDU.
+- **6 cards de serviço da SMEDU**, em rascunho, com "Área do Estudante" e "Ouvidoria" em breve. Textos de uma linha para revisar no painel.
+
+Testes: a suíte do `portal-municipal` passou de 114 para **164 verificações, 0 falhas**.
