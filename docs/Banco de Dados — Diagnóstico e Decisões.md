@@ -87,7 +87,7 @@ Os 16 testes novos cobrem:
 ## 6. Pendências
 
 - [x] Ligar a proteção contra senhas vazadas (item 4), na produção e na homologação.
-- [x] Patch aplicado no `portal-municipal`, na branch `claude/fase-1a-banco` (migrações, testes 164 ok, D-37, D-38 e doc 03). Falta levar para a `main`.
+- [x] Patch aplicado na `main` do `portal-municipal` em 12/10/2026 (commits `599d5e6` e `a431d78`): migrações, testes (164 ok), D-37, D-38, doc 03, pendências (doc 07) e checklist (doc 11).
 - [ ] Rodar `supabase/producao/aplicar-0012-0014.sql` no SQL Editor da produção.
 - [ ] O `CLAUDE.md` do `portal-municipal` diz que o repositório é privado, mas ele está **público** (contém inventário do site de Jeriquara e arquivos `.env.*` com chaves publicáveis). Avaliar torná-lo privado.
 - [ ] Domínio do portal (`educacao.paulinia.sp.gov.br` sugerido) para cadastrar em `municipio_dominios`; sem ele, o portal não resolve a organização pelo endereço.
