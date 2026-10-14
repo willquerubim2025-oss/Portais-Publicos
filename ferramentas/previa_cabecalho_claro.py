@@ -13,6 +13,15 @@ frag = lambda h: BeautifulSoup(h, 'html.parser')
 
 d.html['class'] = d.html.get('class', []) + ['v-claro']
 d.head.append(frag(f'<style>{css}</style>'))
+# Fonte do cabeçalho (D-62): Raleway embutida como data URI, como o portal faria com @fontsource.
+import glob, os
+RALEWAY = '/home/user/portal-municipal/portal/node_modules/@fontsource/raleway/files'
+if os.path.isdir(RALEWAY):
+    faces = ''.join(f"@font-face{{font-family:'Raleway';font-style:normal;font-display:swap;font-weight:{w};src:url(data:font/woff2;base64,{base64.b64encode(open(f'{RALEWAY}/raleway-latin-{w}-normal.woff2','rb').read()).decode()}) format('woff2')}}" for w in (400, 500, 600, 700, 800))
+    d.head.append(frag(f'<style>{faces}</style>'))
+    d.html['class'] = d.html.get('class', []) + ['v-fonte-cab']
+    d.html['style'] = d.html.get('style', '') + ';--v-fonte-cab:"Raleway"'
+
 
 # Barra de acessibilidade visível + ferramentas com texto + site da Prefeitura
 barra = d.select_one('.barra-acessibilidade')
