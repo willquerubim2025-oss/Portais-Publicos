@@ -1,0 +1,77 @@
+# Passagem entre contas — Portal Educação Paulínia
+
+William trabalha com **duas contas do Claude**, alternando por causa dos limites de uso. Este arquivo garante que nenhuma informação se perca na troca.
+
+**Regra para o Claude, em qualquer conta:**
+1. **Ao começar:** leia este arquivo inteiro antes de qualquer trabalho. Depois, leia o `CLAUDE.md` e os docs do repositório `portal-municipal` (seção "Onde está cada coisa").
+2. **Ao terminar** (ou antes de o limite acabar): acrescente uma entrada no **topo** do "Diário das sessões", atualize o "Estado atual" e faça commit e push.
+3. Use datas absolutas (dd/mm/aaaa). Escreva para quem não viu a conversa: o que foi feito, onde está, o que falta e qual é o próximo passo.
+
+---
+
+## Onde está cada coisa
+
+| O quê | Onde |
+|---|---|
+| **Código do portal (Astro) e do painel (React)** | Repositório `willquerubim2025-oss/portal-municipal`, branch `main`. O layout da SMEDU é o **"vitrine"**: `portal/src/components/vitrine/` e `portal/src/styles/vitrine.css` |
+| **Decisões técnicas e de design (D-01 a D-56)** | `portal-municipal/docs/06-decisoes.md`. Não reabrir decisão sem motivo novo |
+| **Pendências** | `portal-municipal/docs/07-pendencias.md` |
+| **Regras do código** | `portal-municipal/CLAUDE.md` |
+| **Especificação e contexto do Portal Educação** | Este repositório: `docs/Especificação do Brainstorm.md`, `docs/Arquivo de Contexto.md` |
+| **Diagnóstico do banco e plano da fase 1** | Este repositório: `docs/Banco de Dados — Diagnóstico e Decisões.md`, `docs/Plano de Migração — Fase 1.md` |
+| **Prévias navegáveis (HTML autocontido, abre sem internet)** | Este repositório: `docs/previa/` (`index.html` é a página inicial) |
+| **Sistema visual, marca e capturas** | Este repositório: `docs/design/` |
+| **Dados a confirmar com a SMEDU** | Este repositório: `docs/reuniao/smedu-dados-a-confirmar.md` |
+| **Supabase, produção** | Projeto **Portal Municipal**, ref `qgywucdnaeheqndcxtho` (sa-east-1) |
+| **Supabase, homologação** | Branch `homologacao` do mesmo projeto, ref `kvilgamsyneenjtlllcf`. O portal em desenvolvimento lê daqui (D-14) |
+| **Portal de homologação publicado** | Worker `portal-municipal-homologacao` na Cloudflare (D-27) |
+
+### Branches deste repositório
+- `main`: só o commit inicial.
+- `claude/charming-cray-jecgm6`: todo o trabalho de 12 e 13/10/2026 (docs, design, prévias, migrações).
+- `claude/fervent-turing-szzwyu`: inclui tudo do anterior, mais este arquivo e o `CLAUDE.md`.
+- **Recomendado:** juntar na `main` para que as duas contas partam do mesmo ponto.
+
+---
+
+## Estado atual (atualizado em 14/10/2026)
+
+- **Banco:** migrações 0001 a 0020 aplicadas na produção. Permissões por papel, unidades, equipe gestora e página inicial configurável (fase 1A, D-38) já existem.
+- **Portal Educação (layout vitrine):** página inicial pronta na homologação. Ordem dos blocos: destaque, Notícias, Em foco, Eventos, Serviços, Equipe gestora (D-56). A última decisão de design é a **D-56**.
+- **Conteúdo fictício na homologação, para a apresentação:** equipe gestora, fotos `ficticio-*`, imagens do "Em foco" (Unsplash) e 6 dos 7 eventos. Tudo isso precisa ser removido antes de publicar (detalhes em `07-pendencias.md`).
+- **Em andamento:** melhorias de design e layout do portal. Veja as propostas abertas abaixo.
+
+### Propostas de design em aberto (revisão de 14/10/2026, aguardando escolha do William)
+1. **Espaços vazios entre as seções:** antes de cada régua de título há uma faixa vazia de cerca de 70 px, com o fundo da seção anterior ou seguinte. A régua deveria colar no início da seção.
+2. **Cabeçalho no celular:** o botão de acessibilidade fica por cima da palavra "Educação" no nome da Secretaria.
+3. **Notícias no celular:** os 7 cards ficam empilhados com foto grande, e a seção ocupa várias telas. Opções: carrossel com deslize lateral, ou cards compactos com foto pequena ao lado.
+4. **Destaque:** a imagem tem cantos arredondados, margens brancas e uma emenda com o cinza das Notícias. A especificação pede largura total, de ponta a ponta.
+5. **Rodapé:** a metade direita fica vazia. Pode receber o brasão, o link para o site da Prefeitura (pedido na especificação, 3.1), redes sociais e acessibilidade.
+6. **Equipe gestora:** o último card das divisões fica sozinho numa linha. Os avatares podem ganhar as iniciais (a especificação, 3.7, sugere iniciais sobre a cor do portal).
+
+---
+
+## Avisos técnicos
+
+- **Rede do ambiente na nuvem:** na conta usada em 14/10/2026, a política de rede do ambiente bloqueia `*.supabase.co` e `workers.cloudflare.com`. Com isso, o `npm run dev` do portal não carrega os dados (erro de DNS no workerd). As ferramentas MCP do Supabase funcionam normalmente. Para ver o portal ao vivo nessa conta, é preciso liberar esses domínios em "Network access" do ambiente (https://code.claude.com/docs/en/cloud-environments#network-access). Enquanto isso, dá para avaliar o visual pelas prévias de `docs/previa/`.
+- O `.env` do `portal/` nunca vai para o git (D-25). Os valores da homologação estão em `portal/.env.example` e `portal/wrangler.jsonc` (a chave publicável não é segredo).
+
+---
+
+## Diário das sessões (mais recente no topo)
+
+### 14/10/2026 — conta 2 (sessão `fervent-turing`)
+- **Diagnóstico da conexão com o Supabase:** a conexão está OK pelo MCP. São 43 tabelas, todas com RLS, e 20 migrações aplicadas. Advisors de segurança: só avisos informativos. Desempenho: 31 avisos de múltiplas políticas permissivas.
+- **Diferenças entre o banco e a especificação:**
+  - a SMEDU é uma linha de `municipios` (organização contratante, D-37), não um órgão de `orgaos`;
+  - `sistemas_externos` só tem registros de Jeriquara;
+  - o catálogo `permissoes` tem só 5 códigos;
+  - Paulínia não tem domínio cadastrado na produção;
+  - não há usuários vinculados à SMEDU.
+- Descoberto que o código está em `portal-municipal` e o trabalho de design no branch `claude/charming-cray-jecgm6`, que foi trazido para este branch.
+- Feita a revisão visual da prévia de 13/10 (D-56), no computador e no celular. As propostas estão na seção "Estado atual".
+- Criados este `PASSAGEM.md` e o `CLAUDE.md` deste repositório, a pedido do William, para a troca entre contas.
+- **Próximo passo:** William escolhe quais propostas de design implementar. A implementação é feita em `portal-municipal`, com registro em D-57 e seguintes.
+
+### 12 e 13/10/2026 — conta 1 (sessões anteriores)
+- Fase 1A do banco (migrações 0016 a 0020), carga de dados públicos da SMEDU na homologação, layout vitrine e uma sequência de ajustes de design a pedido do William (D-39 a D-56). Detalhes em `portal-municipal/docs/06-decisoes.md` e no histórico do branch `claude/charming-cray-jecgm6`.
