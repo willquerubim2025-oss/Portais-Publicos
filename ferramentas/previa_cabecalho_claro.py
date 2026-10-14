@@ -28,7 +28,7 @@ barra = d.select_one('.barra-acessibilidade')
 barra['class'] = ['barra-acessibilidade', 'v-topo']
 simbolo = '<svg class="simbolo-acessibilidade" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="11" fill="none" stroke="currentColor" stroke-width="1.6" /><circle cx="12" cy="6.2" r="1.6" fill="currentColor" /><path d="M6.5 9.2l5.5 1 5.5-1M12 10.2v4.2m0 0l-2.6 4.6m2.6-4.6l2.6 4.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>'
 barra.select_one('.container').append(frag(f'''<div class="v-topo-direita"><ul class="ferramentas"><li><a href="/acessibilidade" class="link-acessibilidade">{simbolo} Acessibilidade</a></li><li><span class="tamanho-texto" role="group" aria-label="Tamanho do texto"><button type="button" data-fonte="-1" aria-label="Diminuir o tamanho do texto">A-</button><button type="button" data-fonte="0" aria-label="Tamanho normal do texto">A</button><button type="button" data-fonte="1" aria-label="Aumentar o tamanho do texto">A+</button></span></li><li><button type="button" id="botao-contraste" aria-pressed="false">Alto contraste</button></li></ul><a class="v-topo-prefeitura" href="https://www.paulinia.sp.gov.br"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Site da Prefeitura</a></div>'''))
-barra.insert_after(frag('<div class="v-topo-cores" aria-hidden="true"></div>'))
+# D-71: sem a faixa colorida (a SMEDU não cadastra tema.cores_faixa).
 
 # Cabeçalho branco
 velho = d.select_one('header.v-cab')
