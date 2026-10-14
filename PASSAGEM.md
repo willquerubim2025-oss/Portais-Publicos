@@ -44,7 +44,8 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
   - Prévia: `docs/previa/cabecalho-claro.html`. Capturas: `docs/design/capturas/d57/`.
   - O código está em `portal-municipal`, branch `claude/fervent-turing-szzwyu` (ainda não está na `main`).
   - Para ligar na homologação: `config.cabecalho.estilo = 'claro'` e `config.cabecalho.botao = {"rotulo": "Fale com o supervisor", "url": "/fale-com-o-supervisor"}` em `municipios` (slug `paulinia-educacao`, branch de homologação `kvilgamsyneenjtlllcf`). Depois, publicar o Worker de homologação.
-  - Se aprovado: juntar o branch na `main` do `portal-municipal`, ligar o campo na homologação e publicar.
+  - D-58 (bloco de cima com 1290 px) e D-59 (Notícias com 3 cards, `config.home.noticias_fileira = 3`) estão no mesmo branch.
+  - Se aprovado: juntar o branch na `main` do `portal-municipal`, ligar os campos na homologação e publicar.
 - Veja também as propostas abertas abaixo.
 
 ### Propostas de design em aberto (revisão de 14/10/2026, aguardando escolha do William)
@@ -65,6 +66,10 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 ---
 
 ## Diário das sessões (mais recente no topo)
+
+### 14/10/2026 (noite) — conta 2 (sessão `fervent-turing`)
+- D-59, a pedido do William: a fileira de cima das Notícias passou de 5 para 3 cards maiores, na mesma largura do bloco de cima (1290 px). Os dois cards grandes continuam. Configuração: `config.home.noticias_fileira`. A prévia `docs/previa/cabecalho-claro.html` foi atualizada.
+- Para ligar na homologação junto com o D-57: `config.home.noticias_fileira = 3`.
 
 ### 14/10/2026 (fim da tarde) — conta 2 (sessão `fervent-turing`)
 - Ajuste pedido pelo William (D-58): o destaque e todo o bloco de cima foram estreitados para a largura do modelo da PBH, com máximo de 1290 px (≈ 8 cm de margem em tela de 1920 px). A altura do destaque passou a 290–340 px. A prévia `docs/previa/cabecalho-claro.html` e as capturas em `docs/design/capturas/d57/` foram atualizadas.

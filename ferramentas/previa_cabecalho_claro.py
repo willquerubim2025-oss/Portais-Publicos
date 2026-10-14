@@ -37,6 +37,14 @@ pausa.append(frag('<svg class="v-icone-pausar" viewBox="0 0 24 24" aria-hidden="
 pausa.insert_after(frag('<button type="button" class="v-carrossel-seta v-carrossel-anterior" data-passo="-1" aria-label="Destaque anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><button type="button" class="v-carrossel-seta v-carrossel-proximo" data-passo="1" aria-label="Próximo destaque"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>'))
 for i, b in enumerate(dest.select('[data-ir]')):
     b.append(frag(f'<span aria-hidden="true">{i + 1}</span>'))
+# Notícias (D-59): fileira com 3 cards na largura do bloco de cima.
+FILEIRA = 3
+secao = d.select_one('#titulo-noticias').find_parent('section')
+secao['class'] = secao.get('class', []) + ['v-bloco-noticias']
+linha = secao.select_one('.v-noticias-linha')
+for c in linha.select('article')[FILEIRA:]: c.decompose()
+linha['class'] = ['v-noticias-linha'] + (['v-noticias-linha-larga'] if FILEIRA <= 3 else [])
+linha['style'] = f'--v-fileira:{FILEIRA}'
 # Na prévia, o script compilado antigo não conhece as setas nem a lupa: um script mínimo faz o mesmo.
 d.body.append(frag('''<script>
 document.querySelectorAll('[data-passo]').forEach(function (b) { b.addEventListener('click', function () {
