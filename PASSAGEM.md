@@ -66,6 +66,10 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 
 ## Diário das sessões (mais recente no topo)
 
+### 14/10/2026 (fim da tarde) — conta 2 (sessão `fervent-turing`)
+- Ajuste pedido pelo William (D-58): o destaque e todo o bloco de cima foram estreitados para a largura do modelo da PBH, com máximo de 1290 px (≈ 8 cm de margem em tela de 1920 px). A altura do destaque passou a 290–340 px. A prévia `docs/previa/cabecalho-claro.html` e as capturas em `docs/design/capturas/d57/` foram atualizadas.
+- **Próximo passo:** segue o mesmo. William avalia; se aprovar, merge na `main` do `portal-municipal`, ligar o campo na homologação e publicar.
+
 ### 14/10/2026 (tarde) — conta 2 (sessão `fervent-turing`)
 - A pedido do William, a parte de cima do portal foi refeita no estilo do portal da PBH (https://prefeitura.pbh.gov.br/; o print está na conversa e a descrição, em D-57):
   - barra estreita de acessibilidade no verde-petróleo, com faixa colorida embaixo;
