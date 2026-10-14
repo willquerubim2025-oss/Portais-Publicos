@@ -81,7 +81,7 @@ dest['data-carrossel-previa'] = ''
 del dest['data-carrossel']
 d.body.append(frag('''<script>
 document.querySelectorAll('[data-carrossel-previa]').forEach(function (raiz) {
-  var INTERVALO = 6500, slides = [].slice.call(raiz.querySelectorAll('.v-slide')), pontos = [].slice.call(raiz.querySelectorAll('[data-ir]'));
+  var INTERVALO = 4500, slides = [].slice.call(raiz.querySelectorAll('.v-slide')), pontos = [].slice.call(raiz.querySelectorAll('[data-ir]'));
   var pausa = raiz.querySelector('[data-pausa]'), rotulo = pausa && pausa.querySelector('[data-rotulo]');
   var reduzir = matchMedia('(prefers-reduced-motion: reduce)').matches, atual = 0, parado = reduzir, suspenso = false, relogio;
   var deslizar = raiz.classList.contains('v-destaque-compacto') && !reduzir;
