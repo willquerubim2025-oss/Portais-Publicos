@@ -13,7 +13,7 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 
 | O quê | Onde |
 |---|---|
-| **Código do portal (Astro) e do painel (React)** | Repositório `willquerubim2025-oss/portal-municipal`, branch `main`. O layout da SMEDU é o **"vitrine"**: `portal/src/components/vitrine/` e `portal/src/styles/vitrine.css` |
+| **Código do portal (Astro) e do painel (React)** | Repositório `willquerubim2025-oss/portal-municipal`, branch `main`. O experimento D-57 (cabeçalho claro) está no branch `claude/fervent-turing-szzwyu`, ainda fora da `main`. O layout da SMEDU é o **"vitrine"**: `portal/src/components/vitrine/` e `portal/src/styles/vitrine.css` |
 | **Decisões técnicas e de design (D-01 a D-56)** | `portal-municipal/docs/06-decisoes.md`. Não reabrir decisão sem motivo novo |
 | **Pendências** | `portal-municipal/docs/07-pendencias.md` |
 | **Regras do código** | `portal-municipal/CLAUDE.md` |
@@ -39,7 +39,13 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 - **Banco:** migrações 0001 a 0020 aplicadas na produção. Permissões por papel, unidades, equipe gestora e página inicial configurável (fase 1A, D-38) já existem.
 - **Portal Educação (layout vitrine):** página inicial pronta na homologação. Ordem dos blocos: destaque, Notícias, Em foco, Eventos, Serviços, Equipe gestora (D-56). A última decisão de design é a **D-56**.
 - **Conteúdo fictício na homologação, para a apresentação:** equipe gestora, fotos `ficticio-*`, imagens do "Em foco" (Unsplash) e 6 dos 7 eventos. Tudo isso precisa ser removido antes de publicar (detalhes em `07-pendencias.md`).
-- **Em andamento:** melhorias de design e layout do portal. Veja as propostas abertas abaixo.
+- **Em andamento:** melhorias de design e layout do portal.
+- **Aguardando avaliação do William: D-57, cabeçalho claro + destaque compacto, inspirado no portal da PBH.**
+  - Prévia: `docs/previa/cabecalho-claro.html`. Capturas: `docs/design/capturas/d57/`.
+  - O código está em `portal-municipal`, branch `claude/fervent-turing-szzwyu` (ainda não está na `main`).
+  - Para ligar na homologação: `config.cabecalho.estilo = 'claro'` e `config.cabecalho.botao = {"rotulo": "Fale com o supervisor", "url": "/fale-com-o-supervisor"}` em `municipios` (slug `paulinia-educacao`, branch de homologação `kvilgamsyneenjtlllcf`). Depois, publicar o Worker de homologação.
+  - Se aprovado: juntar o branch na `main` do `portal-municipal`, ligar o campo na homologação e publicar.
+- Veja também as propostas abertas abaixo.
 
 ### Propostas de design em aberto (revisão de 14/10/2026, aguardando escolha do William)
 1. **Espaços vazios entre as seções:** antes de cada régua de título há uma faixa vazia de cerca de 70 px, com o fundo da seção anterior ou seguinte. A régua deveria colar no início da seção.
@@ -59,6 +65,17 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 ---
 
 ## Diário das sessões (mais recente no topo)
+
+### 14/10/2026 (tarde) — conta 2 (sessão `fervent-turing`)
+- A pedido do William, a parte de cima do portal foi refeita no estilo do portal da PBH (https://prefeitura.pbh.gov.br/; o print está na conversa e a descrição, em D-57):
+  - barra estreita de acessibilidade no verde-petróleo, com faixa colorida embaixo;
+  - cabeçalho branco mais alto, com brasão em cores, menu, lupa e o botão "Fale com o supervisor";
+  - aviso em caixa;
+  - destaque mais baixo (300 a 400 px), com setas, pausa redonda e números.
+- Tudo fica atrás de um campo de configuração. Sem o campo, o portal não muda.
+- Verificação: axe sem violações (1440 e 390 px, normal e alto contraste) e `astro build` passando.
+- A prévia foi gerada por `ferramentas/previa_cabecalho_claro.py`, que aplica a marcação nova à prévia de 13/10. Motivo: o ambiente desta conta não acessou o Supabase, nem depois de o William liberar a rede (a mudança provavelmente só vale para sessões novas).
+- **Próximo passo:** William avalia a prévia e diz se segue essa linha. Se seguir: merge na `main` do `portal-municipal`, ligar o campo na homologação e publicar o Worker. A outra conta pode fazer isso numa sessão com acesso à Cloudflare.
 
 ### 14/10/2026 — conta 2 (sessão `fervent-turing`)
 - **Diagnóstico da conexão com o Supabase:** a conexão está OK pelo MCP. São 43 tabelas, todas com RLS, e 20 migrações aplicadas. Advisors de segurança: só avisos informativos. Desempenho: 31 avisos de múltiplas políticas permissivas.

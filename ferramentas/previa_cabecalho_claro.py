@@ -1,0 +1,54 @@
+# Gera a prévia do cabeçalho claro (D-57) a partir da prévia autocontida de 13/10:
+# mesma marcação do Base.astro/Destaque.astro novos + o bloco de CSS D-57 do vitrine.css.
+import base64, sys, re
+from bs4 import BeautifulSoup
+entrada, saida, css_path, brasao_path = sys.argv[1:5]
+botao = ('Fale com o supervisor', '/fale-com-o-supervisor')
+s = open(entrada, encoding='utf-8').read()
+css = open(css_path, encoding='utf-8').read()
+css = css[css.index('/* =============================================================\n   Cabeçalho claro'):]
+brasao = 'data:image/png;base64,' + base64.b64encode(open(brasao_path, 'rb').read()).decode()
+d = BeautifulSoup(s, 'html.parser')
+frag = lambda h: BeautifulSoup(h, 'html.parser')
+
+d.html['class'] = d.html.get('class', []) + ['v-claro']
+d.head.append(frag(f'<style>{css}</style>'))
+
+# Barra de acessibilidade visível + ferramentas com texto + site da Prefeitura
+barra = d.select_one('.barra-acessibilidade')
+barra['class'] = ['barra-acessibilidade', 'v-topo']
+simbolo = '<svg class="simbolo-acessibilidade" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="11" fill="none" stroke="currentColor" stroke-width="1.6" /><circle cx="12" cy="6.2" r="1.6" fill="currentColor" /><path d="M6.5 9.2l5.5 1 5.5-1M12 10.2v4.2m0 0l-2.6 4.6m2.6-4.6l2.6 4.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>'
+barra.select_one('.container').append(frag(f'''<div class="v-topo-direita"><ul class="ferramentas"><li><a href="/acessibilidade" class="link-acessibilidade">{simbolo} Acessibilidade</a></li><li><span class="tamanho-texto" role="group" aria-label="Tamanho do texto"><button type="button" data-fonte="-1" aria-label="Diminuir o tamanho do texto">A-</button><button type="button" data-fonte="0" aria-label="Tamanho normal do texto">A</button><button type="button" data-fonte="1" aria-label="Aumentar o tamanho do texto">A+</button></span></li><li><button type="button" id="botao-contraste" aria-pressed="false">Alto contraste</button></li></ul><a class="v-topo-prefeitura" href="https://www.paulinia.sp.gov.br"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Site da Prefeitura</a></div>'''))
+barra.insert_after(frag('<div class="v-topo-cores" aria-hidden="true"></div>'))
+
+# Cabeçalho branco
+velho = d.select_one('header.v-cab')
+menu = velho.select_one('.v-cab-tela-2 .menu-lista')
+nome = velho.select_one('.marca')['aria-label']
+tipo = velho.select_one('.marca-tipo').get_text(); nomec = velho.select_one('.marca-nome').get_text()
+velho.replace_with(frag(f'''<header class="cabecalho v-cab v-cab-claro"><div class="v-cab-linha"><a href="/" class="marca" aria-label="{nome}"><img class="v-cab-claro-brasao" src="{brasao}" alt="" width="80" height="80"><span class="marca-texto"><span class="marca-tipo">{tipo}</span><span class="marca-nome">{nomec}</span></span></a><nav id="menu" class="menu-principal" aria-label="Menu principal"><details class="menu-movel" open><summary>Menu</summary>{menu}</details></nav><div class="v-cab-acoes"><button type="button" class="v-cab-lupa" data-painel="v-painel-busca" aria-expanded="false" aria-controls="v-painel-busca" aria-label="Buscar no portal" title="Buscar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg></button><a class="v-cab-fale" href="{botao[1]}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h11a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H9l-4 3v-3H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/><path d="M19 9h1a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-1v3l-4-3h-3"/></svg><span>{botao[0]}</span></a></div></div><div class="v-cab-painel" id="v-painel-busca"><form class="busca" action="/busca" method="get" role="search"><label for="busca" class="sr-only">Buscar no portal</label><input id="busca" name="q" type="search" placeholder="O que você procura?" required /><button type="submit">Buscar</button></form></div></header>'''))
+
+# Destaque compacto
+dest = d.select_one('section.v-destaque')
+dest['class'] = ['v-destaque', 'v-destaque-compacto']
+pausa = dest.select_one('[data-pausa]')
+pausa.clear()
+pausa.append(frag('<svg class="v-icone-pausar" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14" stroke="currentColor" stroke-width="3" stroke-linecap="round" fill="none"/></svg><svg class="v-icone-continuar" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z" fill="currentColor"/></svg><span data-rotulo class="sr-only">Pausar</span><span class="sr-only"> a troca automática dos destaques</span>'))
+pausa.insert_after(frag('<button type="button" class="v-carrossel-seta v-carrossel-anterior" data-passo="-1" aria-label="Destaque anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><button type="button" class="v-carrossel-seta v-carrossel-proximo" data-passo="1" aria-label="Próximo destaque"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>'))
+for i, b in enumerate(dest.select('[data-ir]')):
+    b.append(frag(f'<span aria-hidden="true">{i + 1}</span>'))
+# Na prévia, o script compilado antigo não conhece as setas nem a lupa: um script mínimo faz o mesmo.
+d.body.append(frag('''<script>
+document.querySelectorAll('[data-passo]').forEach(function (b) { b.addEventListener('click', function () {
+  var p = [].slice.call(document.querySelectorAll('.v-destaque [data-ir]')); var i = p.findIndex(function (x) { return x.getAttribute('aria-current') === 'true'; });
+  p[(i + Number(b.dataset.passo) + p.length) % p.length].click(); }); });
+document.querySelectorAll('a[href="#busca"]').forEach(function (a) { a.addEventListener('click', function (e) { var l = document.querySelector('.v-cab-lupa'); if (l && l.getAttribute('aria-expanded') !== 'true') { e.preventDefault(); l.click(); } }); });
+var cabClaro = document.querySelector('.v-cab-claro');
+if (cabClaro) { var nav = cabClaro.querySelector('.menu-principal'), lista = nav.querySelector('.menu-lista');
+  var medir = function () { cabClaro.classList.add('v-cab-uma-linha'); if (!matchMedia('(min-width: 1181px)').matches || lista.scrollWidth > nav.clientWidth + 1) cabClaro.classList.remove('v-cab-uma-linha'); };
+  medir(); addEventListener('resize', medir); document.fonts && document.fonts.ready.then(medir); }
+</script>'''))
+out = str(d)
+out = out.replace('<title>', '<title>Prévia cabeçalho claro (D-57) · ', 1)
+open(saida, 'w', encoding='utf-8').write(out)
+print('ok', len(out))
