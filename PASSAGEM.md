@@ -44,7 +44,7 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
   - Prévia: `docs/previa/cabecalho-claro.html`. Capturas: `docs/design/capturas/d57/`.
   - O código está em `portal-municipal`, branch `claude/fervent-turing-szzwyu` (ainda não está na `main`).
   - Para ligar na homologação: `config.cabecalho.estilo = 'claro'` e `config.cabecalho.botao = {"rotulo": "Fale com o supervisor", "url": "/fale-com-o-supervisor"}` em `municipios` (slug `paulinia-educacao`, branch de homologação `kvilgamsyneenjtlllcf`). Depois, publicar o Worker de homologação.
-  - D-58 (bloco de cima com 1290 px) e D-59 (Notícias com 3 cards, `config.home.noticias_fileira = 3`) estão no mesmo branch.
+  - D-58 (bloco de cima com 1290 px), D-60 (todo o conteúdo nessa largura) e D-59 (Notícias com 3 cards, `config.home.noticias_fileira = 3`) estão no mesmo branch.
   - Se aprovado: juntar o branch na `main` do `portal-municipal`, ligar os campos na homologação e publicar.
 - Veja também as propostas abertas abaixo.
 
@@ -66,6 +66,9 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 ---
 
 ## Diário das sessões (mais recente no topo)
+
+### 14/10/2026 (noite, 2) — conta 2 (sessão `fervent-turing`)
+- D-60, a pedido do William: todo o conteúdo da home (Em foco, Eventos, Serviços, Equipe gestora), as páginas internas e o rodapé passaram a seguir a largura de 1290 px do bloco de cima. Os cards de Serviços agora ocupam a largura toda (3 por linha). Capturas da página inteira: `docs/design/capturas/d57/pagina-inteira-*.png`. A prévia foi atualizada.
 
 ### 14/10/2026 (noite) — conta 2 (sessão `fervent-turing`)
 - D-59, a pedido do William: a fileira de cima das Notícias passou de 5 para 3 cards maiores, na mesma largura do bloco de cima (1290 px). Os dois cards grandes continuam. Configuração: `config.home.noticias_fileira`. A prévia `docs/previa/cabecalho-claro.html` foi atualizada.
