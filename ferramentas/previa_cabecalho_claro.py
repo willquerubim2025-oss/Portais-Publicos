@@ -45,6 +45,18 @@ linha = secao.select_one('.v-noticias-linha')
 for c in linha.select('article')[FILEIRA:]: c.decompose()
 linha['class'] = ['v-noticias-linha'] + (['v-noticias-linha-larga'] if FILEIRA <= 3 else [])
 linha['style'] = f'--v-fileira:{FILEIRA}'
+# Em foco: fotos novas enviadas pelo William (14/10/2026), se o argumento 5 apontar a pasta delas.
+if len(sys.argv) > 5:
+    fotos = sys.argv[5]
+    novas = {'Matrícula escolar': ('foco-matricula.jpg', 'Criança com mochila de rodinhas chegando ao portão da escola, acompanhada pela família e recebida por funcionárias'),
+             'Bolsa de estudo': ('foco-bolsa.jpg', 'Quatro estudantes sorrindo e conversando sentados na escadaria de um prédio, com notebook e cadernos')}
+    for item in d.select('.v-foco-item'):
+        t = item.select_one('h3').get_text(strip=True)
+        if t in novas:
+            img = item.select_one('img.v-foco-foto')
+            img['src'] = 'data:image/jpeg;base64,' + base64.b64encode(open(f'{fotos}/{novas[t][0]}', 'rb').read()).decode()
+            img['alt'] = novas[t][1]
+            for k in ('srcset',): img.attrs.pop(k, None)
 # Na prévia, o script compilado antigo não conhece as setas nem a lupa: um script mínimo faz o mesmo.
 d.body.append(frag('''<script>
 document.querySelectorAll('[data-passo]').forEach(function (b) { b.addEventListener('click', function () {

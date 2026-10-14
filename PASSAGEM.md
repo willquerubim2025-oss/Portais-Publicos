@@ -67,6 +67,15 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 
 ## Diário das sessões (mais recente no topo)
 
+### 14/10/2026 (noite, 4) — conta 2 (sessão `fervent-turing`)
+- William enviou fotos novas para o "Em foco":
+  - estudantes na escadaria → Bolsa de estudo;
+  - criança chegando à escola → Matrícula escolar.
+- As fotos estão em `docs/design/fotos/` (`foco-bolsa.jpg`, `foco-matricula.jpg`; JPEG otimizado). A prévia `docs/previa/cabecalho-claro.html` já as usa. Para regerar a prévia: `python3 ferramentas/previa_cabecalho_claro.py <prévia de 13/10> <saída> <vitrine.css> docs/design/marca/brasao-colorido.png docs/design/fotos`.
+- **Pendente** (registrado em `portal-municipal/docs/07-pendencias.md`):
+  - enviar as fotos ao Storage da homologação e trocar `config.home.foco[].imagem_path`/`imagem_alt`. Esta conta não alcança o Storage;
+  - confirmar a autorização de imagem da foto da matrícula (criança e adultos reconhecíveis) e a licença da foto dos estudantes.
+
 ### 14/10/2026 (noite, 3) — conta 2 (sessão `fervent-turing`)
 - D-61, a pedido do William: as seções da home ficaram sem fundo próprio (branco) e as réguas de título passaram a ter a mesma largura das seções (1290 px), com cantos arredondados. O espaço vertical entre as seções diminuiu. A prévia e as capturas da página inteira foram atualizadas.
 
