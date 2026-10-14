@@ -66,6 +66,11 @@ if len(sys.argv) > 5:
             img['src'] = 'data:image/jpeg;base64,' + base64.b64encode(open(f'{fotos}/{novas[t][0]}', 'rb').read()).decode()
             img['alt'] = novas[t][1]
             for k in ('srcset',): img.attrs.pop(k, None)
+# Menu (14/10/2026, a pedido do William): sem Agenda e Transparência no cabeçalho.
+SEM_NO_MENU = {'Agenda', 'Transparência'}
+for li in d.select('.v-cab-claro .menu-lista > li'):
+    a_ = li.find(['a', 'button', 'span'], recursive=False)
+    if a_ and a_.get_text(strip=True) in SEM_NO_MENU: li.decompose()
 # Na prévia, o script compilado antigo não conhece as setas nem a lupa: um script mínimo faz o mesmo.
 d.body.append(frag('''<script>
 document.querySelectorAll('[data-passo]').forEach(function (b) { b.addEventListener('click', function () {

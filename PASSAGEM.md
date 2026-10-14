@@ -44,7 +44,7 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
   - Prévia: `docs/previa/cabecalho-claro.html`. Capturas: `docs/design/capturas/d57/`.
   - O código está em `portal-municipal`, branch `claude/fervent-turing-szzwyu` (ainda não está na `main`).
   - Para ligar na homologação: `config.cabecalho.estilo = 'claro'` e `config.cabecalho.botao = {"rotulo": "Fale com o supervisor", "url": "/fale-com-o-supervisor"}` em `municipios` (slug `paulinia-educacao`, branch de homologação `kvilgamsyneenjtlllcf`). Depois, publicar o Worker de homologação.
-  - D-58 (bloco de cima com 1290 px), D-60 (todo o conteúdo nessa largura), D-61 (seções sem fundo, régua na largura do conteúdo), D-62 (fonte Raleway no cabeçalho, `tema.fonte_cabecalho = 'Raleway'`), D-63 (cabeçalho em uma linha, largura de 1360 px) e D-59 (Notícias com 3 cards, `config.home.noticias_fileira = 3`) estão no mesmo branch.
+  - D-58 (bloco de cima com 1290 px), D-60 (todo o conteúdo nessa largura), D-61 (seções sem fundo, régua na largura do conteúdo), D-62 (fonte Raleway no cabeçalho, `tema.fonte_cabecalho = 'Raleway'`), D-63/D-64 (cabeçalho em uma linha; largura de 1290 px; menu sem Agenda e Transparência — remover no banco) e D-59 (Notícias com 3 cards, `config.home.noticias_fileira = 3`) estão no mesmo branch.
   - Se aprovado: juntar o branch na `main` do `portal-municipal`, ligar os campos na homologação e publicar.
 - Veja também as propostas abertas abaixo.
 
@@ -66,6 +66,12 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 ---
 
 ## Diário das sessões (mais recente no topo)
+
+### 14/10/2026 (noite, 7) — conta 2 (sessão `fervent-turing`)
+- D-64, a pedido do William (ele não queria a largura de tudo alterada em D-63):
+  - a largura volta a **1290 px** em tudo e a fonte do menu volta ao tamanho original;
+  - **Agenda** e **Transparência** saem do menu do cabeçalho. Com 6 itens, cabe numa linha a partir de 1280 px de tela.
+- **Pendente no banco:** remover os dois itens do menu principal da SMEDU na homologação, pelo painel (Menus) ou por SQL. As escritas pelo MCP do Supabase excederam o tempo nesta sessão (leituras funcionam). A prévia já está sem eles.
 
 ### 14/10/2026 (noite, 6) — conta 2 (sessão `fervent-turing`)
 - D-63, a pedido do William: o cabeçalho ficou em **uma linha só**, como no modelo: brasão + nome, menu no meio, lupa + "Fale com o supervisor" à direita. Para caber:
