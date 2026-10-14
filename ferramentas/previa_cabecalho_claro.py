@@ -3,7 +3,7 @@
 import base64, sys, re
 from bs4 import BeautifulSoup
 entrada, saida, css_path, brasao_path = sys.argv[1:5]
-botao = ('Fale com o supervisor', '/fale-com-o-supervisor')
+botao = ('Fale com a Educação', '/fale-com-o-supervisor')
 s = open(entrada, encoding='utf-8').read()
 css = open(css_path, encoding='utf-8').read()
 css = css[css.index('/* =============================================================\n   Cabeçalho claro'):]
@@ -71,11 +71,37 @@ SEM_NO_MENU = {'Agenda', 'Transparência'}
 for li in d.select('.v-cab-claro .menu-lista > li'):
     a_ = li.find(['a', 'button', 'span'], recursive=False)
     if a_ and a_.get_text(strip=True) in SEM_NO_MENU: li.decompose()
+# CARROSSEL_D66: o script compilado da prévia de 13/10 só esmaece; desliga-o (sem data-carrossel) e usa
+# a mesma lógica do Destaque.astro novo, em JavaScript puro.
+dest['data-carrossel-previa'] = ''
+del dest['data-carrossel']
+d.body.append(frag('''<script>
+document.querySelectorAll('[data-carrossel-previa]').forEach(function (raiz) {
+  var INTERVALO = 7500, slides = [].slice.call(raiz.querySelectorAll('.v-slide')), pontos = [].slice.call(raiz.querySelectorAll('[data-ir]'));
+  var pausa = raiz.querySelector('[data-pausa]'), rotulo = pausa && pausa.querySelector('[data-rotulo]');
+  var reduzir = matchMedia('(prefers-reduced-motion: reduce)').matches, atual = 0, parado = reduzir, suspenso = false, relogio;
+  var deslizar = raiz.classList.contains('v-destaque-compacto') && !reduzir;
+  function mostrar(n, sentido) { sentido = sentido || 1; var anterior = atual; atual = (n + slides.length) % slides.length;
+    if (deslizar && atual !== anterior) { slides.forEach(function (s) { s.classList.remove('v-slide-sai-esq', 'v-slide-sai-dir'); });
+      slides[anterior].classList.add(sentido > 0 ? 'v-slide-sai-esq' : 'v-slide-sai-dir'); var novo = slides[atual];
+      novo.style.transition = 'none'; novo.style.transform = 'translateX(' + (sentido > 0 ? 100 : -100) + '%)'; void novo.offsetWidth; novo.style.transition = ''; novo.style.transform = ''; }
+    slides.forEach(function (s, i) { var ativo = i === atual; s.classList.toggle('v-slide-ativo', ativo); if (ativo) s.removeAttribute('aria-hidden'); else s.setAttribute('aria-hidden', 'true');
+      s.querySelectorAll('a').forEach(function (a) { if (ativo) a.removeAttribute('tabindex'); else a.setAttribute('tabindex', '-1'); }); });
+    pontos.forEach(function (p, i) { if (i === atual) p.setAttribute('aria-current', 'true'); else p.removeAttribute('aria-current'); }); }
+  function agendar() { clearInterval(relogio); if (!parado && !suspenso) relogio = setInterval(function () { mostrar(atual + 1, 1); }, INTERVALO); }
+  function atualizarPausa() { if (pausa) pausa.setAttribute('aria-pressed', String(parado)); if (rotulo) rotulo.textContent = parado ? 'Continuar' : 'Pausar'; }
+  pontos.forEach(function (p, i) { p.addEventListener('click', function () { mostrar(i, i < atual ? -1 : 1); agendar(); }); });
+  raiz.querySelectorAll('[data-passo]').forEach(function (b) { b.addEventListener('click', function () { var passo = Number(b.dataset.passo); mostrar(atual + passo, passo); agendar(); }); });
+  if (pausa) pausa.addEventListener('click', function () { parado = !parado; atualizarPausa(); agendar(); });
+  raiz.addEventListener('mouseenter', function () { suspenso = true; agendar(); }); raiz.addEventListener('mouseleave', function () { suspenso = false; agendar(); });
+  raiz.addEventListener('focusin', function () { suspenso = true; agendar(); });
+  raiz.addEventListener('focusout', function (e) { if (!raiz.contains(e.relatedTarget)) { suspenso = false; agendar(); } });
+  document.addEventListener('visibilitychange', function () { suspenso = document.hidden; agendar(); });
+  atualizarPausa(); agendar();
+});
+</script>'''))
 # Na prévia, o script compilado antigo não conhece as setas nem a lupa: um script mínimo faz o mesmo.
 d.body.append(frag('''<script>
-document.querySelectorAll('[data-passo]').forEach(function (b) { b.addEventListener('click', function () {
-  var p = [].slice.call(document.querySelectorAll('.v-destaque [data-ir]')); var i = p.findIndex(function (x) { return x.getAttribute('aria-current') === 'true'; });
-  p[(i + Number(b.dataset.passo) + p.length) % p.length].click(); }); });
 document.querySelectorAll('a[href="#busca"]').forEach(function (a) { a.addEventListener('click', function (e) { var l = document.querySelector('.v-cab-lupa'); if (l && l.getAttribute('aria-expanded') !== 'true') { e.preventDefault(); l.click(); } }); });
 var cabClaro = document.querySelector('.v-cab-claro');
 if (cabClaro) { var nav = cabClaro.querySelector('.menu-principal'), lista = nav.querySelector('.menu-lista');
