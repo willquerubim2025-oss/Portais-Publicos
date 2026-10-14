@@ -44,7 +44,7 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
   - Prévia: `docs/previa/cabecalho-claro.html`. Capturas: `docs/design/capturas/d57/`.
   - O código está em `portal-municipal`, branch `claude/fervent-turing-szzwyu` (ainda não está na `main`).
   - Para ligar na homologação: `config.cabecalho.estilo = 'claro'` e `config.cabecalho.botao = {"rotulo": "Fale com a Educação", "url": "/fale-com-o-supervisor"}` em `municipios` (slug `paulinia-educacao`, branch de homologação `kvilgamsyneenjtlllcf`). Depois, publicar o Worker de homologação.
-  - D-58 (bloco de cima com 1290 px), D-60 (todo o conteúdo nessa largura), D-61 (seções sem fundo, régua na largura do conteúdo), D-62 (fonte Raleway no cabeçalho, `tema.fonte_cabecalho = 'Raleway'`), D-63/D-64 (cabeçalho em uma linha; largura de 1290 px; menu sem Agenda e Transparência — remover no banco), D-65 (títulos das seções sem faixa), D-66 (destaque deslizando; botão "Fale com a Educação"), D-67 (Serviços no estilo do modelo) e D-59 (Notícias com 3 cards, `config.home.noticias_fileira = 3`) estão no mesmo branch.
+  - D-58 (bloco de cima com 1290 px), D-60 (todo o conteúdo nessa largura), D-61 (seções sem fundo, régua na largura do conteúdo), D-62 (fonte Raleway no cabeçalho, `tema.fonte_cabecalho = 'Raleway'`), D-63/D-64 (cabeçalho em uma linha; largura de 1290 px; menu sem Agenda e Transparência — remover no banco), D-65 (títulos das seções sem faixa), D-66 (destaque deslizando; botão "Fale com a Educação"), D-67 (Serviços no estilo do modelo), D-68 (destaque a cada 6,5 s) e D-59 (Notícias com 3 cards, `config.home.noticias_fileira = 3`) estão no mesmo branch.
   - Se aprovado: juntar o branch na `main` do `portal-municipal`, ligar os campos na homologação e publicar.
 - Veja também as propostas abertas abaixo.
 
@@ -66,6 +66,9 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 ---
 
 ## Diário das sessões (mais recente no topo)
+
+### 14/10/2026 (noite, 11) — conta 2 (sessão `fervent-turing`)
+- D-68, a pedido do William: o destaque troca de slide a cada **6,5 s** (antes 7,5 s); a animação continua em 0,9 s. A prévia foi atualizada.
 
 ### 14/10/2026 (noite, 10) — conta 2 (sessão `fervent-turing`)
 - D-67, a pedido do William: a seção de Serviços passou ao estilo do modelo da PBH:
