@@ -68,7 +68,7 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 ## Diário das sessões (mais recente no topo)
 
 ### 14/10/2026 (noite, 13) — conta 2 (sessão `fervent-turing`)
-- D-70, a pedido do William: a distância entre as Notícias e o "Em foco" diminuiu cerca de 15% (88 → 75 px no computador). A prévia foi atualizada.
+- D-70, a pedido do William: a distância entre as Notícias e o "Em foco" diminuiu duas vezes cerca de 15% (88 → 75 → 64 px no computador; 41 px no celular). A prévia foi atualizada.
 
 ### 14/10/2026 (noite, 12) — conta 2 (sessão `fervent-turing`)
 - D-69, a pedido do William: o cabeçalho branco ficou 10% mais alto (de 105 para 117 px). A prévia e a captura `cabecalho-mais-alto-1920.png` foram atualizadas.
