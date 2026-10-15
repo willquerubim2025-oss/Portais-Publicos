@@ -37,8 +37,8 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 
 - **Banco:** migrações 0001 a 0020 aplicadas na produção. Permissões por papel, unidades, equipe gestora e página inicial configurável (fase 1A, D-38) já existem.
 - **Permissões fase 1B (D-78):** 0021 aplicada **só na homologação** em 15/10/2026, com a função `convidar-usuario` v4. Falta conferir com usuário de teste (depende de publicar o painel de homologação) e, com aprovação, levar à produção. Plano: `docs/Plano de Migração — Fase 1B.md`.
-- **Painel:** telas de permissões (D-77) e conteúdo por permissão (D-78) na `main` do `portal-municipal`; ainda não publicado na Cloudflare.
-- **Publicar homologação:** botão no GitHub (Actions → "Publicar homologação", D-79), assim que os segredos da Cloudflare estiverem cadastrados.
+- **Painel:** telas de permissões (D-77) e conteúdo por permissão (D-78) publicadas na homologação da Cloudflare (testado em 15/10/2026: login responde e aponta para a homologação).
+- **Publicar homologação:** botão no GitHub (Actions → "Publicar homologação", D-79); segredos cadastrados e funcionando.
 - **Portal Educação (layout vitrine):** página inicial pronta na homologação. Ordem dos blocos: destaque, Notícias, Em foco, Eventos, Serviços, Equipe gestora (D-56). A última decisão de design é a **D-56**.
 - **Conteúdo fictício na homologação, para a apresentação:** equipe gestora, fotos `ficticio-*`, imagens do "Em foco" (Unsplash) e 6 dos 7 eventos. Tudo isso precisa ser removido antes de publicar (detalhes em `07-pendencias.md`).
 - **Em andamento:** melhorias de design e layout do portal.
@@ -68,6 +68,12 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 ---
 
 ## Diário das sessões (mais recente no topo)
+
+### 15/10/2026 — sessão `nifty-lamport`
+- **Teste da Cloudflare (homologação), tudo funcionando:**
+  - portal (`/` e `/noticias`) responde 200, carrega as notícias do banco, sem imagens quebradas nem erros no console;
+  - painel abre a tela "Entrar" e fala com o Supabase de **homologação** (`kvilgamsyneenjtlllcf`): um login inválido de propósito devolveu "E-mail ou senha incorretos".
+- **Ainda falta:** entrar com um usuário real (depende das Redirect URLs do Supabase) e testar a fase 1B com um usuário que tenha só `conteudo.editar`.
 
 ### 16/10/2026 — conta 2 (sessão `fervent-turing`)
 - **Publicação da homologação por botão (D-79):** rotina `.github/workflows/publicar-homologacao.yml` no `portal-municipal` (na `main`). Em GitHub → Actions → "Publicar homologação" → Run workflow, escolhe painel, portal ou os dois. Só homologação; a produção continua manual.
