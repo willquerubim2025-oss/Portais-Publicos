@@ -85,7 +85,8 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 - **Design (publicado na homologação, rotina #5):** D-84 notícia sem foto com imagem padrão; D-85 Notícias no celular em lista compacta (página a 390 px: de ~8.740 para ~7.510 px); D-86 equipe ocupa a fileira inteira. Das 6 propostas de 14/10: 2 e 5 já estavam resolvidas (D-73, D-72), 1 já reduzida (D-61/D-70) e **4 (destaque de ponta a ponta) não foi feita porque contraria a D-58**, aprovada pelo William. Conferido: 0 problemas de 320 a 768 px e axe sem violações.
 - **Dica técnica:** nesta sessão o `npm run dev` do portal funcionou com os dados da homologação (`.env` com `DOMINIO_DEV=educacao.paulinia.teste`).
 - **D-87:** cabeçalho branco 15% mais alto no computador (116 → 133 px, a partir de 1181 px; celular igual), a pedido do William. Publicado na homologação.
-- **Próximo passo:** William avalia o site no celular e no computador; depois, conteúdo real da SMEDU.
+- **Revisão das páginas internas (15/10/2026):** 21 endereços, no computador e no celular: acessibilidade (axe) sem violações e sem rolagem horizontal. Problema achado: os links do rodapé **Acesso à Informação, Ouvidoria e Privacidade** abrem "página não encontrada", porque as páginas estão em rascunho e dependem de dados da Prefeitura (pedidos no item 8 de `docs/reuniao/smedu-dados-a-confirmar.md`). A página de **Acessibilidade** foi escrita e publicada na homologação.
+- **Próximo passo:** conteúdo real da SMEDU (equipe, fotos, textos) e os dados do item 8 para as páginas obrigatórias.
 
 ### 15/10/2026 — sessão `nifty-lamport`
 - **Teste da Cloudflare (homologação), tudo funcionando:**
