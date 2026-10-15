@@ -84,6 +84,7 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 - **Fotos novas do "Em foco" na homologação:** `carga/foco-matricula-2.jpg` e `carga/foco-bolsa-2.jpg` (enviadas com o admin de teste pela API do Storage), `config.home.foco` e textos alternativos trocados. Antes de ir ao ar: autorização de imagem da foto da criança.
 - **Design (publicado na homologação, rotina #5):** D-84 notícia sem foto com imagem padrão; D-85 Notícias no celular em lista compacta (página a 390 px: de ~8.740 para ~7.510 px); D-86 equipe ocupa a fileira inteira. Das 6 propostas de 14/10: 2 e 5 já estavam resolvidas (D-73, D-72), 1 já reduzida (D-61/D-70) e **4 (destaque de ponta a ponta) não foi feita porque contraria a D-58**, aprovada pelo William. Conferido: 0 problemas de 320 a 768 px e axe sem violações.
 - **Dica técnica:** nesta sessão o `npm run dev` do portal funcionou com os dados da homologação (`.env` com `DOMINIO_DEV=educacao.paulinia.teste`).
+- **D-87:** cabeçalho branco 15% mais alto no computador (116 → 133 px, a partir de 1181 px; celular igual), a pedido do William. Publicado na homologação.
 - **Próximo passo:** William avalia o site no celular e no computador; depois, conteúdo real da SMEDU.
 
 ### 15/10/2026 — sessão `nifty-lamport`
