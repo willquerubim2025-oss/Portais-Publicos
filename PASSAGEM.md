@@ -14,7 +14,7 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 | O quê | Onde |
 |---|---|
 | **Código do portal (Astro) e do painel (React)** | Repositório `willquerubim2025-oss/portal-municipal`, branch `main`, que já inclui o padrão visual aprovado (D-57 a D-75). O layout da SMEDU é o **"vitrine"**: `portal/src/components/vitrine/` e `portal/src/styles/vitrine.css` |
-| **Decisões técnicas e de design (D-01 a D-79)** | `portal-municipal/docs/06-decisoes.md`. Não reabrir decisão sem motivo novo |
+| **Decisões técnicas e de design (D-01 a D-80)** | `portal-municipal/docs/06-decisoes.md`. Não reabrir decisão sem motivo novo |
 | **Pendências** | `portal-municipal/docs/07-pendencias.md` |
 | **Regras do código** | `portal-municipal/CLAUDE.md` |
 | **Especificação e contexto do Portal Educação** | Este repositório: `docs/Especificação do Brainstorm.md`, `docs/Arquivo de Contexto.md` |
@@ -24,7 +24,7 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 | **Dados a confirmar com a SMEDU** | Este repositório: `docs/reuniao/smedu-dados-a-confirmar.md` |
 | **Supabase, produção** | Projeto **Portal Municipal**, ref `qgywucdnaeheqndcxtho` (sa-east-1) |
 | **Supabase, homologação** | Branch `homologacao` do mesmo projeto, ref `kvilgamsyneenjtlllcf`. O portal em desenvolvimento lê daqui (D-14) |
-| **Portal de homologação publicado** | Worker `portal-municipal-homologacao` na Cloudflare (D-27) |
+| **Homologação publicada (conta Cloudflare pessoal willquerubim2025, D-80)** | Portal (abre a SMEDU): https://portal-municipal-homologacao.willquerubim2025.workers.dev · Painel: https://painel-municipal-homologacao.willquerubim2025.workers.dev · Publicar: GitHub → Actions → "Publicar homologação" (D-79) |
 
 ### Branches deste repositório
 - **`main` é a referência** (15/10/2026): contém todo o trabalho de 12 a 14/10, ou seja, docs, design, prévias, este arquivo e o `CLAUDE.md`. Comece sempre por ela.
@@ -72,6 +72,7 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 ### 16/10/2026 — conta 2 (sessão `fervent-turing`)
 - **Publicação da homologação por botão (D-79):** rotina `.github/workflows/publicar-homologacao.yml` no `portal-municipal` (na `main`). Em GitHub → Actions → "Publicar homologação" → Run workflow, escolhe painel, portal ou os dois. Só homologação; a produção continua manual.
 - **Segredos cadastrados e rotina rodada com sucesso (execução #2, painel e portal verdes).** A #1 falhou porque o `CLOUDFLARE_ACCOUNT_ID` foi colado com uma quebra de linha; a rotina agora limpa espaços e quebras dos segredos. Depois, incluir o endereço do painel de homologação em Redirect URLs do Supabase (branch de homologação).
+- **Endereços (D-80, conta pessoal, escolha do William):** portal https://portal-municipal-homologacao.willquerubim2025.workers.dev (cadastrado no banco para a SMEDU) e painel https://painel-municipal-homologacao.willquerubim2025.workers.dev. Falta o William incluir `https://painel-municipal-homologacao.willquerubim2025.workers.dev/**` nas Redirect URLs do Supabase (branch homologacao).
 - **Produção da fase 1B:** não aplicada. William ainda não confirmou; o combinado é testar antes na homologação com o painel publicado.
 
 ### 15/10/2026 (manhã) — conta 2 (sessão `fervent-turing`)
