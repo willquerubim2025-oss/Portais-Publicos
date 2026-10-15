@@ -14,7 +14,7 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 | O quê | Onde |
 |---|---|
 | **Código do portal (Astro) e do painel (React)** | Repositório `willquerubim2025-oss/portal-municipal`, branch `main`, que já inclui o padrão visual aprovado (D-57 a D-75). O layout da SMEDU é o **"vitrine"**: `portal/src/components/vitrine/` e `portal/src/styles/vitrine.css` |
-| **Decisões técnicas e de design (D-01 a D-78)** | `portal-municipal/docs/06-decisoes.md`. Não reabrir decisão sem motivo novo |
+| **Decisões técnicas e de design (D-01 a D-79)** | `portal-municipal/docs/06-decisoes.md`. Não reabrir decisão sem motivo novo |
 | **Pendências** | `portal-municipal/docs/07-pendencias.md` |
 | **Regras do código** | `portal-municipal/CLAUDE.md` |
 | **Especificação e contexto do Portal Educação** | Este repositório: `docs/Especificação do Brainstorm.md`, `docs/Arquivo de Contexto.md` |
@@ -38,6 +38,7 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 - **Banco:** migrações 0001 a 0020 aplicadas na produção. Permissões por papel, unidades, equipe gestora e página inicial configurável (fase 1A, D-38) já existem.
 - **Permissões fase 1B (D-78):** 0021 aplicada **só na homologação** em 15/10/2026, com a função `convidar-usuario` v4. Falta conferir com usuário de teste (depende de publicar o painel de homologação) e, com aprovação, levar à produção. Plano: `docs/Plano de Migração — Fase 1B.md`.
 - **Painel:** telas de permissões (D-77) e conteúdo por permissão (D-78) na `main` do `portal-municipal`; ainda não publicado na Cloudflare.
+- **Publicar homologação:** botão no GitHub (Actions → "Publicar homologação", D-79), assim que os segredos da Cloudflare estiverem cadastrados.
 - **Portal Educação (layout vitrine):** página inicial pronta na homologação. Ordem dos blocos: destaque, Notícias, Em foco, Eventos, Serviços, Equipe gestora (D-56). A última decisão de design é a **D-56**.
 - **Conteúdo fictício na homologação, para a apresentação:** equipe gestora, fotos `ficticio-*`, imagens do "Em foco" (Unsplash) e 6 dos 7 eventos. Tudo isso precisa ser removido antes de publicar (detalhes em `07-pendencias.md`).
 - **Em andamento:** melhorias de design e layout do portal.
@@ -67,6 +68,11 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 ---
 
 ## Diário das sessões (mais recente no topo)
+
+### 16/10/2026 — conta 2 (sessão `fervent-turing`)
+- **Publicação da homologação por botão (D-79):** rotina `.github/workflows/publicar-homologacao.yml` no `portal-municipal` (na `main`). Em GitHub → Actions → "Publicar homologação" → Run workflow, escolhe painel, portal ou os dois. Só homologação; a produção continua manual.
+- **Falta (William):** cadastrar os segredos `CLOUDFLARE_API_TOKEN` (modelo "Edit Cloudflare Workers") e `CLOUDFLARE_ACCOUNT_ID` no repositório e rodar a rotina. Depois, incluir o endereço do painel de homologação em Redirect URLs do Supabase (branch de homologação).
+- **Produção da fase 1B:** não aplicada. William ainda não confirmou; o combinado é testar antes na homologação com o painel publicado.
 
 ### 15/10/2026 (manhã) — conta 2 (sessão `fervent-turing`)
 - **Fase 1B aprovada ("pode sim") e aplicada na homologação (D-78)**; código na `main` do `portal-municipal`:
