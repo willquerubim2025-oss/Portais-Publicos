@@ -66,6 +66,15 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 
 ## Diário das sessões (mais recente no topo)
 
+### 15/10/2026 (madrugada, 3) — conta 2 (sessão `fervent-turing`)
+- **Painel administrativo, parte A (D-77)**, já na `main` do `portal-municipal`:
+  - telas de Papéis e permissões, Vínculos de usuários, Unidades e regiões e Equipe gestora;
+  - menu e rotas montados pelas permissões;
+  - registro das permissões no código (`painel/src/lib/permissoes.catalogo.json`) e `npm run permissoes:sincronizar`.
+  - Testado com Playwright e o Supabase simulado: 8 telas, axe limpo, gravações conferidas, Jeriquara igual.
+- **Fase 1B: plano escrito, aguardando aprovação do William:** `docs/Plano de Migração — Fase 1B.md`. A ideia é ampliar `is_membro`, `pode_publicar` e `is_admin` com 3 permissões novas, em vez de reescrever ~70 políticas.
+- **Próximo passo:** com a aprovação, escrever a 0021 com testes no PGlite, aplicar na homologação e ajustar o convite e o painel. Também falta publicar o painel e o portal de homologação (Cloudflare) e rodar o sincronizar com a chave de serviço.
+
 ### 15/10/2026 (madrugada, 2) — conta 2 (sessão `fervent-turing`)
 - D-76, a pedido do William ("não faz sentido continuar com dois lugares"): **uma só versão**.
   - **Prévias:** `docs/previa/` agora contém as 15 páginas no padrão aprovado, com os nomes originais. Saíram `cabecalho-claro.html`, `docs/previa/claro/`, os testes de cor `cabecalho-00a693-*` e o zip antigo. A prévia de 13/10 ficou só como base da ferramenta, em `ferramentas/base-previa-13-10/`.
