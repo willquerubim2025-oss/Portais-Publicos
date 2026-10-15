@@ -35,8 +35,9 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 
 ## Estado atual (atualizado em 15/10/2026)
 
-- **Banco:** migrações 0001 a 0020 aplicadas na produção. Permissões por papel, unidades, equipe gestora e página inicial configurável (fase 1A, D-38) já existem.
-- **Permissões fase 1B (D-78):** 0021 aplicada **só na homologação** em 15/10/2026, com a função `convidar-usuario` v4. **Conferida com usuários de teste em 15/10/2026.** Falta, com aprovação, levar à produção. Plano: `docs/Plano de Migração — Fase 1B.md`.
+- **Jeriquara está fora (D-82):** dispensa não ganha; não fazer nada para Jeriquara. O produto é multi-organização; a organização em foco é a SMEDU.
+- **Banco:** migrações 0001 a 0021 aplicadas na produção. Permissões por papel, unidades, equipe gestora e página inicial configurável (fase 1A, D-38) já existem.
+- **Permissões fase 1B (D-78/D-83):** 0021 e `convidar-usuario` na **homologação e na produção** desde 15/10/2026; conferida com usuários de teste na homologação. Plano: `docs/Plano de Migração — Fase 1B.md`.
 - **Painel:** telas de permissões (D-77) e conteúdo por permissão (D-78) publicadas na homologação da Cloudflare (testado em 15/10/2026: login responde e aponta para a homologação).
 - **Publicar homologação:** botão no GitHub (Actions → "Publicar homologação", D-79); segredos cadastrados e funcionando.
 - **Portal Educação (layout vitrine):** página inicial pronta na homologação. Ordem dos blocos: destaque, Notícias, Em foco, Eventos, Serviços, Equipe gestora (D-56). A última decisão de design é a **D-56**.
@@ -78,7 +79,9 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 - Docs do `portal-municipal` atualizados (`07-pendencias.md`, nota na D-81), na `main`.
 - **Fase 1B conferida na homologação (aprovada pelo William):** o redator edita rascunho e não tem opção de publicar; no banco, publicar com o login dele é recusado. O admin publicou e despublicou; o portal atualiza em ~1 min (cache). Notícia "Teste de notícia" ficou despublicada (pode apagar).
 - Visto no teste: notícia sem foto no card grande vira um bloco branco. Proposta de imagem padrão, aguardando o William.
-- **Próximo passo:** com aprovação explícita do William, levar a 0021 e a `convidar-usuario` v4 à produção e rodar `npm run permissoes:sincronizar`.
+- **Fase 1B na produção (D-83, aprovada pelo William):** 0021 aplicada, `convidar-usuario` publicada (v2 na produção, mesmo código da v4 da homologação). Sincronizar não foi preciso: o catálogo da produção já é igual ao do código.
+- **Jeriquara fora do projeto (D-82):** a dispensa não foi ganha; o site de Jeriquara não será feito. Dados ficam no banco sem manutenção: **não testar, conferir nem planejar nada para Jeriquara.** O produto é multi-organização; o foco é a SMEDU. Registrado no `CLAUDE.md` e nos docs do `portal-municipal`.
+- **Próximo passo:** William escolhe: card de notícia sem foto, fotos do "Em foco", conteúdo real ou as propostas de design.
 
 ### 15/10/2026 — sessão `nifty-lamport`
 - **Teste da Cloudflare (homologação), tudo funcionando:**
