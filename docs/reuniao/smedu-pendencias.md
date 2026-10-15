@@ -26,7 +26,7 @@ Cada item traz: o que precisamos · o que está no site hoje · onde será usado
 | 10 | Brasão em alta resolução | brasão de 252 px | Não |
 | 11 | Dados institucionais e acesso | sem domínio, IBGE, CNPJ e administrador | Sim |
 | 12 | Menu principal | 6 itens definidos pela Secke | Não |
-| 13 | Bolsa de Estudo | descrição genérica | Não |
+| 13 | Bolsa de Estudo | **provisória** com dados públicos (15/10) | Não |
 | 14 | Agenda de eventos | 6 eventos **fictícios** + 1 real | Sim (dados fictícios) |
 | 15 | Serviços "Em breve" | Área do Estudante e Ouvidoria marcadas "Em breve" | Não |
 | 16 | Notícias | 7 notícias do site da Prefeitura, datas aproximadas | Não |
@@ -131,7 +131,8 @@ Fonte da carga inicial (12/10/2026, homologação): a página da Secretaria de E
 
 ## 13. Bolsa de Estudo
 - **O que precisamos:** as regras do programa municipal de bolsas: quem pode se inscrever, prazos, documentos, como sai o resultado e como renovar.
-- **No site hoje:** a página `/servicos/bolsa-de-estudo` só tem uma descrição genérica.
+- **No site hoje (provisório, desde 15/10/2026):** a página `/servicos/bolsa-de-estudo` foi preenchida com dados públicos do **Programa Bolsa Educação** (notícias da Prefeitura e imprensa local; `legado.provisorio = true`): 10 anos de residência, renda de até 10 salários mínimos, bolsa de 100% (até 6 salários) ou 50% (6,1 a 10), cadastro no PAS até 11/12/2026 para o ciclo 2027 pelo telefone (19) 3874-5741, 20 horas mensais de contrapartida, 420 contemplados em 2026 e link para `paulinia.sp.gov.br/bolsaeducacao`.
+- **Confirmar:** se o programa é da Secretaria de Educação (a página fica no portal dela), o limite de renda e as datas de 2027, a lista de instituições conveniadas e se a nota do Enem 2026 conta na seleção.
 - **Bloqueia ir ao ar?** Não, mas é um dos dois destaques do "Em foco".
 
 ## 14. Agenda de eventos

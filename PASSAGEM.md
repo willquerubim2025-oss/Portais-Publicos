@@ -89,6 +89,7 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 - **Documento único de pendências com a SMEDU (D-89):** `docs/reuniao/smedu-pendencias.md` (era `smedu-dados-a-confirmar.md`), com 16 itens, resumo e o que está provisório no site. Regra do William: não parar esperando a Prefeitura; usar dado público, foto de banco ou placeholder e marcar no documento. Só parar se travar.
 - **Páginas legais publicadas (provisórias):** Ouvidoria, Acesso à Informação e Privacidade, com dados públicos da Ouvidoria da Prefeitura (item 8 do documento). Os 4 links do rodapé funcionam; axe sem violações.
 - **D-88:** Raleway em todo o portal da SMEDU (decisão do William).
+- **Bolsa de Estudo preenchida (provisória)** com os dados públicos do Programa Bolsa Educação (item 13).
 - **Próximo passo:** seguir a lista de `smedu-pendencias.md` com placeholders onde der; conteúdo real quando chegar.
 
 ### 15/10/2026 — sessão `nifty-lamport`
