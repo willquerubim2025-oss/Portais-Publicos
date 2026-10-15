@@ -38,7 +38,8 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 - **Banco:** migrações 0001 a 0020 aplicadas na produção. Permissões por papel, unidades, equipe gestora e página inicial configurável (fase 1A, D-38) já existem.
 - **Permissões fase 1B (D-78):** 0021 aplicada **só na homologação** em 15/10/2026, com a função `convidar-usuario` v4. Falta conferir com usuário de teste (depende de publicar o painel de homologação) e, com aprovação, levar à produção. Plano: `docs/Plano de Migração — Fase 1B.md`.
 - **Painel:** telas de permissões (D-77) e conteúdo por permissão (D-78) na `main` do `portal-municipal`; ainda não publicado na Cloudflare.
-- **Publicar homologação:** botão no GitHub (Actions → "Publicar homologação", D-79), assim que os segredos da Cloudflare estiverem cadastrados.
+- **Publicar homologação:** botão no GitHub (Actions → "Publicar homologação", D-79). Segredos cadastrados; a execução #2 publicou painel e portal com sucesso.
+- **Acesso direto do Claude à Cloudflare:** ainda não funciona no ambiente na nuvem (testado em 15/10/2026, sessão `great-newton`). Veja "Avisos técnicos".
 - **Portal Educação (layout vitrine):** página inicial pronta na homologação. Ordem dos blocos: destaque, Notícias, Em foco, Eventos, Serviços, Equipe gestora (D-56). A última decisão de design é a **D-56**.
 - **Conteúdo fictício na homologação, para a apresentação:** equipe gestora, fotos `ficticio-*`, imagens do "Em foco" (Unsplash) e 6 dos 7 eventos. Tudo isso precisa ser removido antes de publicar (detalhes em `07-pendencias.md`).
 - **Em andamento:** melhorias de design e layout do portal.
@@ -63,11 +64,23 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 ## Avisos técnicos
 
 - **Rede do ambiente na nuvem:** na conta usada em 14/10/2026, a política de rede do ambiente bloqueia `*.supabase.co` e `workers.cloudflare.com`. Com isso, o `npm run dev` do portal não carrega os dados (erro de DNS no workerd). As ferramentas MCP do Supabase funcionam normalmente. Para ver o portal ao vivo nessa conta, é preciso liberar esses domínios em "Network access" do ambiente (https://code.claude.com/docs/en/cloud-environments#network-access). Enquanto isso, dá para avaliar o visual pelas prévias de `docs/previa/`.
+- **Cloudflare no ambiente na nuvem (15/10/2026):** William liberou o acesso no ambiente, mas a sessão `great-newton` (aberta antes da mudança) continuou bloqueada: o proxy responde 403 para `api.cloudflare.com`, `workers.cloudflare.com` e `dash.cloudflare.com`, e não há `CLOUDFLARE_API_TOKEN`/`CLOUDFLARE_ACCOUNT_ID` nas variáveis. Os sites `*.workers.dev` abrem (200), mas isso não dá acesso à conta. Rede e variáveis são lidas quando a sessão abre, então **a verificação deve ser feita numa sessão nova**. Teste rápido:
+  ```
+  env | grep -i cloudflare | sed -E 's/=(.{4}).*/=\1…/'
+  curl -sS -o /dev/null -w '%{http_code}\n' https://api.cloudflare.com/client/v4/ips
+  ```
+  Esperado: as duas variáveis presentes e código 200. Se der 000/403, conferir no ambiente (Edit → Network access) se `api.cloudflare.com` e `workers.cloudflare.com` estão em Allowed domains e se as variáveis estão cadastradas (sem quebra de linha no `CLOUDFLARE_ACCOUNT_ID`). Enquanto isso, publicar pelo GitHub Actions (D-79).
 - O `.env` do `portal/` nunca vai para o git (D-25). Os valores da homologação estão em `portal/.env.example` e `portal/wrangler.jsonc` (a chave publicável não é segredo).
 
 ---
 
 ## Diário das sessões (mais recente no topo)
+
+### 15/10/2026 — sessão `great-newton` (branch `claude/great-newton-epz7ir`)
+- Leitura do `PASSAGEM.md` e verificação do acesso à Cloudflare pedida pelo William. **Resultado: sem acesso** nesta sessão (bloqueio do proxy e sem chave; detalhes e teste em "Avisos técnicos"). Provável causa: a liberação foi feita depois de a sessão abrir.
+- "Estado atual" corrigido: a publicação da homologação pelo GitHub já funciona (antes dizia que faltavam os segredos).
+- Observação: a entrada abaixo está datada de 16/10/2026, mas foi escrita antes desta (15/10). Provavelmente a data certa é 15/10.
+- **Próximo passo:** abrir uma sessão nova e rodar o teste rápido da Cloudflare. O resto segue como no "Estado atual" (Redirect URLs do Supabase, teste da fase 1B na homologação, menu da SMEDU).
 
 ### 16/10/2026 — conta 2 (sessão `fervent-turing`)
 - **Publicação da homologação por botão (D-79):** rotina `.github/workflows/publicar-homologacao.yml` no `portal-municipal` (na `main`). Em GitHub → Actions → "Publicar homologação" → Run workflow, escolhe painel, portal ou os dois. Só homologação; a produção continua manual.
