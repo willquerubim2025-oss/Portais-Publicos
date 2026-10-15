@@ -40,7 +40,7 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 - **Portal Educação (layout vitrine):** página inicial pronta na homologação. Ordem dos blocos: destaque, Notícias, Em foco, Eventos, Serviços, Equipe gestora (D-56). A última decisão de design é a **D-56**.
 - **Conteúdo fictício na homologação, para a apresentação:** equipe gestora, fotos `ficticio-*`, imagens do "Em foco" (Unsplash) e 6 dos 7 eventos. Tudo isso precisa ser removido antes de publicar (detalhes em `07-pendencias.md`).
 - **Em andamento:** melhorias de design e layout do portal.
-- **Aguardando avaliação do William: D-57, cabeçalho claro + destaque compacto, inspirado no portal da PBH.**
+- **APROVADO pelo William em 14/10/2026 (D-75): padrão visual do cabeçalho claro (D-57 a D-74).**
   - Prévia: `docs/previa/cabecalho-claro.html`. Capturas: `docs/design/capturas/d57/`.
   - O código está em `portal-municipal`, branch `claude/fervent-turing-szzwyu` (ainda não está na `main`).
   - Para ligar na homologação: `config.cabecalho.estilo = 'claro'` e `config.cabecalho.botao = {"rotulo": "Fale com a Educação", "url": "/fale-com-o-supervisor"}` em `municipios` (slug `paulinia-educacao`, branch de homologação `kvilgamsyneenjtlllcf`). Depois, publicar o Worker de homologação.
@@ -66,6 +66,18 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 ---
 
 ## Diário das sessões (mais recente no topo)
+
+### 14/10/2026 (fim da noite) — conta 2 (sessão `fervent-turing`)
+- **William aprovou o padrão visual** (D-75): "é a cara do portal". As próximas páginas seguem esse padrão.
+- **Homologação:** configuração ligada pelo MCP (cabeçalho claro, botão "Fale com a Educação", 3 notícias, Raleway). A remoção de Agenda/Transparência do menu continua pendente: o DELETE em `menu_itens` excede o tempo pelo MCP; o UPDATE em `municipios` funcionou.
+- **Páginas internas conferidas** com o CSS atual. Prévias em `docs/previa/claro/` (index, notícias, notícia, matrícula, serviços, supervisor, números, bolsa). Sem rolagem horizontal e com axe limpo. Ajustada a área de toque da trilha de navegação.
+- Atenção: as páginas internas antigas de `docs/previa/` (raiz) têm CSS de 13/10. Use as de `docs/previa/claro/`. A ferramenta `ferramentas/previa_cabecalho_claro.py` agora injeta o `global.css` + `vitrine.css` atuais e funciona em qualquer página da prévia antiga.
+- **Próximos passos (na ordem do Arquivo de Contexto):**
+  1. publicar: merge na `main` do `portal-municipal` e deploy do Worker de homologação (precisa de Cloudflare);
+  2. pendências de conteúdo: menu, fotos do "Em foco", dados a confirmar com a SMEDU;
+  3. **painel administrativo**: permissões fase 1B e telas de papéis, unidades e equipe (D-38; `07-pendencias.md`);
+  4. carga de conteúdo real;
+  5. revisão de acessibilidade manual (leitor de tela).
 
 ### 14/10/2026 (noite, 17) — conta 2 (sessão `fervent-turing`)
 - D-74, a pedido do William: os cards de Serviços ganham uma moldura verde-petróleo ao passar o mouse, como a moldura azul do modelo da PBH. Captura: `servicos-hover.png`.
