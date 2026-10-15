@@ -90,9 +90,9 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 - **Páginas legais publicadas (provisórias):** Ouvidoria, Acesso à Informação e Privacidade, com dados públicos da Ouvidoria da Prefeitura (item 8 do documento). Os 4 links do rodapé funcionam; axe sem violações.
 - **D-88:** Raleway em todo o portal da SMEDU (decisão do William).
 - **Bolsa de Estudo preenchida (provisória)** com os dados públicos do Programa Bolsa Educação (item 13).
-- **D-90, Transparência por tipo de organização:** migração `0022_pacote_por_tipo_ente` no `portal-municipal` (pacote de secretaria; a SMEDU perde as 18 seções de prefeitura vazias e ganha 9 próprias, com "Contas Públicas" levando ao site da Prefeitura). 198 testes ok. **O MCP não conseguiu aplicar (tempo excedido): rodar o arquivo no SQL Editor da homologação** e depois publicar o portal (Actions). Produção: depois, com aprovação.
+- **D-90, Transparência por tipo de organização:** migração `0022_pacote_por_tipo_ente` no `portal-municipal` (pacote de secretaria; a SMEDU perde as 18 seções de prefeitura vazias e ganha 9 próprias, com "Contas Públicas" levando ao site da Prefeitura). 198 testes ok. **Aplicada na homologação** pelo William (SQL Editor) e portal publicado (rotina #8): Transparência com 9 seções de secretaria e "Legislação" sem "municipal". Produção: falta, com aprovação.
 - **Conteúdo provisório (15/10):** Matrícula com as datas de 2027 (item 5), Área do Estudante montada e Ouvidoria ativa nos Serviços (item 15), Bolsa com o período do PAS (19/10 a 11/12). Nenhum card "Em breve" na home.
-- **Próximo passo:** aplicar a 0022 na homologação; depois, prévias atualizadas e melhorias do painel (pré-visualização de rascunho, biblioteca de mídias).
+- **Próximo passo:** aprovação para a 0022 na produção; prévias atualizadas e melhorias do painel (pré-visualização de rascunho, biblioteca de mídias).
 
 ### 15/10/2026 — sessão `nifty-lamport`
 - **Teste da Cloudflare (homologação), tudo funcionando:**
