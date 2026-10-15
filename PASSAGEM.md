@@ -36,7 +36,7 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 ## Estado atual (atualizado em 15/10/2026)
 
 - **Banco:** migrações 0001 a 0020 aplicadas na produção. Permissões por papel, unidades, equipe gestora e página inicial configurável (fase 1A, D-38) já existem.
-- **Permissões fase 1B (D-78):** 0021 aplicada **só na homologação** em 15/10/2026, com a função `convidar-usuario` v4. Falta conferir com usuário de teste (depende de publicar o painel de homologação) e, com aprovação, levar à produção. Plano: `docs/Plano de Migração — Fase 1B.md`.
+- **Permissões fase 1B (D-78):** 0021 aplicada **só na homologação** em 15/10/2026, com a função `convidar-usuario` v4. **Conferida com usuários de teste em 15/10/2026.** Falta, com aprovação, levar à produção. Plano: `docs/Plano de Migração — Fase 1B.md`.
 - **Painel:** telas de permissões (D-77) e conteúdo por permissão (D-78) publicadas na homologação da Cloudflare (testado em 15/10/2026: login responde e aponta para a homologação).
 - **Publicar homologação:** botão no GitHub (Actions → "Publicar homologação", D-79); segredos cadastrados e funcionando.
 - **Portal Educação (layout vitrine):** página inicial pronta na homologação. Ordem dos blocos: destaque, Notícias, Em foco, Eventos, Serviços, Equipe gestora (D-56). A última decisão de design é a **D-56**.
@@ -76,7 +76,9 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 - **Exclusões pelo MCP do Supabase não funcionam na sessão na nuvem:** o `DELETE` sempre excede 60 s (o conector pede confirmação para comando destrutivo e o pedido não aparece). Mesmo depois de o William liberar as permissões nos conectores, continuou igual nesta sessão (talvez valha só para sessões novas). Contorno: SQL Editor do Supabase, escolhendo a branch **homologacao** no topo.
 - **Administrador de teste da SMEDU criado na homologação:** `admin.teste@secke.dev` (papel Administrador; senha passada ao William na conversa). Login e `is_admin` conferidos. Antes não havia administrador, e o painel não editava os Menus da SMEDU. **Apagar antes de qualquer uso real**, junto com o redator.
 - Docs do `portal-municipal` atualizados (`07-pendencias.md`, nota na D-81), na `main`.
-- **Próximo passo:** William testar o painel com o admin e o redator (fase 1B) e decidir a produção.
+- **Fase 1B conferida na homologação (aprovada pelo William):** o redator edita rascunho e não tem opção de publicar; no banco, publicar com o login dele é recusado. O admin publicou e despublicou; o portal atualiza em ~1 min (cache). Notícia "Teste de notícia" ficou despublicada (pode apagar).
+- Visto no teste: notícia sem foto no card grande vira um bloco branco. Proposta de imagem padrão, aguardando o William.
+- **Próximo passo:** com aprovação explícita do William, levar a 0021 e a `convidar-usuario` v4 à produção e rodar `npm run permissoes:sincronizar`.
 
 ### 15/10/2026 — sessão `nifty-lamport`
 - **Teste da Cloudflare (homologação), tudo funcionando:**
