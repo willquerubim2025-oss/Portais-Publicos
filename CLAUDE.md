@@ -6,4 +6,5 @@
 
 - O código do portal e do painel fica no repositório `willquerubim2025-oss/portal-municipal`. Siga o `CLAUDE.md` de lá: decisões em `docs/06-decisoes.md` e pendências em `docs/07-pendencias.md`.
 - **Jeriquara está fora do projeto (D-82):** a dispensa não foi ganha. Não testar, conferir nem planejar nada para Jeriquara. O produto é multi-organização; a organização em foco é a SMEDU de Paulínia.
+- **Pendências com a SMEDU:** tudo o que depende da Secretaria ou da Prefeitura vai para `docs/reuniao/smedu-pendencias.md`. Enquanto a resposta não chega, não parar: usar dado público, foto de banco com licença livre ou placeholder, marcar no documento o que ficou provisório e seguir. Só parar e cobrar se a falta travar o trabalho.
 - Este repositório guarda a especificação, o contexto, o design, as prévias e os documentos de reunião do Portal Educação Paulínia.
