@@ -73,7 +73,8 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 - **Teste da Cloudflare (homologação), tudo funcionando:**
   - portal (`/` e `/noticias`) responde 200, carrega as notícias do banco, sem imagens quebradas nem erros no console;
   - painel abre a tela "Entrar" e fala com o Supabase de **homologação** (`kvilgamsyneenjtlllcf`): um login inválido de propósito devolveu "E-mail ou senha incorretos".
-- **Ainda falta:** entrar com um usuário real (depende das Redirect URLs do Supabase) e testar a fase 1B com um usuário que tenha só `conteudo.editar`.
+- **Redirect URLs (Supabase, homologação):** William incluiu `https://painel-municipal-homologacao.willquerubim2025.workers.dev/**` em 15/10/2026. A entrada antiga `painel-municipal-homologacao.portal-municipal.workers.dev/redefinir-senha` sobrou de antes da D-80 e pode sair.
+- **Ainda falta:** entrar com um usuário real e testar a fase 1B com um usuário que tenha só `conteudo.editar`.
 
 ### 16/10/2026 — conta 2 (sessão `fervent-turing`)
 - **Publicação da homologação por botão (D-79):** rotina `.github/workflows/publicar-homologacao.yml` no `portal-municipal` (na `main`). Em GitHub → Actions → "Publicar homologação" → Run workflow, escolhe painel, portal ou os dois. Só homologação; a produção continua manual.
