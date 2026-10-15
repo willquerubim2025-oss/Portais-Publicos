@@ -73,7 +73,7 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 - **Teste da Cloudflare (homologação), tudo funcionando:**
   - portal (`/` e `/noticias`) responde 200, carrega as notícias do banco, sem imagens quebradas nem erros no console;
   - painel abre a tela "Entrar" e fala com o Supabase de **homologação** (`kvilgamsyneenjtlllcf`): um login inválido de propósito devolveu "E-mail ou senha incorretos".
-- **Redirect URLs (Supabase, homologação):** William incluiu `https://painel-municipal-homologacao.willquerubim2025.workers.dev/**` em 15/10/2026. A entrada antiga `painel-municipal-homologacao.portal-municipal.workers.dev/redefinir-senha` sobrou de antes da D-80 e pode sair.
+- **Redirect URLs (Supabase, homologação):** William incluiu `https://painel-municipal-homologacao.willquerubim2025.workers.dev/**` em 15/10/2026. A entrada antiga do endereço de antes da D-80 foi removida; a de `localhost:5190` fica, para testar o painel no computador.
 - **Ainda falta:** entrar com um usuário real e testar a fase 1B com um usuário que tenha só `conteudo.editar`.
 
 ### 16/10/2026 — conta 2 (sessão `fervent-turing`)
