@@ -92,7 +92,11 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 - **Bolsa de Estudo preenchida (provisória)** com os dados públicos do Programa Bolsa Educação (item 13).
 - **D-90, Transparência por tipo de organização:** migração `0022_pacote_por_tipo_ente` no `portal-municipal` (pacote de secretaria; a SMEDU perde as 18 seções de prefeitura vazias e ganha 9 próprias, com "Contas Públicas" levando ao site da Prefeitura). 198 testes ok. **Aplicada na homologação** pelo William (SQL Editor) e portal publicado (rotina #8): Transparência com 9 seções de secretaria e "Legislação" sem "municipal". Produção: falta, com aprovação.
 - **Conteúdo provisório (15/10):** Matrícula com as datas de 2027 (item 5), Área do Estudante montada e Ouvidoria ativa nos Serviços (item 15), Bolsa com o período do PAS (19/10 a 11/12). Nenhum card "Em breve" na home.
-- **Próximo passo:** aprovação para a 0022 na produção; prévias atualizadas e melhorias do painel (pré-visualização de rascunho, biblioteca de mídias).
+- **"Sobre a Secretaria"** escrita (provisória, dados públicos), publicada e no menu "A Secretaria".
+- **Prévias novas:** `docs/previa/` agora é capturada do portal publicado (`ferramentas/capturar_previa.py`): 24 páginas, abrem sem internet.
+- **D-91, pré-visualização de rascunho:** botão "Pré-visualizar no site" no editor de notícias; link temporário (30 min) em `/previa/<token>`. Migração `0023_previa_rascunho`. 208 testes ok.
+- **Para o William rodar no SQL Editor** (o MCP não aplica migração): homologação → `0023`; produção (aprovada em 15/10) → `0022` e depois `0023`. Depois, publicar painel e portal (Actions).
+- **Próximo passo:** biblioteca de mídias no painel.
 
 ### 15/10/2026 — sessão `nifty-lamport`
 - **Teste da Cloudflare (homologação), tudo funcionando:**
