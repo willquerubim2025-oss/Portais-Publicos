@@ -74,9 +74,9 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 ### 15/10/2026 (tarde) — sessão `great-newton`
 - **Cabeçalho da SMEDU arrumado (homologação).** Numa sessão paralela, um pedido pelo chat gerou a D-81 (menu menor no CSS) e a troca das fontes para Raleway; a D-81 foi revertida lá mesmo. O menu continuava em duas linhas porque **Agenda e Transparência nunca tinham saído do banco** (pendência desde a D-64). William apagou os dois itens pelo SQL Editor (branch homologacao). Conferido: 6 itens, uma linha só, menu em 0,88rem, Raleway mantida.
 - **Exclusões pelo MCP do Supabase não funcionam na sessão na nuvem:** o `DELETE` sempre excede 60 s (o conector pede confirmação para comando destrutivo e o pedido não aparece). Mesmo depois de o William liberar as permissões nos conectores, continuou igual nesta sessão (talvez valha só para sessões novas). Contorno: SQL Editor do Supabase, escolhendo a branch **homologacao** no topo.
-- **A SMEDU não tem administrador na homologação** (só `redator.teste@secke.dev`), então o painel não edita Menus dela. Registrado em `portal-municipal/docs/07-pendencias.md`.
+- **Administrador de teste da SMEDU criado na homologação:** `admin.teste@secke.dev` (papel Administrador; senha passada ao William na conversa). Login e `is_admin` conferidos. Antes não havia administrador, e o painel não editava os Menus da SMEDU. **Apagar antes de qualquer uso real**, junto com o redator.
 - Docs do `portal-municipal` atualizados (`07-pendencias.md`, nota na D-81), na `main`.
-- **Próximo passo:** William testar o usuário redator (fase 1B) e decidir a produção; vincular um administrador de teste da SMEDU na homologação.
+- **Próximo passo:** William testar o painel com o admin e o redator (fase 1B) e decidir a produção.
 
 ### 15/10/2026 — sessão `nifty-lamport`
 - **Teste da Cloudflare (homologação), tudo funcionando:**
