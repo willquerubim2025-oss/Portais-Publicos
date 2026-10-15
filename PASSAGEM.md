@@ -74,7 +74,8 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
   - portal (`/` e `/noticias`) responde 200, carrega as notícias do banco, sem imagens quebradas nem erros no console;
   - painel abre a tela "Entrar" e fala com o Supabase de **homologação** (`kvilgamsyneenjtlllcf`): um login inválido de propósito devolveu "E-mail ou senha incorretos".
 - **Redirect URLs (Supabase, homologação):** William incluiu `https://painel-municipal-homologacao.willquerubim2025.workers.dev/**` em 15/10/2026. A entrada antiga do endereço de antes da D-80 foi removida; a de `localhost:5190` fica, para testar o painel no computador.
-- **Ainda falta:** entrar com um usuário real e testar a fase 1B com um usuário que tenha só `conteudo.editar`.
+- **Usuário de teste da fase 1B (só homologação):** `redator.teste@secke.dev`, papel novo **"Redator (teste)"** (`redator-teste`) da SMEDU, só com `conteudo.editar` (rede); não está em `membros`. A senha foi passada ao William na conversa. Login conferido no painel publicado: o menu mostra só as telas de conteúdo (Notícias, Documentos, Páginas, Serviços, Agenda, Perguntas, Banners, Chamados), sem as de administração. **Apagar o usuário e o papel antes de qualquer uso real.**
+- **Ainda falta:** William testar com esse usuário e, com aprovação, levar a 0021 à produção. Antes, a fase 1B com um usuário que tenha só `conteudo.editar`.
 
 ### 16/10/2026 — conta 2 (sessão `fervent-turing`)
 - **Publicação da homologação por botão (D-79):** rotina `.github/workflows/publicar-homologacao.yml` no `portal-municipal` (na `main`). Em GitHub → Actions → "Publicar homologação" → Run workflow, escolhe painel, portal ou os dois. Só homologação; a produção continua manual.
