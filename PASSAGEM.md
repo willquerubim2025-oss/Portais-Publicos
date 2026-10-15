@@ -36,7 +36,7 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 ## Estado atual (atualizado em 15/10/2026)
 
 - **Jeriquara está fora (D-82):** dispensa não ganha; não fazer nada para Jeriquara. O produto é multi-organização; a organização em foco é a SMEDU.
-- **Banco:** migrações 0001 a 0021 aplicadas na produção. Permissões por papel, unidades, equipe gestora e página inicial configurável (fase 1A, D-38) já existem.
+- **Banco:** migrações 0001 a 0023 aplicadas na produção e na homologação. Permissões por papel, unidades, equipe gestora e página inicial configurável (fase 1A, D-38) já existem.
 - **Permissões fase 1B (D-78/D-83):** 0021 e `convidar-usuario` na **homologação e na produção** desde 15/10/2026; conferida com usuários de teste na homologação. Plano: `docs/Plano de Migração — Fase 1B.md`.
 - **Painel:** telas de permissões (D-77) e conteúdo por permissão (D-78) publicadas na homologação da Cloudflare (testado em 15/10/2026: login responde e aponta para a homologação).
 - **Publicar homologação:** botão no GitHub (Actions → "Publicar homologação", D-79); segredos cadastrados e funcionando.
@@ -95,7 +95,7 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 - **"Sobre a Secretaria"** escrita (provisória, dados públicos), publicada e no menu "A Secretaria".
 - **Prévias novas:** `docs/previa/` agora é capturada do portal publicado (`ferramentas/capturar_previa.py`): 24 páginas, abrem sem internet.
 - **D-91, pré-visualização de rascunho:** botão "Pré-visualizar no site" no editor de notícias; link temporário (30 min) em `/previa/<token>`. Migração `0023_previa_rascunho`. 208 testes ok.
-- **Para o William rodar no SQL Editor** (o MCP não aplica migração): homologação → `0023`; produção (aprovada em 15/10) → `0022` e depois `0023`. Depois, publicar painel e portal (Actions).
+- **Migrações aplicadas pelo William no SQL Editor (15/10):** `0022` e `0023` na **produção** e na **homologação** (conferido nos dois bancos). Painel e portal da homologação publicados; pré-visualização testada de ponta a ponta. **O MCP do Supabase não aplica migração nesta conta (sempre excede o tempo): usar o SQL Editor, com atenção ao seletor de branch no topo.**
 - **Próximo passo:** biblioteca de mídias no painel.
 
 ### 15/10/2026 — sessão `nifty-lamport`
