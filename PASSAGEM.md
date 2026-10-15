@@ -71,7 +71,7 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 
 ### 16/10/2026 — conta 2 (sessão `fervent-turing`)
 - **Publicação da homologação por botão (D-79):** rotina `.github/workflows/publicar-homologacao.yml` no `portal-municipal` (na `main`). Em GitHub → Actions → "Publicar homologação" → Run workflow, escolhe painel, portal ou os dois. Só homologação; a produção continua manual.
-- **Falta (William):** cadastrar os segredos `CLOUDFLARE_API_TOKEN` (modelo "Edit Cloudflare Workers") e `CLOUDFLARE_ACCOUNT_ID` no repositório e rodar a rotina. Depois, incluir o endereço do painel de homologação em Redirect URLs do Supabase (branch de homologação).
+- **Segredos cadastrados e rotina rodada com sucesso (execução #2, painel e portal verdes).** A #1 falhou porque o `CLOUDFLARE_ACCOUNT_ID` foi colado com uma quebra de linha; a rotina agora limpa espaços e quebras dos segredos. Depois, incluir o endereço do painel de homologação em Redirect URLs do Supabase (branch de homologação).
 - **Produção da fase 1B:** não aplicada. William ainda não confirmou; o combinado é testar antes na homologação com o painel publicado.
 
 ### 15/10/2026 (manhã) — conta 2 (sessão `fervent-turing`)
