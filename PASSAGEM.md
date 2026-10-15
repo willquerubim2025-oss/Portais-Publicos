@@ -19,7 +19,7 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 | **Regras do código** | `portal-municipal/CLAUDE.md` |
 | **Especificação e contexto do Portal Educação** | Este repositório: `docs/Especificação do Brainstorm.md`, `docs/Arquivo de Contexto.md` |
 | **Diagnóstico do banco e plano da fase 1** | Este repositório: `docs/Banco de Dados — Diagnóstico e Decisões.md`, `docs/Plano de Migração — Fase 1.md` |
-| **Prévias navegáveis (HTML autocontido, abre sem internet)** | Este repositório: `docs/previa/` (`index.html` é a página inicial) |
+| **Prévias navegáveis (HTML autocontido, abre sem internet)** | Este repositório: `docs/previa/` (`index.html` é a página inicial). Todas no padrão aprovado. Para gerá-las, veja `ferramentas/LEIA-ME.md` |
 | **Sistema visual, marca e capturas** | Este repositório: `docs/design/` |
 | **Dados a confirmar com a SMEDU** | Este repositório: `docs/reuniao/smedu-dados-a-confirmar.md` |
 | **Supabase, produção** | Projeto **Portal Municipal**, ref `qgywucdnaeheqndcxtho` (sa-east-1) |
@@ -40,7 +40,7 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 - **Conteúdo fictício na homologação, para a apresentação:** equipe gestora, fotos `ficticio-*`, imagens do "Em foco" (Unsplash) e 6 dos 7 eventos. Tudo isso precisa ser removido antes de publicar (detalhes em `07-pendencias.md`).
 - **Em andamento:** melhorias de design e layout do portal.
 - **APROVADO pelo William em 14/10/2026 (D-75): padrão visual do cabeçalho claro (D-57 a D-74).**
-  - Prévia: `docs/previa/cabecalho-claro.html`. Capturas: `docs/design/capturas/d57/`.
+  - Prévias: `docs/previa/` (desde D-76, uma só versão). Capturas: `docs/design/capturas/d57/`.
   - O código está em `portal-municipal`, branch `claude/fervent-turing-szzwyu` (ainda não está na `main`).
   - Para ligar na homologação: `config.cabecalho.estilo = 'claro'` e `config.cabecalho.botao = {"rotulo": "Fale com a Educação", "url": "/fale-com-o-supervisor"}` em `municipios` (slug `paulinia-educacao`, branch de homologação `kvilgamsyneenjtlllcf`). Depois, publicar o Worker de homologação.
   - D-58 (bloco de cima com 1290 px), D-60 (todo o conteúdo nessa largura), D-61 (seções sem fundo, régua na largura do conteúdo), D-62 (fonte Raleway no cabeçalho, `tema.fonte_cabecalho = 'Raleway'`), D-63/D-64 (cabeçalho em uma linha; largura de 1290 px; menu sem Agenda e Transparência — remover no banco), D-65 (títulos das seções sem faixa), D-66 (destaque deslizando; botão "Fale com a Educação"), D-67 (Serviços no estilo do modelo), D-68 (destaque a cada 4,5 s), D-69 (cabeçalho 10% mais alto), D-70 (Em foco mais perto das Notícias), D-71 (sem a faixa colorida), D-72 (rodapé no estilo da Prefeitura), D-73 (revisão do celular), D-74 (moldura verde nos cards de Serviços) e D-59 (Notícias com 3 cards, `config.home.noticias_fileira = 3`) estão no mesmo branch.
@@ -65,6 +65,11 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 ---
 
 ## Diário das sessões (mais recente no topo)
+
+### 15/10/2026 (madrugada, 2) — conta 2 (sessão `fervent-turing`)
+- D-76, a pedido do William ("não faz sentido continuar com dois lugares"): **uma só versão**.
+  - **Prévias:** `docs/previa/` agora contém as 15 páginas no padrão aprovado, com os nomes originais. Saíram `cabecalho-claro.html`, `docs/previa/claro/`, os testes de cor `cabecalho-00a693-*` e o zip antigo. A prévia de 13/10 ficou só como base da ferramenta, em `ferramentas/base-previa-13-10/`.
+  - **Código:** no `portal-municipal`, o cabeçalho claro passou a ser o **padrão do layout vitrine**. Não depende mais de `config.cabecalho.estilo = 'claro'`; o cabeçalho antigo em carrossel só volta com `estilo: 'carrossel'`.
 
 ### 15/10/2026 (madrugada) — conta 2 (sessão `fervent-turing`)
 - Com a autorização do William, o branch `claude/fervent-turing-szzwyu` foi juntado na **`main`** dos dois repositórios (avanço direto, sem conflitos; build conferido antes). A `main` é a referência a partir de agora.

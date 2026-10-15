@@ -1,4 +1,5 @@
-# Gera a prévia do cabeçalho claro (D-57) a partir da prévia autocontida de 13/10:
+# Gera as prévias do portal no padrão visual aprovado (D-57 a D-76) a partir da prévia autocontida de 13/10
+# (ferramentas/base-previa-13-10/):
 # mesma marcação do Base.astro/Destaque.astro novos + o bloco de CSS D-57 do vitrine.css.
 import base64, sys, re
 from bs4 import BeautifulSoup
@@ -129,6 +130,5 @@ if (cabClaro) { var nav = cabClaro.querySelector('.menu-principal'), lista = nav
   medir(); addEventListener('resize', medir); document.fonts && document.fonts.ready.then(medir); }
 </script>'''))
 out = str(d)
-out = out.replace('<title>', '<title>Prévia cabeçalho claro (D-57) · ', 1)
 open(saida, 'w', encoding='utf-8').write(out)
 print('ok', len(out))
