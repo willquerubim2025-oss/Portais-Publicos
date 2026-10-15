@@ -60,3 +60,12 @@ Cada item traz: o que precisamos · onde será usado · o que muda conforme a re
 - **Onde será usado:** seção Equipe gestora na home e na página Estrutura organizacional. As duas estão vazias hoje. O card "Secretaria de Educação" leva à Estrutura organizacional.
 - **O que muda:** a seção aparece quando houver nomes.
 - **Bloqueia?** Não. Fica oculta enquanto vazia.
+
+## 8. Páginas obrigatórias do rodapé: Acesso à Informação, Ouvidoria e Privacidade
+- **O que precisamos:**
+  - **Acesso à Informação e e-SIC (Lei 12.527/2011):** o link do pedido eletrônico de informação da Prefeitura (o e-SIC atende a Secretaria ou ela tem canal próprio?), endereço e horário do atendimento presencial, prazos e como recorrer;
+  - **Ouvidoria (Lei 13.460/2017):** o canal da Ouvidoria que atende a Educação (link, e-mail, telefone e endereço) e se a Secretaria tem ouvidor próprio;
+  - **Privacidade (LGPD, Lei 13.709/2018):** nome e e-mail do encarregado de dados (DPO) da Prefeitura e, se existir, a política de privacidade oficial para seguirmos o mesmo texto.
+- **Onde será usado:** links do rodapé de todas as páginas (Acesso à Informação, Ouvidoria, Privacidade) e o card "Ouvidoria" dos Serviços.
+- **O que muda:** hoje essas três páginas estão em rascunho e os links do rodapé abrem "página não encontrada". Com os dados, escrevemos e publicamos as três. A página de **Acessibilidade** já foi escrita e publicada na homologação em 15/10/2026, com o e-mail e o telefone da Secretaria (confirmar se são esses os canais para relatar problemas).
+- **Bloqueia?** Não para a homologação; **sim antes de ir ao ar** (são exigências legais e entram na avaliação do PNTP).
