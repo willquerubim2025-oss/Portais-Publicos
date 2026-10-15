@@ -21,7 +21,7 @@ Cada item traz: o que precisamos · o que está no site hoje · onde será usado
 | 5 | Matrícula 2027 | ciclo de 2026 | Sim, antes do período de matrícula |
 | 6 | Números da rede | números da imprensa e do Censo | Não |
 | 7 | Equipe gestora e organograma | 10 pessoas **fictícias** com fotos de banco | Sim (dados fictícios) |
-| 8 | Páginas legais: Acesso à Informação, Ouvidoria, Privacidade | rascunho (link dá "não encontrada") | Sim (exigência legal) |
+| 8 | Páginas legais: Acesso à Informação, Ouvidoria, Privacidade | **provisórias** com dados públicos (15/10) | Sim (confirmar antes de ir ao ar) |
 | 9 | Autorização de imagem das fotos | fotos novas do "Em foco" e notícias com crianças | Sim (ECA/LGPD) |
 | 10 | Brasão em alta resolução | brasão de 252 px | Não |
 | 11 | Dados institucionais e acesso | sem domínio, IBGE, CNPJ e administrador | Sim |
@@ -97,7 +97,10 @@ Fonte da carga inicial (12/10/2026, homologação): a página da Secretaria de E
   - **Ouvidoria (Lei 13.460/2017):** o canal da Ouvidoria que atende a Educação (link, e-mail, telefone e endereço) e se a Secretaria tem ouvidor próprio;
   - **Privacidade (LGPD, Lei 13.709/2018):** nome e e-mail do encarregado de dados (DPO) da Prefeitura e, se existir, a política de privacidade oficial para seguirmos o mesmo texto.
 - **Onde será usado:** links do rodapé de todas as páginas (Acesso à Informação, Ouvidoria, Privacidade) e o card "Ouvidoria" dos Serviços.
-- **O que muda:** hoje essas três páginas estão em rascunho e os links do rodapé abrem "página não encontrada". Com os dados, escrevemos e publicamos as três. A página de **Acessibilidade** já foi escrita e publicada na homologação em 15/10/2026, com o e-mail e o telefone da Secretaria (confirmar se são esses os canais para relatar problemas).
+- **No site hoje (provisório, desde 15/10/2026):** as três páginas foram escritas e publicadas na homologação com **dados públicos**, e estão marcadas no banco com `legado.provisorio = true`:
+  - Ouvidoria e Acesso à Informação apontam para a Ouvidoria da Prefeitura: telefone 156 ou (19) 3874-5600, `ouvidoria@paulinia.sp.gov.br` (achado em página da Câmara de Paulínia, que replica os contatos da Prefeitura; o site da Prefeitura esconde o e-mail), Paço Municipal, de segunda a sexta, das 8h às 17h, e o link `https://www.paulinia.sp.gov.br/portal/ouvidoria`. **Não achamos e-SIC próprio da Prefeitura** (a Câmara usa o Fala.BR);
+  - Privacidade descreve o que o portal coleta (sem cadastro, sem cookies de rastreamento, só preferências de acessibilidade no navegador) e manda os pedidos da LGPD para a Ouvidoria, **sem nome de encarregado**;
+  - **confirmar:** o canal de pedido de informação (e-SIC ou Fala.BR?), o e-mail da Ouvidoria e o encarregado de dados. Fontes: [Ouvidoria da Câmara de Paulínia](https://www.camarapaulinia.sp.gov.br/ouvidoria/) e [Ouvidoria da Prefeitura](https://www.paulinia.sp.gov.br/portal/ouvidoria). A página de **Acessibilidade** já foi escrita e publicada na homologação em 15/10/2026, com o e-mail e o telefone da Secretaria (confirmar se são esses os canais para relatar problemas).
 - **Bloqueia?** Não para a homologação; **sim antes de ir ao ar** (são exigências legais e entram na avaliação do PNTP).
 
 ## 9. Autorização de imagem das fotos

@@ -86,7 +86,10 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 - **Dica técnica:** nesta sessão o `npm run dev` do portal funcionou com os dados da homologação (`.env` com `DOMINIO_DEV=educacao.paulinia.teste`).
 - **D-87:** cabeçalho branco 15% mais alto no computador (116 → 133 px, a partir de 1181 px; celular igual), a pedido do William. Publicado na homologação.
 - **Revisão das páginas internas (15/10/2026):** 21 endereços, no computador e no celular: acessibilidade (axe) sem violações e sem rolagem horizontal. Problema achado: os links do rodapé **Acesso à Informação, Ouvidoria e Privacidade** abrem "página não encontrada", porque as páginas estão em rascunho e dependem de dados da Prefeitura (pedidos no item 8 de `docs/reuniao/smedu-pendencias.md`). A página de **Acessibilidade** foi escrita e publicada na homologação.
-- **Próximo passo:** conteúdo real da SMEDU (equipe, fotos, textos) e os dados do item 8 para as páginas obrigatórias.
+- **Documento único de pendências com a SMEDU (D-89):** `docs/reuniao/smedu-pendencias.md` (era `smedu-dados-a-confirmar.md`), com 16 itens, resumo e o que está provisório no site. Regra do William: não parar esperando a Prefeitura; usar dado público, foto de banco ou placeholder e marcar no documento. Só parar se travar.
+- **Páginas legais publicadas (provisórias):** Ouvidoria, Acesso à Informação e Privacidade, com dados públicos da Ouvidoria da Prefeitura (item 8 do documento). Os 4 links do rodapé funcionam; axe sem violações.
+- **D-88:** Raleway em todo o portal da SMEDU (decisão do William).
+- **Próximo passo:** seguir a lista de `smedu-pendencias.md` com placeholders onde der; conteúdo real quando chegar.
 
 ### 15/10/2026 — sessão `nifty-lamport`
 - **Teste da Cloudflare (homologação), tudo funcionando:**
