@@ -53,7 +53,7 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 - **D-81 (menu em 0,8rem) foi revertida** no mesmo dia, a pedido do William: o tamanho do menu do cabeçalho continua 0,88rem. Não mexer no CSS do cabeçalho sem pedido explícito.
 - Veja também as propostas abertas abaixo.
 
-### Propostas de design em aberto (revisão de 14/10/2026, aguardando escolha do William)
+### Propostas de design da revisão de 14/10/2026 (tratadas em 15/10/2026: ver D-84 a D-86 no `portal-municipal`)
 1. **Espaços vazios entre as seções:** antes de cada régua de título há uma faixa vazia de cerca de 70 px, com o fundo da seção anterior ou seguinte. A régua deveria colar no início da seção.
 2. **Cabeçalho no celular:** o botão de acessibilidade fica por cima da palavra "Educação" no nome da Secretaria.
 3. **Notícias no celular:** os 7 cards ficam empilhados com foto grande, e a seção ocupa várias telas. Opções: carrossel com deslize lateral, ou cards compactos com foto pequena ao lado.
@@ -81,7 +81,10 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 - Visto no teste: notícia sem foto no card grande vira um bloco branco. Proposta de imagem padrão, aguardando o William.
 - **Fase 1B na produção (D-83, aprovada pelo William):** 0021 aplicada, `convidar-usuario` publicada (v2 na produção, mesmo código da v4 da homologação). Sincronizar não foi preciso: o catálogo da produção já é igual ao do código.
 - **Jeriquara fora do projeto (D-82):** a dispensa não foi ganha; o site de Jeriquara não será feito. Dados ficam no banco sem manutenção: **não testar, conferir nem planejar nada para Jeriquara.** O produto é multi-organização; o foco é a SMEDU. Registrado no `CLAUDE.md` e nos docs do `portal-municipal`.
-- **Próximo passo:** William escolhe: card de notícia sem foto, fotos do "Em foco", conteúdo real ou as propostas de design.
+- **Fotos novas do "Em foco" na homologação:** `carga/foco-matricula-2.jpg` e `carga/foco-bolsa-2.jpg` (enviadas com o admin de teste pela API do Storage), `config.home.foco` e textos alternativos trocados. Antes de ir ao ar: autorização de imagem da foto da criança.
+- **Design (publicado na homologação, rotina #5):** D-84 notícia sem foto com imagem padrão; D-85 Notícias no celular em lista compacta (página a 390 px: de ~8.740 para ~7.510 px); D-86 equipe ocupa a fileira inteira. Das 6 propostas de 14/10: 2 e 5 já estavam resolvidas (D-73, D-72), 1 já reduzida (D-61/D-70) e **4 (destaque de ponta a ponta) não foi feita porque contraria a D-58**, aprovada pelo William. Conferido: 0 problemas de 320 a 768 px e axe sem violações.
+- **Dica técnica:** nesta sessão o `npm run dev` do portal funcionou com os dados da homologação (`.env` com `DOMINIO_DEV=educacao.paulinia.teste`).
+- **Próximo passo:** William avalia o site no celular e no computador; depois, conteúdo real da SMEDU.
 
 ### 15/10/2026 — sessão `nifty-lamport`
 - **Teste da Cloudflare (homologação), tudo funcionando:**
