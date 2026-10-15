@@ -18,7 +18,7 @@ Cada item traz: o que precisamos · o que está no site hoje · onde será usado
 | 2 | Supervisores de cada escola | "Supervisor ainda não informado" | Sim (função principal do "Fale com o Supervisor") |
 | 3 | Erros na lista de escolas | dados da fonte pública | Não |
 | 4 | Etapas de cada escola | só creches, EMEIs e algumas | Não |
-| 5 | Matrícula 2027 | ciclo de 2026 | Sim, antes do período de matrícula |
+| 5 | Matrícula 2027 | **provisória**: datas de 2027 de notícias (15/10) | Sim, antes do período de matrícula |
 | 6 | Números da rede | números da imprensa e do Censo | Não |
 | 7 | Equipe gestora e organograma | 10 pessoas **fictícias** com fotos de banco | Sim (dados fictícios) |
 | 8 | Páginas legais: Acesso à Informação, Ouvidoria, Privacidade | **provisórias** com dados públicos (15/10) | Sim (confirmar antes de ir ao ar) |
@@ -28,7 +28,7 @@ Cada item traz: o que precisamos · o que está no site hoje · onde será usado
 | 12 | Menu principal | 6 itens definidos pela Secke | Não |
 | 13 | Bolsa de Estudo | **provisória** com dados públicos (15/10) | Não |
 | 14 | Agenda de eventos | 6 eventos **fictícios** + 1 real | Sim (dados fictícios) |
-| 15 | Serviços "Em breve" | Área do Estudante e Ouvidoria marcadas "Em breve" | Não |
+| 15 | Área do Estudante e Ouvidoria | **provisórias**: montadas com o que o portal já tem (15/10) | Não |
 | 16 | Notícias | 7 notícias do site da Prefeitura, datas aproximadas | Não |
 | 17 | Transparência: contas públicas e conselhos | atalho para o site da Prefeitura; conselhos sem documentos | Não |
 
@@ -68,7 +68,8 @@ Fonte da carga inicial (12/10/2026, homologação): a página da Secretaria de E
   - o cronograma de 2027 (Fundamental e EJA);
   - os documentos exigidos no Fundamental;
   - a faixa etária de cada ano.
-- **Onde será usado:** página Matrícula Escolar. Hoje ela mostra o ciclo de 2026 e avisa que o de 2027 será publicado.
+- **No site hoje (provisório, desde 15/10/2026):** a página Matrícula Escolar ganhou o bloco "Vagas para 2027", com datas de notícias locais: **Ensino Fundamental até 23/10/2026** (só para quem ainda não é da rede) e **creches e EMEIs até 11/12/2026**, pelo site `paulinia.sp.gov.br/matriculaescolar`. **Confirmar:** uma das notícias dá 12/11 no título para creches e EMEIs; e há uma notícia da Prefeitura sobre "suspensão temporária de inscrições e transferências para a Educação Infantil" (ver se ainda vale). O resto da página (documentos, SISS, EJA) é do ciclo de 2026.
+- **Onde será usado:** página Matrícula Escolar e o card da página inicial.
 - **O que muda:** o texto da página e, talvez, um aviso ou slide na home durante o período.
 - **Bloqueia?** Não para a homologação; sim antes do período de matrícula.
 
@@ -132,7 +133,7 @@ Fonte da carga inicial (12/10/2026, homologação): a página da Secretaria de E
 
 ## 13. Bolsa de Estudo
 - **O que precisamos:** as regras do programa municipal de bolsas: quem pode se inscrever, prazos, documentos, como sai o resultado e como renovar.
-- **No site hoje (provisório, desde 15/10/2026):** a página `/servicos/bolsa-de-estudo` foi preenchida com dados públicos do **Programa Bolsa Educação** (notícias da Prefeitura e imprensa local; `legado.provisorio = true`): 10 anos de residência, renda de até 10 salários mínimos, bolsa de 100% (até 6 salários) ou 50% (6,1 a 10), cadastro no PAS até 11/12/2026 para o ciclo 2027 pelo telefone (19) 3874-5741, 20 horas mensais de contrapartida, 420 contemplados em 2026 e link para `paulinia.sp.gov.br/bolsaeducacao`.
+- **No site hoje (provisório, desde 15/10/2026):** a página `/servicos/bolsa-de-estudo` foi preenchida com dados públicos do **Programa Bolsa Educação** (notícias da Prefeitura e imprensa local; `legado.provisorio = true`): 10 anos de residência, renda de até 10 salários mínimos, bolsa de 100% (até 6 salários) ou 50% (6,1 a 10), cadastro no PAS de 19/10 a 11/12/2026 para o ciclo 2027 pelo telefone (19) 3874-5741, 20 horas mensais de contrapartida, 420 contemplados em 2026 e link para `paulinia.sp.gov.br/bolsaeducacao`.
 - **Confirmar:** se o programa é da Secretaria de Educação (a página fica no portal dela), o limite de renda e as datas de 2027, a lista de instituições conveniadas e se a nota do Enem 2026 conta na seleção.
 - **Bloqueia ir ao ar?** Não, mas é um dos dois destaques do "Em foco".
 
@@ -141,9 +142,10 @@ Fonte da carga inicial (12/10/2026, homologação): a página da Secretaria de E
 - **No site hoje:** 6 eventos **fictícios** e 4 órgãos fictícios, para a apresentação. Só a prova do Vestibulinho (18/10) é real.
 - **Bloqueia ir ao ar?** Sim: os eventos fictícios precisam sair.
 
-## 15. Serviços marcados "Em breve"
+## 15. Área do Estudante e Ouvidoria (eram "Em breve")
 - **O que precisamos:** decidir com a Secretaria o que entra em **Área do Estudante** (estudo, reforço, vestibulinhos, contato com professores) e como funciona a **Ouvidoria** da Educação (ligada ao item 8).
-- **No site hoje:** os dois cards aparecem nos Serviços com a etiqueta "Em breve".
+- **No site hoje (provisório, desde 15/10/2026):** os dois cards saíram do "Em breve". A **Área do Estudante** reúne o que o portal já tem: Vestibulinho do CEMEP e da ETEP (prova em 18/10), Bolsa Educação, uniforme 2027, matrícula, busca de escolas e agenda. A descrição antiga falava em "reforço e contato com professores", que não existem: saiu. O card **Ouvidoria** leva à página /ouvidoria (a descrição antiga dizia "por áudio ou texto", que não existe).
+- **Confirmar:** se a Secretaria quer reforço escolar, materiais de estudo ou contato com professores na Área do Estudante, e se haverá ouvidoria própria da Educação (com áudio, como a especificação sugeria).
 - **Bloqueia ir ao ar?** Não. Podem sair da página até ficarem prontos.
 
 ## 16. Notícias
