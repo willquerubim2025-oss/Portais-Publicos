@@ -47,7 +47,9 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
   - O código já está na `main` do `portal-municipal` e é o padrão do vitrine (D-76).
   - Para ligar na homologação: `config.cabecalho.estilo = 'claro'` e `config.cabecalho.botao = {"rotulo": "Fale com a Educação", "url": "/fale-com-o-supervisor"}` em `municipios` (slug `paulinia-educacao`, branch de homologação `kvilgamsyneenjtlllcf`). Depois, publicar o Worker de homologação.
   - D-58 (bloco de cima com 1290 px), D-60 (todo o conteúdo nessa largura), D-61 (seções sem fundo, régua na largura do conteúdo), D-62 (fonte Raleway no cabeçalho, `tema.fonte_cabecalho = 'Raleway'`), D-63/D-64 (cabeçalho em uma linha; largura de 1290 px; menu sem Agenda e Transparência — remover no banco), D-65 (títulos das seções sem faixa), D-66 (destaque deslizando; botão "Fale com a Educação"), D-67 (Serviços no estilo do modelo), D-68 (destaque a cada 4,5 s), D-69 (cabeçalho 10% mais alto), D-70 (Em foco mais perto das Notícias), D-71 (sem a faixa colorida), D-72 (rodapé no estilo da Prefeitura), D-73 (revisão do celular), D-74 (moldura verde nos cards de Serviços) e D-59 (Notícias com 3 cards, `config.home.noticias_fileira = 3`) estão no mesmo branch.
-  - Falta: remover Agenda e Transparência do menu da SMEDU na homologação (pelo painel) e publicar o Worker de homologação.
+  - ~~Remover Agenda e Transparência do menu da SMEDU na homologação~~ (feito em 15/10/2026). O cabeçalho está em uma linha (brasão + nome, 6 itens do menu, lupa, botão), conferido de 1280 a 1920 px.
+- **Fonte Raleway em todo o portal da SMEDU (homologação):** `tema.fonte_texto` e `tema.fonte_titulos` = Raleway desde 15/10/2026, a pedido do William (ele quer manter). Era Prompt.
+- **D-81 (menu em 0,8rem) foi revertida** no mesmo dia, a pedido do William: o tamanho do menu do cabeçalho continua 0,88rem. Não mexer no CSS do cabeçalho sem pedido explícito.
 - Veja também as propostas abertas abaixo.
 
 ### Propostas de design em aberto (revisão de 14/10/2026, aguardando escolha do William)
@@ -68,6 +70,13 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 ---
 
 ## Diário das sessões (mais recente no topo)
+
+### 15/10/2026 (tarde) — sessão `great-newton`
+- **Cabeçalho da SMEDU arrumado (homologação).** Numa sessão paralela, um pedido pelo chat gerou a D-81 (menu menor no CSS) e a troca das fontes para Raleway; a D-81 foi revertida lá mesmo. O menu continuava em duas linhas porque **Agenda e Transparência nunca tinham saído do banco** (pendência desde a D-64). William apagou os dois itens pelo SQL Editor (branch homologacao). Conferido: 6 itens, uma linha só, menu em 0,88rem, Raleway mantida.
+- **Exclusões pelo MCP do Supabase não funcionam na sessão na nuvem:** o `DELETE` sempre excede 60 s (o conector pede confirmação para comando destrutivo e o pedido não aparece). Mesmo depois de o William liberar as permissões nos conectores, continuou igual nesta sessão (talvez valha só para sessões novas). Contorno: SQL Editor do Supabase, escolhendo a branch **homologacao** no topo.
+- **A SMEDU não tem administrador na homologação** (só `redator.teste@secke.dev`), então o painel não edita Menus dela. Registrado em `portal-municipal/docs/07-pendencias.md`.
+- Docs do `portal-municipal` atualizados (`07-pendencias.md`, nota na D-81), na `main`.
+- **Próximo passo:** William testar o usuário redator (fase 1B) e decidir a produção; vincular um administrador de teste da SMEDU na homologação.
 
 ### 15/10/2026 — sessão `nifty-lamport`
 - **Teste da Cloudflare (homologação), tudo funcionando:**
