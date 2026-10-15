@@ -30,6 +30,7 @@ Cada item traz: o que precisamos · o que está no site hoje · onde será usado
 | 14 | Agenda de eventos | 6 eventos **fictícios** + 1 real | Sim (dados fictícios) |
 | 15 | Serviços "Em breve" | Área do Estudante e Ouvidoria marcadas "Em breve" | Não |
 | 16 | Notícias | 7 notícias do site da Prefeitura, datas aproximadas | Não |
+| 17 | Transparência: contas públicas e conselhos | atalho para o site da Prefeitura; conselhos sem documentos | Não |
 
 Fonte da carga inicial (12/10/2026, homologação): a página da Secretaria de Educação em www.paulinia.sp.gov.br, atualizada em 04/09/2026. Cada unidade tem `legado.confirmar = true` no banco.
 
@@ -149,3 +150,12 @@ Fonte da carga inicial (12/10/2026, homologação): a página da Secretaria de E
 - **O que precisamos:** quem da Secretaria vai publicar as notícias e se as 7 notícias trazidas do site da Prefeitura ficam no portal.
 - **No site hoje:** 7 notícias reais do site da Prefeitura, com crédito e link. As datas são aproximadas (o site da Prefeitura não mostra a data de cada notícia), exceto a do uniforme (09/10).
 - **Bloqueia ir ao ar?** Não.
+
+## 17. Transparência: contas públicas e conselhos
+- **O que precisamos:**
+  - o **endereço do Portal da Transparência da Prefeitura** (receitas, despesas, licitações, contratos, servidores), para o atalho "Contas Públicas" levar direto a ele;
+  - se a Secretaria publica **licitações, contratos ou convênios próprios** (ex.: alimentação escolar, transporte), ou se tudo fica no portal da Prefeitura;
+  - os **conselhos** ligados à Educação (Conselho Municipal de Educação, CACS-FUNDEB, Conselho de Alimentação Escolar): composição, atas e contatos;
+  - o **Plano Municipal de Educação** (lei e relatórios de monitoramento) e outros planos e programas que devem aparecer.
+- **No site hoje:** desde 15/10/2026 (D-90), a Transparência da SMEDU tem o pacote de **secretaria**: Informações Institucionais, Contas Públicas (atalho para `www.paulinia.sp.gov.br`, porque não achamos o endereço do portal de transparência), Editais/Convênios/Seleções, Conselhos, Planos e Relatórios, Acesso à Informação, Ouvidoria, Privacidade e Acessibilidade. As categorias de documentos estão vazias.
+- **Bloqueia ir ao ar?** Não, mas a Transparência entra na avaliação do PNTP.
