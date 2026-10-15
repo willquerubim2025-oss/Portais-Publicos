@@ -13,7 +13,7 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 
 | O quê | Onde |
 |---|---|
-| **Código do portal (Astro) e do painel (React)** | Repositório `willquerubim2025-oss/portal-municipal`, branch `main`. O experimento D-57 (cabeçalho claro) está no branch `claude/fervent-turing-szzwyu`, ainda fora da `main`. O layout da SMEDU é o **"vitrine"**: `portal/src/components/vitrine/` e `portal/src/styles/vitrine.css` |
+| **Código do portal (Astro) e do painel (React)** | Repositório `willquerubim2025-oss/portal-municipal`, branch `main`, que já inclui o padrão visual aprovado (D-57 a D-75). O layout da SMEDU é o **"vitrine"**: `portal/src/components/vitrine/` e `portal/src/styles/vitrine.css` |
 | **Decisões técnicas e de design (D-01 a D-56)** | `portal-municipal/docs/06-decisoes.md`. Não reabrir decisão sem motivo novo |
 | **Pendências** | `portal-municipal/docs/07-pendencias.md` |
 | **Regras do código** | `portal-municipal/CLAUDE.md` |
@@ -27,10 +27,9 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 | **Portal de homologação publicado** | Worker `portal-municipal-homologacao` na Cloudflare (D-27) |
 
 ### Branches deste repositório
-- `main`: só o commit inicial.
-- `claude/charming-cray-jecgm6`: todo o trabalho de 12 e 13/10/2026 (docs, design, prévias, migrações).
-- `claude/fervent-turing-szzwyu`: inclui tudo do anterior, mais este arquivo e o `CLAUDE.md`.
-- **Recomendado:** juntar na `main` para que as duas contas partam do mesmo ponto.
+- **`main` é a referência** (15/10/2026): contém todo o trabalho de 12 a 14/10, ou seja, docs, design, prévias, este arquivo e o `CLAUDE.md`. Comece sempre por ela.
+- `claude/charming-cray-jecgm6` (conta 1) e `claude/fervent-turing-szzwyu` (conta 2) já estão contidos na `main`.
+- No `portal-municipal`, a `main` também já tem todo o código do padrão visual (D-57 a D-75).
 
 ---
 
@@ -66,6 +65,10 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 ---
 
 ## Diário das sessões (mais recente no topo)
+
+### 15/10/2026 (madrugada) — conta 2 (sessão `fervent-turing`)
+- Com a autorização do William, o branch `claude/fervent-turing-szzwyu` foi juntado na **`main`** dos dois repositórios (avanço direto, sem conflitos; build conferido antes). A `main` é a referência a partir de agora.
+- **Próximo passo:** publicar o Worker de homologação (precisa de Cloudflare) e começar o painel administrativo (permissões fase 1B).
 
 ### 14/10/2026 (fim da noite) — conta 2 (sessão `fervent-turing`)
 - **William aprovou o padrão visual** (D-75): "é a cara do portal". As próximas páginas seguem esse padrão.
