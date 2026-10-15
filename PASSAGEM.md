@@ -14,7 +14,7 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 | O quê | Onde |
 |---|---|
 | **Código do portal (Astro) e do painel (React)** | Repositório `willquerubim2025-oss/portal-municipal`, branch `main`, que já inclui o padrão visual aprovado (D-57 a D-75). O layout da SMEDU é o **"vitrine"**: `portal/src/components/vitrine/` e `portal/src/styles/vitrine.css` |
-| **Decisões técnicas e de design (D-01 a D-56)** | `portal-municipal/docs/06-decisoes.md`. Não reabrir decisão sem motivo novo |
+| **Decisões técnicas e de design (D-01 a D-78)** | `portal-municipal/docs/06-decisoes.md`. Não reabrir decisão sem motivo novo |
 | **Pendências** | `portal-municipal/docs/07-pendencias.md` |
 | **Regras do código** | `portal-municipal/CLAUDE.md` |
 | **Especificação e contexto do Portal Educação** | Este repositório: `docs/Especificação do Brainstorm.md`, `docs/Arquivo de Contexto.md` |
@@ -33,18 +33,20 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 
 ---
 
-## Estado atual (atualizado em 14/10/2026)
+## Estado atual (atualizado em 15/10/2026)
 
 - **Banco:** migrações 0001 a 0020 aplicadas na produção. Permissões por papel, unidades, equipe gestora e página inicial configurável (fase 1A, D-38) já existem.
+- **Permissões fase 1B (D-78):** 0021 aplicada **só na homologação** em 15/10/2026, com a função `convidar-usuario` v4. Falta conferir com usuário de teste (depende de publicar o painel de homologação) e, com aprovação, levar à produção. Plano: `docs/Plano de Migração — Fase 1B.md`.
+- **Painel:** telas de permissões (D-77) e conteúdo por permissão (D-78) na `main` do `portal-municipal`; ainda não publicado na Cloudflare.
 - **Portal Educação (layout vitrine):** página inicial pronta na homologação. Ordem dos blocos: destaque, Notícias, Em foco, Eventos, Serviços, Equipe gestora (D-56). A última decisão de design é a **D-56**.
 - **Conteúdo fictício na homologação, para a apresentação:** equipe gestora, fotos `ficticio-*`, imagens do "Em foco" (Unsplash) e 6 dos 7 eventos. Tudo isso precisa ser removido antes de publicar (detalhes em `07-pendencias.md`).
 - **Em andamento:** melhorias de design e layout do portal.
 - **APROVADO pelo William em 14/10/2026 (D-75): padrão visual do cabeçalho claro (D-57 a D-74).**
   - Prévias: `docs/previa/` (desde D-76, uma só versão). Capturas: `docs/design/capturas/d57/`.
-  - O código está em `portal-municipal`, branch `claude/fervent-turing-szzwyu` (ainda não está na `main`).
+  - O código já está na `main` do `portal-municipal` e é o padrão do vitrine (D-76).
   - Para ligar na homologação: `config.cabecalho.estilo = 'claro'` e `config.cabecalho.botao = {"rotulo": "Fale com a Educação", "url": "/fale-com-o-supervisor"}` em `municipios` (slug `paulinia-educacao`, branch de homologação `kvilgamsyneenjtlllcf`). Depois, publicar o Worker de homologação.
   - D-58 (bloco de cima com 1290 px), D-60 (todo o conteúdo nessa largura), D-61 (seções sem fundo, régua na largura do conteúdo), D-62 (fonte Raleway no cabeçalho, `tema.fonte_cabecalho = 'Raleway'`), D-63/D-64 (cabeçalho em uma linha; largura de 1290 px; menu sem Agenda e Transparência — remover no banco), D-65 (títulos das seções sem faixa), D-66 (destaque deslizando; botão "Fale com a Educação"), D-67 (Serviços no estilo do modelo), D-68 (destaque a cada 4,5 s), D-69 (cabeçalho 10% mais alto), D-70 (Em foco mais perto das Notícias), D-71 (sem a faixa colorida), D-72 (rodapé no estilo da Prefeitura), D-73 (revisão do celular), D-74 (moldura verde nos cards de Serviços) e D-59 (Notícias com 3 cards, `config.home.noticias_fileira = 3`) estão no mesmo branch.
-  - Se aprovado: juntar o branch na `main` do `portal-municipal`, ligar os campos na homologação e publicar.
+  - Falta: remover Agenda e Transparência do menu da SMEDU na homologação (pelo painel) e publicar o Worker de homologação.
 - Veja também as propostas abertas abaixo.
 
 ### Propostas de design em aberto (revisão de 14/10/2026, aguardando escolha do William)
@@ -65,6 +67,15 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 ---
 
 ## Diário das sessões (mais recente no topo)
+
+### 15/10/2026 (manhã) — conta 2 (sessão `fervent-turing`)
+- **Fase 1B aprovada ("pode sim") e aplicada na homologação (D-78)**; código na `main` do `portal-municipal`:
+  - migration `0021_permissoes_conteudo`: 3 permissões novas (`conteudo.editar`, `conteudo.publicar`, `organizacao.administrar`); `is_membro`, `pode_publicar` e `is_admin` aceitam o papel antigo **ou** essas permissões; colegas visíveis por `usuario_papeis`; o Administrador de cada organização recebe as três;
+  - testes de banco: 183/183 (19 novos);
+  - painel: `nivel` no AuthContext (papel antigo ou permissão equivalente) rege menu, rotas e publicação; convite com papel configurável na tela **Vínculos** ("Dar papel a alguém" com o e-mail de quem não tem conta);
+  - função `convidar-usuario` v4 publicada na homologação (aceita `papel_id`).
+  - Conferido na homologação: catálogo, Administradores com as três, política de `perfis`, admin antigo de Jeriquara igual. Ainda não há vínculos configuráveis lá, então ninguém mudou de acesso.
+- **Próximo passo:** publicar o painel de homologação (Cloudflare) e testar com um usuário da SMEDU que tenha só `conteudo.editar`; conferir os logins antigos de Jeriquara. Depois, **com aprovação do William**, levar a 0021 e a função à produção e rodar `npm run permissoes:sincronizar`.
 
 ### 15/10/2026 (madrugada, 3) — conta 2 (sessão `fervent-turing`)
 - **Painel administrativo, parte A (D-77)**, já na `main` do `portal-municipal`:
