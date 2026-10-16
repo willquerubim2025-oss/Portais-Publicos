@@ -102,6 +102,8 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 - **Roteiro completo do que falta:** `docs/Roteiro para Concluir.md` (16/10), com foco no acesso dos servidores e nos sistemas satélites. Novo item 18 em `smedu-pendencias.md` (sistemas que os servidores usam).
 - **D-94 (16/10):** "Meus sistemas" no painel (migração 0025, 227 testes ok), link "Acesso do servidor" no rodapé do portal e VLibras. **0024 e 0025 aplicadas nos dois bancos; painel e portal da homologação publicados e testados (16/10).**
 - **Banco:** migrações 0001 a 0025 na produção e na homologação.
+- **Painel:** os sistemas ganharam item próprio no menu, **Estrutura → Sistemas** (a aba em Transparência continua). Publicado e conferido.
+- **Acesso de teste à homologação:** `admin.teste@secke.dev` (senha passada ao William na conversa; não fica no git).
 - **Próximo passo:** William conferir o VLibras no navegador; pacote padrão para câmara e autarquia; o resto depende da SMEDU (`smedu-pendencias.md`) ou da ida ao ar (`Roteiro para Concluir.md`). Depende da SMEDU: ver `docs/reuniao/smedu-pendencias.md`.
 
 ### 15/10/2026 — sessão `nifty-lamport`
