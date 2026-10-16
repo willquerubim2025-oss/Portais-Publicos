@@ -100,8 +100,9 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 - **D-92, biblioteca de mídias (16/10):** no campo de imagem do painel (notícias, eventos, banners, identidade, órgãos, equipe, unidades), "Escolher da biblioteca": janela com as imagens já enviadas, busca e 24 por página. Testada no painel (axe ok) e publicada. As fotos novas do "Em foco" foram cadastradas em `midias` para aparecer na biblioteca.
 - **D-93 (16/10):** pré-visualização também em páginas, serviços e eventos (migração `0024`, 218 testes ok) e biblioteca de mídias também na galeria e no editor de texto (testadas no painel local). **Falta: o William rodar a `0024` no SQL Editor nos dois bancos; depois publicar painel e portal** (o portal novo chama `previa_conteudo`, que só existe depois da 0024: não publicar antes).
 - **Roteiro completo do que falta:** `docs/Roteiro para Concluir.md` (16/10), com foco no acesso dos servidores e nos sistemas satélites. Novo item 18 em `smedu-pendencias.md` (sistemas que os servidores usam).
-- **D-94 (16/10):** "Meus sistemas" no painel (migração 0025, 227 testes ok), link "Acesso do servidor" no rodapé do portal e VLibras. **Falta: William rodar 0024 e 0025 no SQL Editor (homologação e produção); só depois publicar painel e portal.**
-- **Próximo passo:** depois das migrações, publicar e testar; em seguida, pacote padrão para câmara e autarquia. Depende da SMEDU: ver `docs/reuniao/smedu-pendencias.md`.
+- **D-94 (16/10):** "Meus sistemas" no painel (migração 0025, 227 testes ok), link "Acesso do servidor" no rodapé do portal e VLibras. **0024 e 0025 aplicadas nos dois bancos; painel e portal da homologação publicados e testados (16/10).**
+- **Banco:** migrações 0001 a 0025 na produção e na homologação.
+- **Próximo passo:** William conferir o VLibras no navegador; pacote padrão para câmara e autarquia; o resto depende da SMEDU (`smedu-pendencias.md`) ou da ida ao ar (`Roteiro para Concluir.md`). Depende da SMEDU: ver `docs/reuniao/smedu-pendencias.md`.
 
 ### 15/10/2026 — sessão `nifty-lamport`
 - **Teste da Cloudflare (homologação), tudo funcionando:**
