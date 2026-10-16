@@ -19,8 +19,8 @@ Situação em 16/10/2026. Lista do que falta para o portal da SMEDU ir ao ar, co
 | **Cards "Em breve"** | Prontos: um card de serviço pode ficar "Em breve" e ser ligado depois, sem código. |
 
 ### O que falta
-1. **Entrada do servidor no portal.** Não há, no portal, um caminho visível para o servidor ("Acesso do servidor" / "Área restrita"). Hoje ele precisa saber o endereço do painel. Proposta: link discreto no rodapé e na barra superior.
-2. **Central de ferramentas do servidor no painel** (especificação, seção 6). A tela inicial do painel ainda não lista os sistemas que cada servidor usa. Proposta: uma página "Meus sistemas" com os `sistemas_externos` marcados como internos, filtrados pelo papel (ex.: o diretor vê o SIMAPE e o sistema de matrícula; a Divisão de Bolsas vê o Bolsa +). Precisa de: uma coluna de público (público geral ou servidores) e a permissão de cada sistema (`sistemas.<nome>.acessar`) no catálogo.
+1. ~~**Entrada do servidor no portal.**~~ Feito em 16/10/2026 (D-94): link "Acesso do servidor" no rodapé.
+2. ~~**Central de ferramentas do servidor no painel**~~ Feito em 16/10/2026 (D-94, migração 0025): "Meus sistemas" na tela inicial do painel; cadastro em Transparência → Sistemas, com "Para quem" e os papéis. Texto original da proposta: A tela inicial do painel ainda não lista os sistemas que cada servidor usa. Proposta: uma página "Meus sistemas" com os `sistemas_externos` marcados como internos, filtrados pelo papel (ex.: o diretor vê o SIMAPE e o sistema de matrícula; a Divisão de Bolsas vê o Bolsa +). Precisa de: uma coluna de público (público geral ou servidores) e a permissão de cada sistema (`sistemas.<nome>.acessar`) no catálogo.
 3. **Login único com os sistemas satélites.** Hoje cada sistema externo tem login próprio. Caminhos, do mais simples ao mais completo:
    - **Sistemas de terceiros da Prefeitura** (Fiorilli, SISS, Fala.BR, SEI): continuam só por link (D-07). Não há como compartilhar o login sem integração do fornecedor.
    - **Satélites novos da Secke** (Área do Estudante, CI Eletrônica, Ouvidoria própria): construir **no mesmo projeto Supabase**. Assim usam a mesma conta, os mesmos papéis e as mesmas permissões, sem login novo.
@@ -31,8 +31,7 @@ Situação em 16/10/2026. Lista do que falta para o portal da SMEDU ir ao ar, co
 7. **Levantamento com a Secretaria** (novo item 18 de `smedu-pendencias.md`): quais sistemas os servidores usam hoje, quem usa cada um, como fazem login e se há e-mail institucional para todos.
 
 ## 2. O que depende de William agora
-- Rodar a migração **0024** no SQL Editor (homologação e produção). Depois, a Secke publica painel e portal.
-- Aprovar: entrada do servidor no portal e "Meus sistemas" no painel (seção 1).
+- Rodar as migrações **0024** e **0025** no SQL Editor (homologação e produção). Depois, a Secke publica painel e portal.
 
 ## 3. Técnico, sem depender da Secretaria
 - **Antes de ir ao ar (obrigatório):**
@@ -43,7 +42,7 @@ Situação em 16/10/2026. Lista do que falta para o portal da SMEDU ir ao ar, co
   - backup extra no R2 com teste de restauração; monitoramento de disponibilidade;
   - Security e Performance Advisors da produção revisados;
   - apagar o conteúdo fictício e os usuários de teste (`admin.teste`, `redator.teste`).
-- **Qualidade:** teste com leitor de tela (NVDA); Core Web Vitals no celular; checklist de SEO; **VLibras** (pedido na especificação, seção 9, e ainda não instalado).
+- **Qualidade:** teste com leitor de tela (NVDA); Core Web Vitals no celular; checklist de SEO; ~~**VLibras**~~ (instalado em 16/10/2026, D-94; conferir no navegador).
 - **Produto:** pacote padrão para câmara e autarquia (D-90); importação de redirecionamentos em lote; cópia dos arquivos do Storage para o R2.
 
 ## 4. Depende da Secretaria
