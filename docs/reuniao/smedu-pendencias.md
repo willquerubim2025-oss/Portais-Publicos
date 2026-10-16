@@ -31,6 +31,7 @@ Cada item traz: o que precisamos · o que está no site hoje · onde será usado
 | 15 | Área do Estudante e Ouvidoria | **provisórias**: montadas com o que o portal já tem (15/10) | Não |
 | 16 | Notícias | 7 notícias do site da Prefeitura, datas aproximadas | Não |
 | 17 | Transparência: contas públicas e conselhos | atalho para o site da Prefeitura; conselhos sem documentos | Não |
+| 18 | Sistemas usados pelos servidores | nenhum cadastrado para a SMEDU | Não (sim para a "central de ferramentas") |
 
 Fonte da carga inicial (12/10/2026, homologação): a página da Secretaria de Educação em www.paulinia.sp.gov.br, atualizada em 04/09/2026. Cada unidade tem `legado.confirmar = true` no banco.
 
@@ -161,3 +162,12 @@ Fonte da carga inicial (12/10/2026, homologação): a página da Secretaria de E
   - o **Plano Municipal de Educação** (lei e relatórios de monitoramento) e outros planos e programas que devem aparecer.
 - **No site hoje:** desde 15/10/2026 (D-90), a Transparência da SMEDU tem o pacote de **secretaria**: Informações Institucionais, Contas Públicas (atalho para `www.paulinia.sp.gov.br`, porque não achamos o endereço do portal de transparência), Editais/Convênios/Seleções, Conselhos, Planos e Relatórios, Acesso à Informação, Ouvidoria, Privacidade e Acessibilidade. As categorias de documentos estão vazias.
 - **Bloqueia ir ao ar?** Não, mas a Transparência entra na avaliação do PNTP.
+
+## 18. Sistemas usados pelos servidores
+- **O que precisamos:**
+  - a lista dos sistemas que os servidores da Educação usam hoje (ex.: matrícula/SISS, sistema de gestão escolar, diário de classe, folha/RH, protocolo, SEI, Bolsa +, SIMAPE), com o endereço de cada um;
+  - quem usa cada sistema (Secretaria, diretores, secretários de escola, professores);
+  - como é o login em cada um (conta própria, conta da Prefeitura, gov.br);
+  - se todos os servidores têm **e-mail institucional** (é o que usaremos para o login do painel e dos satélites).
+- **Onde será usado:** a "central de ferramentas" do servidor no painel (atalhos por papel) e o plano de login único com os sistemas satélites (`docs/Roteiro para Concluir.md`, seção 1).
+- **Bloqueia ir ao ar?** Não. Sem a lista, o painel abre só com as ferramentas de conteúdo.

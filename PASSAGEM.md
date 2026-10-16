@@ -21,6 +21,7 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 | **Diagnóstico do banco e plano da fase 1** | Este repositório: `docs/Banco de Dados — Diagnóstico e Decisões.md`, `docs/Plano de Migração — Fase 1.md` |
 | **Prévias navegáveis (HTML autocontido, abre sem internet)** | Este repositório: `docs/previa/` (`index.html` é a página inicial). Todas no padrão aprovado. Para gerá-las, veja `ferramentas/LEIA-ME.md` |
 | **Sistema visual, marca e capturas** | Este repositório: `docs/design/` |
+| **Roteiro do que falta para concluir** | Este repositório: `docs/Roteiro para Concluir.md` |
 | **Pendências com a SMEDU (tudo o que depende da Secretaria/Prefeitura)** | Este repositório: `docs/reuniao/smedu-pendencias.md` |
 | **Supabase, produção** | Projeto **Portal Municipal**, ref `qgywucdnaeheqndcxtho` (sa-east-1) |
 | **Supabase, homologação** | Branch `homologacao` do mesmo projeto, ref `kvilgamsyneenjtlllcf`. O portal em desenvolvimento lê daqui (D-14) |
@@ -98,7 +99,8 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 - **Migrações aplicadas pelo William no SQL Editor (15/10):** `0022` e `0023` na **produção** e na **homologação** (conferido nos dois bancos). Painel e portal da homologação publicados; pré-visualização testada de ponta a ponta. **O MCP do Supabase não aplica migração nesta conta (sempre excede o tempo): usar o SQL Editor, com atenção ao seletor de branch no topo.**
 - **D-92, biblioteca de mídias (16/10):** no campo de imagem do painel (notícias, eventos, banners, identidade, órgãos, equipe, unidades), "Escolher da biblioteca": janela com as imagens já enviadas, busca e 24 por página. Testada no painel (axe ok) e publicada. As fotos novas do "Em foco" foram cadastradas em `midias` para aparecer na biblioteca.
 - **D-93 (16/10):** pré-visualização também em páginas, serviços e eventos (migração `0024`, 218 testes ok) e biblioteca de mídias também na galeria e no editor de texto (testadas no painel local). **Falta: o William rodar a `0024` no SQL Editor nos dois bancos; depois publicar painel e portal** (o portal novo chama `previa_conteudo`, que só existe depois da 0024: não publicar antes).
-- **Próximo passo (sem depender da SMEDU):** pacote padrão para câmara e autarquia. Depende da SMEDU: ver `docs/reuniao/smedu-pendencias.md`.
+- **Roteiro completo do que falta:** `docs/Roteiro para Concluir.md` (16/10), com foco no acesso dos servidores e nos sistemas satélites. Novo item 18 em `smedu-pendencias.md` (sistemas que os servidores usam).
+- **Próximo passo:** William aprovar a entrada do servidor no portal e a central "Meus sistemas" no painel; rodar a 0024. Depende da SMEDU: ver `docs/reuniao/smedu-pendencias.md`.
 
 ### 15/10/2026 — sessão `nifty-lamport`
 - **Teste da Cloudflare (homologação), tudo funcionando:**
