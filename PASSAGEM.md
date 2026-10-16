@@ -73,6 +73,12 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 
 ## Diário das sessões (mais recente no topo)
 
+### 16/10/2026 (tarde) — sessão `great-newton`
+- **Cópia dos arquivos (D-96) configurada pelo William** (bucket `portal-municipal-arquivos` na conta Cloudflare da Secke, mesma do backup do banco; só produção) e verde. **Senha do backup trocada** e guardada no gerenciador do Google; backup #18 verde. **VLibras conferido.** Falta só o UptimeRobot.
+- **D-97, notícias das unidades (fase 1C):** migração `0026_noticias_por_unidade.sql` (257 testes ok), painel (campo "Unidade" no editor; quem só tem permissão na escola vê só Notícias) e portal (nome da unidade na notícia). **Falta o William rodar a 0026 no SQL Editor (homologação e produção). Só depois publicar painel e portal** (as telas consultam a coluna nova). Pergunta à SMEDU: item 19 de `smedu-pendencias.md`.
+- **D-98, testes automáticos do painel na SMEDU:** baterias reescritas, sem senhas no código (`painel/e2e/.env.e2e`, fora do git; modelo `.env.e2e.exemplo`). Conta `redator.e2e@secke.dev` criada por `node e2e/preparar.mjs`. Conteúdo 31, estrutura 26, administração 19: **0 falhas**; limpeza feita. `noticias` e `escola` rodam depois da 0026.
+- **D-99, contraste de todas as cores do layout** na Identidade visual do painel. Achou a cor coral da SMEDU em 4,49:1; trocada para `#bd3f2c` na homologação.
+
 ### 16/10/2026 (manhã) — sessão `great-newton`
 - **Redator x administrador:** William entrou como redator e não viu o painel completo. É o esperado: o menu sai das permissões; o "Redator (teste)" só tem `conteudo.editar`. O painel completo é o do `admin.teste@secke.dev`.
 - **Auditoria técnica da homologação:** Security e Performance Advisors da produção revisados (nada urgente; registro em `07-pendencias.md`). Lighthouse no celular: acessibilidade 100, boas práticas 96, velocidade 90 (início) e 97 (notícias). SEO conferido (sitemap, robots, canônico, Open Graph, JSON-LD).

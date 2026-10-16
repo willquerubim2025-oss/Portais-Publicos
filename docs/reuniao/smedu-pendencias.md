@@ -32,6 +32,7 @@ Cada item traz: o que precisamos · o que está no site hoje · onde será usado
 | 16 | Notícias | 7 notícias do site da Prefeitura, datas aproximadas | Não |
 | 17 | Transparência: contas públicas e conselhos | atalho para o site da Prefeitura; conselhos sem documentos | Não |
 | 18 | Sistemas usados pelos servidores | nenhum cadastrado para a SMEDU | Não (sim para a "central de ferramentas") |
+| 19 | Notícias das escolas | recurso pronto (D-97); ninguém das escolas com acesso | Não |
 
 Fonte da carga inicial (12/10/2026, homologação): a página da Secretaria de Educação em www.paulinia.sp.gov.br, atualizada em 04/09/2026. Cada unidade tem `legado.confirmar = true` no banco.
 
@@ -171,3 +172,12 @@ Fonte da carga inicial (12/10/2026, homologação): a página da Secretaria de E
   - se todos os servidores têm **e-mail institucional** (é o que usaremos para o login do painel e dos satélites).
 - **Onde será usado:** a "central de ferramentas" do servidor no painel (atalhos por papel) e o plano de login único com os sistemas satélites (`docs/Roteiro para Concluir.md`, seção 1).
 - **Bloqueia ir ao ar?** Não. Sem a lista, o painel abre só com as ferramentas de conteúdo.
+
+## 19. Notícias das escolas
+- **O que precisamos:**
+  - se as escolas vão publicar notícias no portal (ex.: feira de ciências, festa junina, conquistas de alunos);
+  - **quem** em cada escola escreve (diretor, coordenador, secretário de escola) e se **publica direto** ou se a notícia passa antes pela Secretaria (comunicação);
+  - se alguém acompanha um **grupo de escolas** (ex.: supervisor por região), para dar a permissão por região.
+- **Onde será usado:** papéis do painel (Administração → Papéis e permissões): "Criar e editar conteúdo" e "Publicar conteúdo" com alcance "só a unidade" ou "só a região" (D-97). Cada pessoa recebe o papel em Vínculos, apontando a escola.
+- **O que muda conforme a resposta:** publica direto → papel com "Publicar conteúdo" na unidade; com revisão da Secretaria → papel só com "Criar e editar" na unidade, e a comunicação da Secretaria publica.
+- **Bloqueia ir ao ar?** Não. Sem resposta, só a Secretaria publica notícias (pode marcar a escola de cada uma).
