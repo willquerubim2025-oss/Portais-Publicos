@@ -34,7 +34,7 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 
 ---
 
-## Estado atual (atualizado em 15/10/2026)
+## Estado atual (atualizado em 16/10/2026)
 
 - **Jeriquara está fora (D-82):** dispensa não ganha; não fazer nada para Jeriquara. O produto é multi-organização; a organização em foco é a SMEDU.
 - **Banco:** migrações 0001 a 0023 aplicadas na produção e na homologação. Permissões por papel, unidades, equipe gestora e página inicial configurável (fase 1A, D-38) já existem.
@@ -72,6 +72,13 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 ---
 
 ## Diário das sessões (mais recente no topo)
+
+### 16/10/2026 (manhã) — sessão `great-newton`
+- **Redator x administrador:** William entrou como redator e não viu o painel completo. É o esperado: o menu sai das permissões; o "Redator (teste)" só tem `conteudo.editar`. O painel completo é o do `admin.teste@secke.dev`.
+- **Auditoria técnica da homologação:** Security e Performance Advisors da produção revisados (nada urgente; registro em `07-pendencias.md`). Lighthouse no celular: acessibilidade 100, boas práticas 96, velocidade 90 (início) e 97 (notícias). SEO conferido (sitemap, robots, canônico, Open Graph, JSON-LD).
+- **D-95:** a página de Serviços no celular "pulava" (CLS 0,49) porque o menu e os avisos eram fechados pelo JavaScript depois de pintar. Corrigido (CLS < 0,02). O sitemap ganhou "Fale com o supervisor" quando há escolas. **Importação de redirecionamentos em lote** no painel (Redirecionamentos → "Importar uma lista", CSV `endereço antigo;leva para;tipo`), testada de ponta a ponta. Publicado na homologação.
+- **D-96:** rotina nova `backup-arquivos.yml` (cópia diária das fotos e PDFs do Storage para o R2, sem apagar nada). **Falta o William configurar** (bucket, token do R2, chave S3 do Storage, segredos): passo a passo em `portal-municipal/docs/12-backup-e-restauracao.md`, seção "Cópia dos arquivos". O backup diário do banco está verde desde 05/10.
+- **Testes automáticos do painel (`npm run e2e`):** ainda usam os usuários e textos de Jeriquara (um deles troca o slogan da organização). Não rodar. Precisam ser adaptados para a SMEDU antes de valer como critério de ir ao ar.
 
 ### 15/10/2026 (tarde) — sessão `great-newton`
 - **Cabeçalho da SMEDU arrumado (homologação).** Numa sessão paralela, um pedido pelo chat gerou a D-81 (menu menor no CSS) e a troca das fontes para Raleway; a D-81 foi revertida lá mesmo. O menu continuava em duas linhas porque **Agenda e Transparência nunca tinham saído do banco** (pendência desde a D-64). William apagou os dois itens pelo SQL Editor (branch homologacao). Conferido: 6 itens, uma linha só, menu em 0,88rem, Raleway mantida.

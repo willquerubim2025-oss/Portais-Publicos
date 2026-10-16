@@ -39,11 +39,12 @@ Situação em 16/10/2026. Lista do que falta para o portal da SMEDU ir ao ar, co
   - **testar o isolamento do cache entre organizações** com dois domínios (a SMEDU é a 2ª organização);
   - SMTP próprio nos dois projetos Supabase;
   - painel e portal de **produção** publicados, endereços no login da produção;
-  - backup extra no R2 com teste de restauração; monitoramento de disponibilidade;
-  - Security e Performance Advisors da produção revisados;
+  - ~~backup extra do banco no R2 com teste de restauração~~ (rodando todo dia desde 05/10); **cópia dos arquivos para o R2** (rotina pronta em 16/10, D-96; falta William configurar, ver `portal-municipal/docs/12`); monitoramento de disponibilidade (UptimeRobot, conta do William);
+  - ~~Security e Performance Advisors da produção revisados~~ (16/10, nada urgente; repetir antes da troca de domínio);
+  - adaptar os testes automáticos do painel (`npm run e2e`) para a SMEDU (hoje usam Jeriquara);
   - apagar o conteúdo fictício e os usuários de teste (`admin.teste`, `redator.teste`).
-- **Qualidade:** teste com leitor de tela (NVDA); Core Web Vitals no celular; checklist de SEO; ~~**VLibras**~~ (instalado em 16/10/2026, D-94; conferir no navegador).
-- **Produto:** pacote padrão para câmara e autarquia (D-90); importação de redirecionamentos em lote; cópia dos arquivos do Storage para o R2.
+- **Qualidade:** teste com leitor de tela (NVDA); ~~Core Web Vitals no celular~~ e ~~checklist de SEO~~ (medidos na homologação em 16/10, D-95; repetir na produção); ~~**VLibras**~~ (instalado em 16/10/2026, D-94; conferir no navegador).
+- **Produto:** pacote padrão para câmara e autarquia (D-90); ~~importação de redirecionamentos em lote~~ (D-95); ~~cópia dos arquivos do Storage para o R2~~ (D-96, falta configurar); notícias das escolas com escopo por unidade (permissões, fase 1C).
 
 ## 4. Depende da Secretaria
 Ver `docs/reuniao/smedu-pendencias.md` (18 itens). Os que bloqueiam ir ao ar: supervisores por escola, Matrícula 2027 confirmada, equipe gestora real, páginas legais confirmadas, autorização de imagens, domínio/IBGE/CNPJ/primeiro administrador, agenda real.
