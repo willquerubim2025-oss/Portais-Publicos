@@ -97,7 +97,8 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 - **D-91, pré-visualização de rascunho:** botão "Pré-visualizar no site" no editor de notícias; link temporário (30 min) em `/previa/<token>`. Migração `0023_previa_rascunho`. 208 testes ok.
 - **Migrações aplicadas pelo William no SQL Editor (15/10):** `0022` e `0023` na **produção** e na **homologação** (conferido nos dois bancos). Painel e portal da homologação publicados; pré-visualização testada de ponta a ponta. **O MCP do Supabase não aplica migração nesta conta (sempre excede o tempo): usar o SQL Editor, com atenção ao seletor de branch no topo.**
 - **D-92, biblioteca de mídias (16/10):** no campo de imagem do painel (notícias, eventos, banners, identidade, órgãos, equipe, unidades), "Escolher da biblioteca": janela com as imagens já enviadas, busca e 24 por página. Testada no painel (axe ok) e publicada. As fotos novas do "Em foco" foram cadastradas em `midias` para aparecer na biblioteca.
-- **Próximo passo (sem depender da SMEDU):** pré-visualização também em páginas, serviços e eventos; biblioteca também na galeria e no editor de texto; pacote padrão para câmara e autarquia. Depende da SMEDU: ver `docs/reuniao/smedu-pendencias.md`.
+- **D-93 (16/10):** pré-visualização também em páginas, serviços e eventos (migração `0024`, 218 testes ok) e biblioteca de mídias também na galeria e no editor de texto (testadas no painel local). **Falta: o William rodar a `0024` no SQL Editor nos dois bancos; depois publicar painel e portal** (o portal novo chama `previa_conteudo`, que só existe depois da 0024: não publicar antes).
+- **Próximo passo (sem depender da SMEDU):** pacote padrão para câmara e autarquia. Depende da SMEDU: ver `docs/reuniao/smedu-pendencias.md`.
 
 ### 15/10/2026 — sessão `nifty-lamport`
 - **Teste da Cloudflare (homologação), tudo funcionando:**
