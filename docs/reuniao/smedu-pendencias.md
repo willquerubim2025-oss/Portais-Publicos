@@ -33,6 +33,7 @@ Cada item traz: o que precisamos · o que está no site hoje · onde será usado
 | 17 | Transparência: contas públicas e conselhos | atalho para o site da Prefeitura; conselhos sem documentos | Não |
 | 18 | Sistemas usados pelos servidores | nenhum cadastrado para a SMEDU | Não (sim para a "central de ferramentas") |
 | 19 | Notícias das escolas | recurso pronto (D-97); ninguém das escolas com acesso | Não |
+| 20 | Conteúdo provisório das páginas internas | perguntas, leis de referência, órgãos e capas provisórios (17/10) | Não |
 
 Fonte da carga inicial (12/10/2026, homologação): a página da Secretaria de Educação em www.paulinia.sp.gov.br, atualizada em 04/09/2026. Cada unidade tem `legado.confirmar = true` no banco.
 
@@ -181,3 +182,8 @@ Fonte da carga inicial (12/10/2026, homologação): a página da Secretaria de E
 - **Onde será usado:** papéis do painel (Administração → Papéis e permissões): "Criar e editar conteúdo" e "Publicar conteúdo" com alcance "só a unidade" ou "só a região" (D-97). Cada pessoa recebe o papel em Vínculos, apontando a escola.
 - **O que muda conforme a resposta:** publica direto → papel com "Publicar conteúdo" na unidade; com revisão da Secretaria → papel só com "Criar e editar" na unidade, e a comunicação da Secretaria publica.
 - **Bloqueia ir ao ar?** Não. Sem resposta, só a Secretaria publica notícias (pode marcar a escola de cada uma).
+
+## 20. Conteúdo provisório das páginas internas (17/10/2026)
+- **No site hoje (provisório, dados públicos):** 9 perguntas frequentes; 5 leis federais de referência em Legislação (LDB, ECA, Fundeb, Alimentação Escolar e Lei 13.460, com link para o Planalto); texto de competências dos 4 órgãos; fotos de capa em Sobre a Secretaria, Área do Estudante e Matrícula Escolar.
+- **O que precisamos:** que a Secretaria confira as perguntas e respostas; os **atos municipais** da área (Plano Municipal de Educação, resoluções do Conselho, portarias); as competências oficiais e os responsáveis de cada setor; e se pode usar as fotos (item 9).
+- **Bloqueia ir ao ar?** Não. Os textos ficam marcados como provisórios no banco até a confirmação.

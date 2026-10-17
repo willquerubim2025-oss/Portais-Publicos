@@ -73,6 +73,10 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 
 ## Diário das sessões (mais recente no topo)
 
+### 17/10/2026 — sessão `great-newton`
+- **Revisão das páginas internas** e, com o OK do William ("manda bala"), **D-100**: Carta de Serviços em cards, coluna lateral (Nesta seção, Mais procurados, Atendimento) em páginas, serviços e órgãos, **foto de capa** opcional em páginas e serviços (migração 0027, aplicada pelo William nos dois bancos), resumo da notícia sem repetição, link interno de serviço na mesma aba. Tudo no ar na homologação; axe sem violações.
+- **Conteúdo provisório** com dado público: 9 perguntas frequentes, 5 leis federais de referência, competências dos 4 órgãos, capas em Sobre, Área do Estudante e Matrícula. Item 20 de `smedu-pendencias.md`.
+
 ### 16/10/2026 (tarde) — sessão `great-newton`
 - **Cópia dos arquivos (D-96) configurada pelo William** (bucket `portal-municipal-arquivos` na conta Cloudflare da Secke, mesma do backup do banco; só produção) e verde. **Senha do backup trocada** e guardada no gerenciador do Google; backup #18 verde. **VLibras conferido.** Falta só o UptimeRobot.
 - **D-97, notícias das unidades (fase 1C):** migração `0026_noticias_por_unidade.sql` (257 testes ok), painel (campo "Unidade" no editor; quem só tem permissão na escola vê só Notícias) e portal (nome da unidade na notícia). **0026 aplicada pelo William nos dois bancos (conferido); painel e portal da homologação publicados; baterias `noticias` (20) e `escola` (15) com 0 falhas.** Contas de teste a apagar antes da ida ao ar: lista na D-98. Pergunta à SMEDU: item 19 de `smedu-pendencias.md`.
