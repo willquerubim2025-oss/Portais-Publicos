@@ -75,6 +75,8 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 
 ### 17/10/2026 — sessão `great-newton`
 - **Revisão das páginas internas** e, com o OK do William ("manda bala"), **D-100**: Carta de Serviços em cards, coluna lateral (Nesta seção, Mais procurados, Atendimento) em páginas, serviços e órgãos, **foto de capa** opcional em páginas e serviços (migração 0027, aplicada pelo William nos dois bancos), resumo da notícia sem repetição, link interno de serviço na mesma aba. Tudo no ar na homologação; axe sem violações.
+- **Manual do portal e do painel** (pedido do William): `docs/manual/index.html` + 41 fotos em `docs/manual/img/` (homologação). Portal seção por seção, painel, perfis e permissões, passo a passo (notícia, edição, foto, escola, avisos, pessoas), quem acessa o quê; pendências marcadas em âmbar (falta definir) e violeta (falta implementar). Publicado como página privada: https://claude.ai/artifact/HPTDxtqfr8YC6gYS4pHZHW. Ao mudar o painel, atualizar o manual.
+- **Próximo satélite: CI eletrônica**, que o William começou em outro projeto.
 - **Conteúdo provisório** com dado público: 9 perguntas frequentes, 5 leis federais de referência, competências dos 4 órgãos, capas em Sobre, Área do Estudante e Matrícula. Item 20 de `smedu-pendencias.md`.
 
 ### 16/10/2026 (tarde) — sessão `great-newton`

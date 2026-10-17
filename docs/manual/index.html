@@ -1,0 +1,768 @@
+<title>Manual do Portal Educação</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@500;600;700;800&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: índice fixo à esquerda no computador; coluna de leitura com figuras mais largas; no celular, índice recolhido no topo. */
+:root {
+  --papel: #f6f8f8;
+  --folha: #ffffff;
+  --tinta: #12292b;
+  --tinta-suave: #4b5f61;
+  --linha: #d9e3e3;
+  --marca: #004348;
+  --marca-clara: #e3f0ef;
+  --acento: #b4532a;
+  --pronto: #23744d;   --pronto-fundo: #e6f4ec;
+  --definir: #8a5a00;  --definir-fundo: #fff4d6;  --definir-borda: #e7b84a;
+  --fazer: #6a3fb0;    --fazer-fundo: #f1ebfb;    --fazer-borda: #a98ad9;
+  --sombra: 0 1px 2px rgb(0 40 44 / .06), 0 6px 20px rgb(0 40 44 / .07);
+  --f-titulo: "Raleway", "Segoe UI", system-ui, sans-serif;
+  --f-texto: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --papel: #0f1a1b; --folha: #152325; --tinta: #e4eeee; --tinta-suave: #a7b9ba; --linha: #2a3d3f;
+  --marca: #7cc7c4; --marca-clara: #1b3436; --acento: #f0a37f;
+  --pronto: #7dd3a5; --pronto-fundo: #173528; --definir: #f2c766; --definir-fundo: #3a2e10; --definir-borda: #8a6a1c;
+  --fazer: #c6a8f5; --fazer-fundo: #2a1f40; --fazer-borda: #6d52a3; --sombra: 0 1px 2px rgb(0 0 0 / .3); color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --papel: #0f1a1b; --folha: #152325; --tinta: #e4eeee; --tinta-suave: #a7b9ba; --linha: #2a3d3f;
+  --marca: #7cc7c4; --marca-clara: #1b3436; --acento: #f0a37f;
+  --pronto: #7dd3a5; --pronto-fundo: #173528; --definir: #f2c766; --definir-fundo: #3a2e10; --definir-borda: #8a6a1c;
+  --fazer: #c6a8f5; --fazer-fundo: #2a1f40; --fazer-borda: #6d52a3; --sombra: 0 1px 2px rgb(0 0 0 / .3); color-scheme: dark; }
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { margin: 0; background: var(--papel); color: var(--tinta); font: 400 17px/1.6 var(--f-texto); -webkit-font-smoothing: antialiased; }
+a { color: var(--marca); text-underline-offset: 2px; }
+a:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px solid var(--acento); outline-offset: 2px; border-radius: 3px; }
+code, .mono { font-family: var(--f-mono); font-size: .86em; background: var(--marca-clara); padding: .05em .35em; border-radius: 4px; overflow-wrap: anywhere; }
+h1, h2, h3, h4 { font-family: var(--f-titulo); line-height: 1.2; text-wrap: balance; color: var(--tinta); }
+h2 { font-size: 1.85rem; font-weight: 800; margin: 0 0 .4rem; letter-spacing: -.01em; }
+h3 { font-size: 1.3rem; font-weight: 700; margin: 2.2rem 0 .5rem; }
+h4 { font-size: 1.05rem; font-weight: 700; margin: 1.4rem 0 .35rem; }
+p { margin: .5rem 0 .9rem; }
+ul, ol { padding-left: 1.3rem; margin: .4rem 0 1rem; }
+li { margin: .2rem 0; }
+li::marker { color: var(--tinta-suave); }
+
+.pagina { display: grid; grid-template-columns: 280px minmax(0, 1fr); min-height: 100vh; }
+.indice { position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto; background: var(--folha); border-right: 1px solid var(--linha);
+  padding-block: 1.6rem 2rem; padding-left: max(18px, env(safe-area-inset-left, 0px)); padding-right: 18px; }
+.indice .selo { font: 700 .72rem/1 var(--f-titulo); letter-spacing: .14em; text-transform: uppercase; color: var(--acento); }
+.indice strong { display: block; font: 800 1.2rem/1.2 var(--f-titulo); margin: .35rem 0 1.2rem; color: var(--marca); }
+.indice ol { list-style: none; padding: 0; margin: 0; display: grid; gap: .1rem; }
+.indice a { display: block; padding: .32rem .55rem; border-radius: 6px; color: var(--tinta); text-decoration: none; font-size: .93rem; line-height: 1.3; }
+.indice a:hover { background: var(--marca-clara); }
+.indice .sub a { padding-left: 1.35rem; font-size: .86rem; color: var(--tinta-suave); }
+.indice .parte { font: 700 .7rem/1 var(--f-titulo); letter-spacing: .12em; text-transform: uppercase; color: var(--tinta-suave); margin: 1rem .55rem .35rem; }
+
+main { min-width: 0; padding-block: 2.5rem 6rem; padding-left: max(18px, env(safe-area-inset-left, 0px)); padding-right: max(18px, env(safe-area-inset-right, 0px)); }
+.coluna { max-width: 860px; margin: 0 auto; }
+.capa-manual { border-radius: 18px; background: var(--marca); color: #fff; padding: 2.4rem 2.2rem 2.2rem; margin-bottom: 2.5rem; position: relative; overflow: hidden; }
+.capa-manual::after { content: ""; position: absolute; right: -60px; top: -60px; width: 260px; height: 260px; border-radius: 50%; border: 36px solid rgb(255 255 255 / .07); }
+.capa-manual .selo { font: 700 .75rem/1 var(--f-titulo); letter-spacing: .16em; text-transform: uppercase; color: #f2c2a9; }
+.capa-manual h1 { color: #fff; font-size: clamp(2rem, 1.4rem + 2.4vw, 3rem); font-weight: 800; margin: .5rem 0 .6rem; }
+.capa-manual p { color: #d6ebe9; max-width: 60ch; margin: 0; font-size: 1.05rem; }
+.capa-manual .datas { margin-top: 1.2rem; font: 500 .82rem/1.4 var(--f-mono); color: #b8dcd8; }
+
+section.cap { padding-top: 1rem; margin-top: 3.2rem; border-top: 1px solid var(--linha); scroll-margin-top: 1rem; }
+section.cap:first-of-type { border-top: 0; margin-top: 0; }
+.olho { font: 700 .74rem/1 var(--f-titulo); letter-spacing: .14em; text-transform: uppercase; color: var(--acento); margin-bottom: .55rem; display: block; }
+.intro { font-size: 1.08rem; color: var(--tinta-suave); max-width: 65ch; }
+[id] { scroll-margin-top: 1rem; }
+
+figure { margin: 1.2rem 0 1.6rem; }
+figure img { display: block; width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--linha); background: var(--folha); box-shadow: var(--sombra); }
+figure a { display: block; }
+figcaption { font-size: .88rem; color: var(--tinta-suave); margin-top: .5rem; }
+.figuras-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 1rem; margin: 1rem 0 1.4rem; }
+.figuras-2 figure { margin: 0; }
+.alta img { max-height: 620px; object-fit: cover; object-position: top; }
+.celular { max-width: 300px; }
+
+.legenda { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: .8rem; margin: 1.2rem 0 2rem; }
+.legenda div { border-radius: 12px; padding: .9rem 1rem; border: 1px solid; font-size: .94rem; }
+.legenda b { display: block; font-family: var(--f-titulo); margin-bottom: .2rem; }
+.l-pronto { background: var(--pronto-fundo); border-color: color-mix(in srgb, var(--pronto) 40%, transparent) !important; }
+.l-pronto b { color: var(--pronto); }
+.l-definir { background: var(--definir-fundo); border-color: var(--definir-borda) !important; }
+.l-definir b { color: var(--definir); }
+.l-fazer { background: var(--fazer-fundo); border-color: var(--fazer-borda) !important; }
+.l-fazer b { color: var(--fazer); }
+
+.pend { border-radius: 10px; padding: .75rem 1rem .75rem 1rem; margin: 1rem 0; border: 1px dashed; font-size: .95rem; }
+.pend > b:first-child { display: inline-block; font: 700 .7rem/1 var(--f-titulo); letter-spacing: .1em; text-transform: uppercase; padding: .32rem .5rem; border-radius: 5px; margin-right: .5rem; vertical-align: .1em; }
+.pend.definir { background: var(--definir-fundo); border-color: var(--definir-borda); }
+.pend.definir > b:first-child { background: var(--definir); color: var(--folha); }
+.pend.fazer { background: var(--fazer-fundo); border-color: var(--fazer-borda); }
+.pend.fazer > b:first-child { background: var(--fazer); color: var(--folha); }
+.tag { display: inline-block; font: 700 .68rem/1 var(--f-titulo); letter-spacing: .06em; text-transform: uppercase; padding: .26rem .45rem; border-radius: 5px; vertical-align: .12em; white-space: nowrap; }
+.tag.definir { background: var(--definir-fundo); color: var(--definir); border: 1px solid var(--definir-borda); }
+.tag.fazer { background: var(--fazer-fundo); color: var(--fazer); border: 1px solid var(--fazer-borda); }
+.tag.pronto { background: var(--pronto-fundo); color: var(--pronto); }
+
+.dica { border-left: 4px solid var(--marca); background: var(--marca-clara); padding: .7rem 1rem; border-radius: 0 10px 10px 0; margin: 1rem 0; font-size: .96rem; }
+.dica b { font-family: var(--f-titulo); }
+
+.passos { counter-reset: p; list-style: none; padding: 0; margin: 1rem 0 1.5rem; display: grid; gap: .55rem; }
+.passos > li { counter-increment: p; position: relative; padding: .7rem 1rem .7rem 3.2rem; background: var(--folha); border: 1px solid var(--linha); border-radius: 10px; margin: 0; }
+.passos > li::before { content: counter(p); position: absolute; left: .85rem; top: .7rem; width: 1.65rem; height: 1.65rem; border-radius: 50%; background: var(--marca); color: var(--folha); font: 800 .85rem/1.65rem var(--f-titulo); text-align: center; }
+.passos > li strong { font-weight: 700; }
+.botao { display: inline-block; font: 700 .82em/1 var(--f-titulo); padding: .3em .55em; border-radius: 5px; background: var(--marca); color: var(--folha); white-space: nowrap; }
+.campo { font-weight: 700; color: var(--marca); }
+
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: .9rem; margin: 1.2rem 0 1.6rem; }
+.card { background: var(--folha); border: 1px solid var(--linha); border-radius: 12px; padding: 1rem 1.1rem; min-width: 0; }
+.card h4 { margin: 0 0 .35rem; font-size: 1.02rem; }
+.card p { margin: .25rem 0; font-size: .94rem; color: var(--tinta-suave); }
+.card .quem { font-size: .82rem; font-family: var(--f-mono); color: var(--acento); }
+
+.tabela { overflow-x: auto; margin: 1rem 0 1.6rem; border: 1px solid var(--linha); border-radius: 12px; background: var(--folha); }
+table { border-collapse: collapse; width: 100%; font-size: .9rem; }
+th, td { padding: .55rem .7rem; border-bottom: 1px solid var(--linha); text-align: left; vertical-align: top; }
+thead th { font-family: var(--f-titulo); font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--tinta-suave); background: var(--marca-clara); position: sticky; top: 0; }
+tbody tr:last-child td { border-bottom: 0; }
+td.s { text-align: center; font-weight: 700; color: var(--pronto); }
+td.n { text-align: center; color: var(--tinta-suave); }
+td.u { text-align: center; font-weight: 700; color: var(--acento); }
+.matriz th:not(:first-child), .matriz td:not(:first-child) { text-align: center; }
+
+.mapa-home { list-style: none; counter-reset: b; padding: 0; display: grid; gap: 1.6rem; }
+.mapa-home > li { counter-increment: b; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 1.2rem; align-items: start; }
+.mapa-home > li > div:first-child::before { content: "Bloco " counter(b); display: block; font: 700 .72rem/1 var(--f-titulo); letter-spacing: .12em; text-transform: uppercase; color: var(--acento); margin-bottom: .35rem; }
+.mapa-home h4 { margin-top: 0; }
+.mapa-home figure { margin: 0; }
+@media (max-width: 760px) { .mapa-home > li { grid-template-columns: 1fr; } }
+
+pre.mermaid { background: var(--folha); border: 1px solid var(--linha); border-radius: 12px; padding: 1rem; overflow-x: auto; margin: 1rem 0 1.6rem; text-align: center; }
+details.recolher { background: var(--folha); border: 1px solid var(--linha); border-radius: 10px; padding: .6rem 1rem; margin: .8rem 0; }
+details.recolher summary { cursor: pointer; font-family: var(--f-titulo); font-weight: 700; }
+
+.topo-celular { display: none; }
+@media (max-width: 980px) {
+  .pagina { grid-template-columns: 1fr; }
+  .indice { display: none; }
+  .topo-celular { display: block; margin-bottom: 1.2rem; }
+  .topo-celular details { background: var(--folha); border: 1px solid var(--linha); border-radius: 12px; padding: .7rem 1rem; }
+  .topo-celular summary { font-family: var(--f-titulo); font-weight: 700; cursor: pointer; }
+  .topo-celular ol { list-style: none; padding: 0; margin: .6rem 0 0; display: grid; gap: .2rem; }
+  .topo-celular a { text-decoration: none; }
+  .capa-manual { padding: 1.8rem 1.3rem; }
+  body { font-size: 16px; }
+}
+</style>
+
+<div class="pagina">
+<nav class="indice" aria-label="Índice do manual">
+  <span class="selo">SECKE · SMEDU Paulínia</span>
+  <strong>Manual do Portal Educação</strong>
+  <ol>
+    <li><a href="#comecar">Como ler este manual</a></li>
+    <li><a href="#ecossistema">O que é cada sistema</a></li>
+    <li><a href="#perfis">Perfis e permissões</a></li>
+    <li class="parte">Parte 1 · Portal</li>
+    <li><a href="#portal-inicio">Página inicial</a></li>
+    <li class="sub"><a href="#portal-menu">Menu e rodapé</a></li>
+    <li><a href="#portal-internas">Páginas internas</a></li>
+    <li class="sub"><a href="#portal-paginas">Página por página</a></li>
+    <li class="sub"><a href="#portal-acessibilidade">Acessibilidade</a></li>
+    <li class="sub"><a href="#portal-celular">No celular</a></li>
+    <li class="parte">Parte 2 · Painel</li>
+    <li><a href="#painel-acesso">Entrar no painel</a></li>
+    <li><a href="#painel-inicio">Tela inicial e menu</a></li>
+    <li><a href="#tarefas">Passo a passo</a></li>
+    <li class="sub"><a href="#t-noticia">Publicar uma notícia</a></li>
+    <li class="sub"><a href="#t-editar">Editar, agendar, retirar</a></li>
+    <li class="sub"><a href="#t-foto">Trocar uma foto</a></li>
+    <li class="sub"><a href="#t-escola">Notícia da escola</a></li>
+    <li class="sub"><a href="#t-conteudos">Documentos, páginas, serviços…</a></li>
+    <li class="sub"><a href="#t-avisos">Banners e avisos</a></li>
+    <li class="sub"><a href="#t-rede">Unidades e equipe</a></li>
+    <li class="sub"><a href="#t-estrutura">Menus, transparência, sistemas</a></li>
+    <li class="sub"><a href="#t-identidade">Identidade visual</a></li>
+    <li class="sub"><a href="#t-pessoas">Dar acesso a alguém</a></li>
+    <li class="sub"><a href="#t-chamados">Chamados e manutenção</a></li>
+    <li class="parte">Fechamento</li>
+    <li><a href="#acessos">Quem acessa o quê</a></li>
+    <li><a href="#pendencias">Tudo o que falta</a></li>
+    <li><a href="#glossario">Glossário</a></li>
+  </ol>
+</nav>
+
+<main>
+<div class="coluna">
+
+<div class="topo-celular">
+  <details>
+    <summary>Índice do manual</summary>
+    <ol>
+      <li><a href="#comecar">Como ler este manual</a></li>
+      <li><a href="#ecossistema">O que é cada sistema</a></li>
+      <li><a href="#perfis">Perfis e permissões</a></li>
+      <li><a href="#portal-inicio">Portal: página inicial</a></li>
+      <li><a href="#portal-internas">Portal: páginas internas</a></li>
+      <li><a href="#painel-acesso">Painel: entrar</a></li>
+      <li><a href="#tarefas">Painel: passo a passo</a></li>
+      <li><a href="#acessos">Quem acessa o quê</a></li>
+      <li><a href="#pendencias">Tudo o que falta</a></li>
+      <li><a href="#glossario">Glossário</a></li>
+    </ol>
+  </details>
+</div>
+
+<header class="capa-manual">
+  <span class="selo">Secretaria Municipal de Educação de Paulínia</span>
+  <h1>Manual do Portal Educação</h1>
+  <p>O que o visitante vê no portal, como a equipe da Secretaria mantém tudo pelo painel, quem pode fazer cada coisa e o que ainda falta decidir ou construir.</p>
+  <div class="datas">Versão de 17/10/2026 · ambiente de homologação · fotos de tela reais do sistema</div>
+</header>
+
+<!-- ============================================================ COMO LER -->
+<section class="cap" id="comecar">
+  <span class="olho">Antes de tudo</span>
+  <h2>Como ler este manual</h2>
+  <p class="intro">O manual tem duas partes. A primeira mostra o <b>portal</b>, o site que pais, alunos e a população visitam. A segunda mostra o <b>painel</b>, a área restrita onde os servidores da Secretaria escrevem e publicam o que aparece no portal.</p>
+  <p>Tudo o que está descrito sem marcação já funciona hoje. O que ainda não está resolvido aparece destacado em uma destas cores:</p>
+  <div class="legenda">
+    <div class="l-pronto"><b>Pronto</b>Funciona hoje, do jeito descrito. É o texto normal do manual.</div>
+    <div class="l-definir"><b>Falta definir</b>Depende de uma decisão ou de um dado da SMEDU ou da Secke. O sistema funciona, mas com dado provisório ou sem a regra final.</div>
+    <div class="l-fazer"><b>Falta implementar</b>Ainda não existe no sistema. Precisa ser construído pela Secke.</div>
+  </div>
+  <div class="dica"><b>Endereços de hoje (homologação, ambiente de teste):</b> portal em <span class="mono">portal-municipal-homologacao.willquerubim2025.workers.dev</span> e painel em <span class="mono">painel-municipal-homologacao.willquerubim2025.workers.dev</span>. A faixa vermelha "Ambiente de homologação" no topo do portal só existe neste ambiente; nas fotos deste manual ela foi escondida.</div>
+  <div class="pend definir"><b>Falta definir · SMEDU e Secke</b>O endereço oficial do portal (domínio da Prefeitura, por exemplo <span class="mono">educacao.paulinia.sp.gov.br</span>) e o endereço do painel na produção.</div>
+</section>
+
+<!-- ============================================================ ECOSSISTEMA -->
+<section class="cap" id="ecossistema">
+  <span class="olho">Visão geral</span>
+  <h2>O que é cada sistema</h2>
+  <p class="intro">O portal e o painel são dois lados do mesmo sistema. Os dois leem e gravam no mesmo banco de dados. O que é publicado no painel aparece no portal em até 1 minuto.</p>
+  <pre class="mermaid">
+flowchart LR
+  V["👪 Visitante<br/>(pais, alunos, população)"] -->|lê| P["🌐 Portal<br/>site público"]
+  S["🧑‍💼 Servidor da Secretaria<br/>(com login)"] -->|escreve e publica| PA["🛠️ Painel<br/>área restrita"]
+  PA -->|grava| B[("🗄️ Banco de dados<br/>Supabase")]
+  P -->|lê só o que está publicado| B
+  PA -->|"Meus sistemas"| X["🔗 Sistemas da Prefeitura<br/>(SISS, Fiorilli, SEI…)"]
+  PA -.->|futuro, mesmo login| SAT["🧩 Satélites<br/>CI eletrônica · Área do Estudante · Ouvidoria"]
+  K["🧰 Equipe Secke"] -->|suporte, chamados| PA
+  </pre>
+  <div class="cards">
+    <div class="card"><h4>Portal</h4><p>Site público. Qualquer pessoa acessa, sem login. Mostra só o que está publicado.</p><span class="quem">quem usa: população</span></div>
+    <div class="card"><h4>Painel</h4><p>Onde os servidores criam e publicam notícias, páginas, documentos, serviços, agenda e cuidam da estrutura do portal.</p><span class="quem">quem usa: servidores com papel</span></div>
+    <div class="card"><h4>Meus sistemas</h4><p>Bloco na tela inicial do painel com os atalhos para os sistemas que cada servidor usa no dia a dia.</p><span class="quem">quem usa: servidores</span></div>
+    <div class="card"><h4>Satélites</h4><p>Aplicativos que vão orbitar o portal, com o mesmo login do painel. O primeiro será a CI eletrônica.</p><span class="quem">em construção</span></div>
+  </div>
+  <div class="pend fazer"><b>Falta implementar · Secke</b>Os aplicativos satélites. O primeiro é a <b>CI eletrônica</b> (em início de projeto). Depois: Área do Estudante completa e Ouvidoria própria.</div>
+</section>
+
+<!-- ============================================================ PERFIS -->
+<section class="cap" id="perfis">
+  <span class="olho">Quem pode o quê</span>
+  <h2>Perfis e permissões</h2>
+  <p class="intro">No painel, cada pessoa recebe um ou mais <b>papéis</b>. Cada papel é um conjunto de <b>permissões</b> que o Administrador liga e desliga em <i>Administração → Papéis e permissões</i>. A regra é conferida no banco de dados: se a tela mostrasse um botão por engano, o banco recusaria a ação mesmo assim.</p>
+
+  <h3>As 8 permissões que existem hoje</h3>
+  <div class="tabela"><table>
+    <thead><tr><th>Permissão</th><th>O que libera</th><th>Alcance possível</th></tr></thead>
+    <tbody>
+      <tr><td><b>Criar e editar conteúdo</b></td><td>Criar e editar rascunhos de notícias, páginas, documentos, serviços, agenda, perguntas e banners. Não publica.</td><td>rede, região ou unidade*</td></tr>
+      <tr><td><b>Publicar conteúdo</b></td><td>Publicar, agendar, retirar do site e excluir; gerenciar categorias; ver links quebrados.</td><td>rede, região ou unidade*</td></tr>
+      <tr><td><b>Administrar a organização</b></td><td>Menus, transparência, sistemas, identidade visual, estrutura organizacional, redirecionamentos, auditoria, exportação.</td><td>rede</td></tr>
+      <tr><td><b>Configurar papéis e permissões</b></td><td>Criar papéis e ligar ou desligar permissões; ver o histórico.</td><td>rede</td></tr>
+      <tr><td><b>Atribuir papéis a usuários</b></td><td>Dar e retirar papéis das pessoas, inclusive convidar quem ainda não tem conta. Ninguém altera o próprio acesso.</td><td>rede</td></tr>
+      <tr><td><b>Gerenciar unidades e regiões</b></td><td>Cadastrar, excluir e organizar escolas, regiões e supervisores.</td><td>rede</td></tr>
+      <tr><td><b>Editar dados da unidade</b></td><td>Atualizar contato, endereço, foto e etapas da própria escola.</td><td>rede, região ou unidade</td></tr>
+      <tr><td><b>Gerenciar a equipe gestora</b></td><td>Cadastrar as pessoas da equipe, fotos autorizadas e o que aparece no portal.</td><td>rede</td></tr>
+    </tbody>
+  </table></div>
+  <p>* Com alcance de <b>unidade</b> ou <b>região</b>, as permissões de conteúdo valem <b>só para as notícias</b> das escolas da pessoa. Veja <a href="#t-escola">Notícia da escola</a>.</p>
+
+  <h3>Os perfis na prática</h3>
+  <div class="cards">
+    <div class="card"><h4>Administrador</h4><p>Tudo: conteúdo, publicação, estrutura, identidade, pessoas e permissões. É o papel protegido: não pode ser excluído e nunca perde as permissões de configurar papéis e dar acesso.</p><span class="quem">papel padrão</span></div>
+    <div class="card"><h4>Redator</h4><p>Escreve e salva rascunhos de qualquer conteúdo. Não publica: o que ele escreve espera um publicador. Conteúdo já publicado fica só para leitura.</p><span class="quem">hoje: "Redator (teste)"</span></div>
+    <div class="card"><h4>Publicador</h4><p>Tudo do redator e mais: publicar, agendar, retirar do site, excluir e cuidar das categorias.</p><span class="quem">a criar</span></div>
+    <div class="card"><h4>Diretor de escola</h4><p>Atualiza os dados da própria escola (contato, endereço, foto, etapas). Por padrão não escreve notícias.</p><span class="quem">papel padrão</span></div>
+    <div class="card"><h4>Comunicação da escola</h4><p>Escreve e publica só as notícias da própria escola. No painel vê apenas "Notícias e avisos".</p><span class="quem">hoje: papel de teste</span></div>
+    <div class="card"><h4>Professor e Estudante</h4><p>Papéis que já existem, mas ainda sem nenhuma permissão. Vão ganhar função com os satélites (Área do Estudante).</p><span class="quem">sem função ainda</span></div>
+    <div class="card"><h4>Equipe Secke</h4><p>Acesso de suporte a todas as organizações. Responde chamados, registra notas internas e lança o consumo do contrato. Não aparece nas listas de pessoas.</p><span class="quem">fora da SMEDU</span></div>
+  </div>
+  <div class="pend definir"><b>Falta definir · SMEDU</b>Quais papéis a Secretaria vai usar de verdade. A sugestão é: <b>Redator</b> (escreve), <b>Publicador</b> (revisa e publica), <b>Diretor</b> (dados da escola) e, se as escolas forem publicar, <b>Comunicação da escola</b>. Hoje só existem os papéis padrão e dois papéis de teste. Também falta saber quem será o <b>primeiro Administrador</b> da SMEDU (item 11 das pendências).</div>
+  <div class="pend definir"><b>Falta definir · Secke</b>Se "Redator" e "Publicador" passam a nascer prontos em toda organização nova (hoje cada uma cria os seus).</div>
+
+  <h3>Tabela de permissões por perfil</h3>
+  <p>✓ pode · — não pode · <b style="color:var(--acento)">U</b> só na própria escola</p>
+  <div class="tabela"><table class="matriz">
+    <thead><tr><th>O que fazer</th><th>Adminis­trador</th><th>Publi­cador</th><th>Redator</th><th>Comunic. escola</th><th>Diretor</th><th>Professor / Estudante</th></tr></thead>
+    <tbody>
+      <tr><td>Entrar no painel e ver "Meus sistemas"</td><td class="s">✓</td><td class="s">✓</td><td class="s">✓</td><td class="s">✓</td><td class="s">✓</td><td class="s">✓</td></tr>
+      <tr><td>Escrever rascunho de notícia</td><td class="s">✓</td><td class="s">✓</td><td class="s">✓</td><td class="u">U</td><td class="n">—</td><td class="n">—</td></tr>
+      <tr><td>Publicar, agendar, retirar notícia</td><td class="s">✓</td><td class="s">✓</td><td class="n">—</td><td class="u">U</td><td class="n">—</td><td class="n">—</td></tr>
+      <tr><td>Editar notícia já publicada</td><td class="s">✓</td><td class="s">✓</td><td class="n">—</td><td class="u">U</td><td class="n">—</td><td class="n">—</td></tr>
+      <tr><td>Destacar notícia na página inicial</td><td class="s">✓</td><td class="s">✓</td><td class="s">✓</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+      <tr><td>Documentos, páginas, serviços, agenda, perguntas, banners (rascunho)</td><td class="s">✓</td><td class="s">✓</td><td class="s">✓</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+      <tr><td>Publicar esses conteúdos</td><td class="s">✓</td><td class="s">✓</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+      <tr><td>Categorias e links quebrados</td><td class="s">✓</td><td class="s">✓</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+      <tr><td>Chamados com a Secke</td><td class="s">✓</td><td class="s">✓</td><td class="s">✓</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+      <tr><td>Dados da própria escola</td><td class="s">✓</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="u">U</td><td class="n">—</td></tr>
+      <tr><td>Cadastrar escolas, regiões, equipe gestora</td><td class="s">✓</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+      <tr><td>Menus, transparência, sistemas, identidade, estrutura, redirecionamentos</td><td class="s">✓</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+      <tr><td>Auditoria e exportação</td><td class="s">✓</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+      <tr><td>Papéis, permissões e dar acesso a pessoas</td><td class="s">✓</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+    </tbody>
+  </table></div>
+  <p>Esta tabela mostra a configuração sugerida. O Administrador pode mudar qualquer papel ligando ou desligando permissões, e a mudança vale na hora.</p>
+</section>
+
+<!-- ============================================================ PORTAL: INÍCIO -->
+<section class="cap" id="portal-inicio">
+  <span class="olho">Parte 1 · Portal</span>
+  <h2>A página inicial</h2>
+  <p class="intro">A página inicial é montada em blocos, de cima para baixo, sempre nesta ordem. Cada bloco mostra uma coisa e é alimentado por uma parte do painel.</p>
+  <figure class="alta"><a href="img/portal-home.jpg"><img src="img/portal-home.jpg" alt="Página inicial completa do portal no computador" loading="lazy"></a><figcaption>Página inicial no computador. Clique para ver em tamanho real.</figcaption></figure>
+
+  <ol class="mapa-home">
+    <li><div><h4>Cabeçalho e barra de acessibilidade</h4><p>Faixa escura com atalhos de teclado, tamanho do texto (A−, A, A+), alto contraste e o link "Site da Prefeitura". Abaixo, o brasão e o nome da Secretaria, o menu principal, a lupa de busca e o botão <b>Fale com a Educação</b>.</p><p><b>Onde se altera:</b> o menu em <i>Estrutura → Menus</i>; brasão, nome e cores em <i>Estrutura → Identidade visual e dados</i>.</p><div class="pend fazer"><b>Falta implementar</b>O texto e o destino do botão "Fale com a Educação" só a Secke altera hoje.</div></div>
+      <figure><img src="img/home-cabecalho.jpg" alt="Cabeçalho do portal" loading="lazy"></figure></li>
+    <li><div><h4>Aviso em faixa</h4><p>Recado curto em uma faixa abaixo do cabeçalho, em todas as páginas (ex.: "Uniforme escolar 2027: o cadastro está aberto"). O visitante pode fechar; ele não volta a aparecer para aquela pessoa até ser editado.</p><p><b>Onde se altera:</b> <i>Conteúdo → Banners e alertas</i>, tipo "Alerta em faixa".</p></div>
+      <figure><img src="img/home-aviso.jpg" alt="Aviso em faixa" loading="lazy"></figure></li>
+    <li><div><h4>Destaque (carrossel)</h4><p>Fotos grandes que passam sozinhas a cada 4,5 segundos, com título, uma linha e um botão. O visitante pode pausar ou passar pelas setas.</p><p><b>Onde se altera:</b> <i>Conteúdo → Banners e alertas</i>, tipo "Banner com imagem".</p></div>
+      <figure><img src="img/home-destaque.jpg" alt="Carrossel de destaques" loading="lazy"></figure></li>
+    <li><div><h4>Notícias</h4><p>As notícias mais recentes, com foto. As marcadas como "Destacar na página inicial" aparecem primeiro. Notícia sem foto ganha uma imagem padrão.</p><p><b>Onde se altera:</b> <i>Conteúdo → Notícias e avisos</i>.</p></div>
+      <figure><img src="img/home-noticias.jpg" alt="Bloco de notícias" loading="lazy"></figure></li>
+    <li><div><h4>Em foco</h4><p>Cartões grandes para os assuntos de maior procura (hoje: Matrícula e Bolsa de Estudo), com foto, texto e botão.</p><div class="pend fazer"><b>Falta implementar</b>Editar o "Em foco" pelo painel. Hoje textos e fotos deste bloco são trocados pela Secke.</div></div>
+      <figure><img src="img/home-foco.jpg" alt="Bloco Em foco" loading="lazy"></figure></li>
+    <li><div><h4>Eventos</h4><p>Calendário do mês com os dias que têm evento marcados. Ao clicar no dia, aparecem os eventos daquela data. Link para a Agenda completa.</p><p><b>Onde se altera:</b> <i>Conteúdo → Agenda</i>.</p><div class="pend definir"><b>Falta definir · SMEDU</b>A agenda real: hoje 6 dos 7 eventos são fictícios (item 14).</div></div>
+      <figure><img src="img/home-agenda.jpg" alt="Bloco de eventos com calendário" loading="lazy"></figure></li>
+    <li><div><h4>Serviços</h4><p>Cartões com ícone para os serviços mais procurados: Matrícula, Área do Estudante, Secretaria de Educação, Educação em Números, Fale com o Supervisor e Ouvidoria. Link para a Carta de Serviços completa.</p><p><b>Onde se altera:</b> o conteúdo de cada serviço em <i>Conteúdo → Serviços</i>.</p><div class="pend fazer"><b>Falta implementar</b>Escolher no painel quais serviços aparecem nesta área, o ícone, a ordem e o selo "Em breve". Hoje a Secke faz isso.</div></div>
+      <figure><img src="img/home-servicos.jpg" alt="Bloco de serviços" loading="lazy"></figure></li>
+    <li><div><h4>Equipe gestora</h4><p>Foto, nome e cargo da direção, da supervisão e das divisões. Só aparece quem está marcado como visível, e foto só com autorização de uso de imagem.</p><p><b>Onde se altera:</b> <i>Rede → Equipe gestora</i>.</p><div class="pend definir"><b>Falta definir · SMEDU</b>A equipe real. Hoje os nomes e as fotos são <b>fictícios</b>, só para a apresentação (item 7).</div></div>
+      <figure><img src="img/home-equipe.jpg" alt="Bloco equipe gestora" loading="lazy"></figure></li>
+  </ol>
+  <div class="pend fazer"><b>Falta implementar · Secke</b>Mudar pelo painel a <b>ordem dos blocos</b> e os <b>títulos das seções</b> da página inicial. Hoje isso é configurado pela Secke.</div>
+
+  <h3 id="portal-menu">Menu principal e rodapé</h3>
+  <p>O menu principal da SMEDU tem 6 itens: <b>Início</b>, <b>A Secretaria</b> (abre um submenu com Sobre a Secretaria, Equipe gestora, Estrutura organizacional, Legislação, Documentos e Perguntas frequentes), <b>Matrícula</b>, <b>Escolas e supervisores</b>, <b>Notícias</b> e <b>Serviços</b>. Tudo é editável em <i>Estrutura → Menus</i>.</p>
+  <figure><img src="img/home-rodape.jpg" alt="Rodapé do portal" loading="lazy"><figcaption>Rodapé: contatos e endereço da Secretaria (vêm de Identidade visual e dados), links obrigatórios (Acesso à Informação, Ouvidoria, Transparência, Privacidade, Acessibilidade), mapa do site, Site da Prefeitura, <b>Acesso do servidor</b> (leva ao painel) e Radar da Transparência Pública.</figcaption></figure>
+</section>
+
+<!-- ============================================================ PORTAL: INTERNAS -->
+<section class="cap" id="portal-internas">
+  <span class="olho">Parte 1 · Portal</span>
+  <h2>As páginas internas</h2>
+  <p class="intro">Todas as páginas internas seguem o mesmo desenho: uma faixa clara com o título e uma frase de apresentação, a foto de capa (quando houver) e o conteúdo com uma coluna lateral à direita.</p>
+  <figure><img src="img/portal-sobre.jpg" alt="Página Sobre a Secretaria com capa e coluna lateral" loading="lazy"><figcaption>Página "Sobre a Secretaria": faixa do título, foto de capa e coluna lateral.</figcaption></figure>
+  <div class="cards">
+    <div class="card"><h4>Faixa do título</h4><p>Título da página e o resumo em uma linha. É o "Resumo" preenchido no painel.</p></div>
+    <div class="card"><h4>Foto de capa</h4><p>Opcional, em páginas e serviços. Escolhida no painel, campo "Foto de capa".</p></div>
+    <div class="card"><h4>Nesta seção</h4><p>As outras páginas do mesmo grupo do menu (ex.: A Secretaria), com a atual marcada.</p></div>
+    <div class="card"><h4>Mais procurados</h4><p>Os mesmos atalhos da área de Serviços da página inicial.</p></div>
+    <div class="card"><h4>Atendimento</h4><p>Telefone, e-mail, horário e o botão "Fale com a Educação".</p></div>
+  </div>
+  <div class="dica"><b>Trilha de navegação desligada.</b> A linha "Início › Serviços › …" no alto das páginas foi retirada a pedido da Secretaria. Ela pode voltar em <i>Identidade visual e dados → Navegação</i>.</div>
+
+  <h3 id="portal-paginas">Página por página</h3>
+  <div class="tabela"><table>
+    <thead><tr><th>Página</th><th>O que mostra</th><th>Onde se altera no painel</th><th>Situação</th></tr></thead>
+    <tbody>
+      <tr><td><b>Sobre a Secretaria</b><br><span class="mono">/sobre</span></td><td>O que a Secretaria faz, a rede em números, organização e atendimento.</td><td>Conteúdo → Páginas</td><td><span class="tag definir">texto provisório</span></td></tr>
+      <tr><td><b>Notícias</b><br><span class="mono">/noticias</span></td><td>Todas as notícias, da mais nova para a mais antiga, com foto, data e resumo; filtro por categoria.</td><td>Conteúdo → Notícias e avisos</td><td><span class="tag pronto">pronto</span></td></tr>
+      <tr><td><b>Notícia</b><br><span class="mono">/noticias/…</span></td><td>Título, data de publicação e de atualização, foto, texto, galeria de fotos, categorias e, se for o caso, o nome da escola.</td><td>Conteúdo → Notícias e avisos</td><td><span class="tag pronto">pronto</span></td></tr>
+      <tr><td><b>Agenda</b><br><span class="mono">/eventos</span></td><td>Próximos eventos e anteriores; cada evento com data, horário, local, foto e link de inscrição.</td><td>Conteúdo → Agenda</td><td><span class="tag definir">eventos fictícios</span></td></tr>
+      <tr><td><b>Carta de Serviços</b><br><span class="mono">/servicos</span></td><td>Todos os serviços em cartões com ícone; busca e filtro por público (Cidadão, Servidor).</td><td>Conteúdo → Serviços</td><td><span class="tag pronto">pronto</span></td></tr>
+      <tr><td><b>Serviço</b><br><span class="mono">/servicos/…</span></td><td>Quem pode solicitar, prazo, custo, canal, local e horário, documentos, como solicitar, órgão responsável e botão "Acessar".</td><td>Conteúdo → Serviços</td><td><span class="tag definir">Matrícula 2027 a confirmar</span></td></tr>
+      <tr><td><b>Legislação</b><br><span class="mono">/legislacao</span></td><td>Leis, decretos, portarias e resoluções, com busca por número, tipo, ano e situação (vigente, revogado…).</td><td>Conteúdo → Documentos e legislação</td><td><span class="tag definir">só leis federais</span></td></tr>
+      <tr><td><b>Documentos</b><br><span class="mono">/documentos</span></td><td>Todos os documentos: editais, atas, relatórios, convênios, planos…</td><td>Conteúdo → Documentos e legislação</td><td><span class="tag definir">faltam documentos</span></td></tr>
+      <tr><td><b>Transparência</b><br><span class="mono">/transparencia</span></td><td>Central com 9 seções no modelo de uma secretaria (Informações Institucionais, Contas Públicas, Editais, Conselhos, Planos e Relatórios, Acesso à Informação, Ouvidoria, Privacidade, Acessibilidade).</td><td>Estrutura → Transparência</td><td><span class="tag definir">contas e conselhos</span></td></tr>
+      <tr><td><b>Perguntas frequentes</b><br><span class="mono">/perguntas-frequentes</span></td><td>Perguntas e respostas que abrem ao clicar.</td><td>Conteúdo → Perguntas frequentes</td><td><span class="tag definir">9 provisórias</span></td></tr>
+      <tr><td><b>Fale com o supervisor</b><br><span class="mono">/fale-com-o-supervisor</span></td><td>Busca da escola pelo nome ou bairro; mostra endereço, telefone e o supervisor responsável.</td><td>Rede → Unidades e regiões</td><td><span class="tag definir">supervisores</span></td></tr>
+      <tr><td><b>Educação em Números</b><br><span class="mono">/educacao-em-numeros</span></td><td>Escolas, matrículas, IDEB e professores, com as fontes.</td><td>Conteúdo → Páginas</td><td><span class="tag definir">números a conferir</span></td></tr>
+      <tr><td><b>Estrutura organizacional</b><br><span class="mono">/estrutura-organizacional</span></td><td>Lista dos setores; cada setor com competências, responsável e contatos.</td><td>Estrutura → Estrutura organizacional</td><td><span class="tag definir">responsáveis</span></td></tr>
+      <tr><td><b>Ouvidoria, Acesso à Informação, Privacidade, Acessibilidade</b></td><td>Páginas obrigatórias por lei, ligadas no rodapé.</td><td>Conteúdo → Páginas</td><td><span class="tag definir">textos provisórios</span></td></tr>
+      <tr><td><b>Busca</b><br><span class="mono">/busca</span></td><td>Procura ao mesmo tempo em notícias, páginas, documentos, serviços, órgãos, eventos e perguntas.</td><td>automática</td><td><span class="tag pronto">pronto</span></td></tr>
+      <tr><td><b>Mapa do site</b><br><span class="mono">/mapa-do-site</span></td><td>Lista de todas as páginas, para quem prefere navegar por índice.</td><td>automático</td><td><span class="tag pronto">pronto</span></td></tr>
+    </tbody>
+  </table></div>
+  <div class="figuras-2">
+    <figure><img src="img/portal-servicos.jpg" alt="Carta de Serviços em cartões" loading="lazy"><figcaption>Carta de Serviços.</figcaption></figure>
+    <figure><img src="img/portal-servico.jpg" alt="Página de um serviço" loading="lazy"><figcaption>Página do serviço Área do Estudante.</figcaption></figure>
+    <figure><img src="img/portal-noticia.jpg" alt="Página de notícia" loading="lazy"><figcaption>Uma notícia.</figcaption></figure>
+    <figure><img src="img/portal-agenda.jpg" alt="Agenda" loading="lazy"><figcaption>Agenda.</figcaption></figure>
+    <figure><img src="img/portal-transparencia.jpg" alt="Central de Transparência" loading="lazy"><figcaption>Central de Transparência.</figcaption></figure>
+    <figure><img src="img/portal-legislacao.jpg" alt="Legislação" loading="lazy"><figcaption>Legislação.</figcaption></figure>
+    <figure><img src="img/portal-perguntas.jpg" alt="Perguntas frequentes" loading="lazy"><figcaption>Perguntas frequentes.</figcaption></figure>
+    <figure><img src="img/portal-supervisor.jpg" alt="Fale com o supervisor com resultado de busca" loading="lazy"><figcaption>Fale com o supervisor, depois de buscar "cemep".</figcaption></figure>
+  </div>
+  <div class="pend fazer"><b>Falta implementar · Secke (adiado)</b>Uma <b>página para cada escola</b>, com dados, supervisor e as notícias da escola, e a lista de escolas com filtro por etapa. Proposta registrada em 17/10/2026, deixada para depois.</div>
+
+  <h3 id="portal-acessibilidade">Acessibilidade</h3>
+  <ul>
+    <li><b>Atalhos de teclado</b> na barra do topo: 1 vai ao conteúdo, 2 ao menu, 3 à busca, 4 ao rodapé (padrão do governo, eMAG).</li>
+    <li><b>Tamanho do texto</b> (A−, A, A+) e <b>alto contraste</b>, lembrados no navegador do visitante.</li>
+    <li><b>VLibras</b>: o botão azul com as mãos, à direita, traduz o texto clicado para Libras.</li>
+    <li>Toda imagem enviada pelo painel exige <b>texto alternativo</b>, lido por quem usa leitor de tela.</li>
+    <li>O painel não deixa salvar cores com pouco contraste.</li>
+    <li>Conferência automática (padrão WCAG 2.1 AA): nenhum erro nas páginas revisadas.</li>
+  </ul>
+  <div class="pend fazer"><b>Falta implementar · Secke</b>Teste manual com leitor de tela (NVDA) nas páginas principais, antes da ida ao ar.</div>
+
+  <h3 id="portal-celular">No celular</h3>
+  <p>O portal se ajusta à tela. O menu vira o botão "Menu", a coluna lateral desce para depois do texto e as fotos ficam mais altas.</p>
+  <div class="figuras-2">
+    <figure class="celular alta"><img src="img/portal-celular-home.jpg" alt="Página inicial no celular" loading="lazy"><figcaption>Página inicial.</figcaption></figure>
+    <figure class="celular alta"><img src="img/portal-celular-servico.jpg" alt="Serviço no celular" loading="lazy"><figcaption>Área do Estudante.</figcaption></figure>
+  </div>
+  <div class="dica"><b>Quanto tempo leva para aparecer?</b> O que é publicado no painel aparece no portal em até <b>1 minuto</b>. Se não aparecer, recarregue a página com Ctrl+F5.</div>
+</section>
+
+<!-- ============================================================ PAINEL: ACESSO -->
+<section class="cap" id="painel-acesso">
+  <span class="olho">Parte 2 · Painel</span>
+  <h2>Entrar no painel</h2>
+  <p class="intro">O painel é a área restrita. Para entrar, a pessoa precisa de uma conta (e-mail e senha) e de pelo menos um papel na Secretaria. O caminho mais fácil é o link <b>Acesso do servidor</b>, no rodapé do portal.</p>
+  <div class="figuras-2">
+    <figure><img src="img/painel-entrar.jpg" alt="Tela Entrar do painel" loading="lazy"><figcaption>Tela de entrada.</figcaption></figure>
+    <figure><img src="img/painel-esqueci.jpg" alt="Tela Recuperar senha" loading="lazy"><figcaption>"Esqueci minha senha".</figcaption></figure>
+  </div>
+  <h3>Primeiro acesso de um servidor</h3>
+  <pre class="mermaid">
+flowchart TD
+  A["Administrador abre<br/>Administração → Vínculos"] --> B["Dar papel a alguém:<br/>e-mail, nome, papel e onde vale"]
+  B --> C{"A pessoa já<br/>tem conta?"}
+  C -->|sim| D["Papel atribuído na hora"]
+  C -->|não| E["O painel gera o<br/>link de convite"]
+  E --> F["Administrador envia o link<br/>(WhatsApp, e-mail)"]
+  F --> G["Servidor abre o link<br/>e cria a senha (mín. 10 caracteres)"]
+  G --> H["Entra no painel e vê<br/>só o que o papel permite"]
+  D --> H
+  </pre>
+  <div class="pend fazer"><b>Falta implementar · Secke</b>O <b>e-mail do sistema</b> (SMTP). Sem ele, o convite e o "Esqueci minha senha" não chegam por e-mail: o Administrador precisa copiar o link e mandar para a pessoa. Obrigatório antes de convidar os servidores de verdade.</div>
+  <div class="pend definir"><b>Falta definir · SMEDU</b>Se todos os servidores têm <b>e-mail institucional</b> (é o que será usado para o login).</div>
+</section>
+
+<!-- ============================================================ PAINEL: INÍCIO -->
+<section class="cap" id="painel-inicio">
+  <span class="olho">Parte 2 · Painel</span>
+  <h2>Tela inicial e menu</h2>
+  <p class="intro">Cada pessoa vê uma tela inicial e um menu diferentes, de acordo com o papel. O que ela não pode usar simplesmente não aparece.</p>
+  <figure><img src="img/painel-inicio-admin.jpg" alt="Tela inicial do Administrador" loading="lazy"><figcaption>Administrador: resumo das notícias (rascunhos, agendadas, publicadas), atalho "Nova notícia" e o menu completo à esquerda.</figcaption></figure>
+  <div class="figuras-2">
+    <figure><img src="img/painel-inicio-redator.jpg" alt="Tela inicial do Redator" loading="lazy"><figcaption>Redator: só as telas de conteúdo e Chamados.</figcaption></figure>
+    <figure><img src="img/painel-inicio-escola.jpg" alt="Tela inicial da conta da escola" loading="lazy"><figcaption>Comunicação da escola: só "Notícias e avisos".</figcaption></figure>
+  </div>
+  <h3>O menu do painel</h3>
+  <div class="tabela"><table>
+    <thead><tr><th>Grupo</th><th>Telas</th><th>Quem vê</th></tr></thead>
+    <tbody>
+      <tr><td><b>Conteúdo</b></td><td>Notícias e avisos · Documentos e legislação · Páginas · Serviços · Agenda · Perguntas frequentes · Banners e alertas</td><td>quem cria ou publica conteúdo (a escola vê só Notícias)</td></tr>
+      <tr><td><b>Rede</b></td><td>Unidades e regiões · Equipe gestora</td><td>quem tem as permissões de unidades ou de equipe</td></tr>
+      <tr><td><b>Estrutura</b></td><td>Estrutura organizacional · Menus · Transparência · Sistemas · PNTP · Identidade visual e dados · Categorias · Redirecionamentos</td><td>Administrador (Categorias: também quem publica)</td></tr>
+      <tr><td><b>Administração</b></td><td>Usuários · Papéis e permissões · Vínculos de usuários · Chamados · Links quebrados · Auditoria · Exportar dados</td><td>conforme a permissão de cada tela</td></tr>
+    </tbody>
+  </table></div>
+  <div class="pend definir"><b>Falta definir · Secke</b>A tela <b>Usuários</b> é do modelo antigo de acesso (Editor, Publicador, Administrador). O modelo atual é <b>Vínculos</b> + <b>Papéis e permissões</b>. Para a SMEDU, use sempre Vínculos. Decidir se Usuários sai do menu.</div>
+</section>
+
+<!-- ============================================================ TAREFAS -->
+<section class="cap" id="tarefas">
+  <span class="olho">Parte 2 · Painel</span>
+  <h2>Passo a passo</h2>
+  <p class="intro">As tarefas mais comuns, na ordem em que aparecem no trabalho do dia a dia.</p>
+
+  <h3>Como todo conteúdo funciona</h3>
+  <p>Notícias, documentos, páginas, serviços, eventos, perguntas e banners seguem o mesmo ciclo:</p>
+  <pre class="mermaid">
+stateDiagram-v2
+  direction LR
+  [*] --> Rascunho: Salvar rascunho
+  Rascunho --> Publicado: Publicar agora
+  Rascunho --> Agendado: Agendar para data e hora
+  Agendado --> Publicado: chega a hora
+  Publicado --> Retirado: Retirar do site
+  Retirado --> Publicado: Publicar de novo
+  Rascunho --> [*]: Excluir
+  Retirado --> [*]: Excluir
+  </pre>
+  <ul>
+    <li><b>Rascunho</b>: só aparece no painel. Qualquer pessoa com permissão de conteúdo cria e edita.</li>
+    <li><b>Publicado</b>: aparece no portal em até 1 minuto. Só quem publica pode alterar.</li>
+    <li><b>Agendado</b>: publicado com data futura; entra no ar sozinho.</li>
+    <li><b>Retirado do site</b>: sai do portal, mas continua guardado no painel.</li>
+    <li>O <b>endereço</b> (ex.: <span class="mono">/noticias/feira-de-ciencias</span>) é criado a partir do título e <b>trava depois de publicado</b>, para não quebrar links já compartilhados.</li>
+    <li>Toda alteração fica registrada na <b>Auditoria</b>: quem mudou, o quê e quando.</li>
+  </ul>
+
+  <!-- notícia -->
+  <h3 id="t-noticia">Publicar uma notícia</h3>
+  <pre class="mermaid">
+flowchart LR
+  R["✍️ Redator escreve<br/>e salva rascunho"] --> PV["👁️ Pré-visualizar<br/>(link de 30 min)"]
+  PV --> P["✅ Publicador revisa<br/>e clica Publicar agora"]
+  P --> S["🌐 No portal<br/>em até 1 minuto"]
+  P -.->|ou| AG["🕒 Agendar<br/>para data e hora"]
+  AG --> S
+  </pre>
+  <figure><img src="img/painel-noticia-nova.jpg" alt="Formulário de nova notícia" loading="lazy"><figcaption>Formulário de nova notícia: texto à esquerda, tipo, imagem, categorias, unidade e destaque à direita.</figcaption></figure>
+  <ol class="passos">
+    <li>No menu, clique em <b>Conteúdo → Notícias e avisos</b> e depois em <span class="botao">Nova notícia</span>.</li>
+    <li>Preencha o <span class="campo">Título</span>. O <span class="campo">Endereço no site</span> é criado sozinho a partir dele.</li>
+    <li>Escreva o <span class="campo">Resumo</span> (até 300 caracteres): aparece na lista de notícias, no Google e na prévia do WhatsApp.</li>
+    <li>Escreva o <span class="campo">Texto</span>. A barra tem negrito (N), itálico (I), subtítulos (T2, T3), listas, citação, link e imagem no meio do texto.</li>
+    <li>À direita, escolha o <span class="campo">Tipo</span>: <b>Notícia</b> ou <b>Aviso</b>.</li>
+    <li>Em <span class="campo">Imagem de destaque</span>, envie uma foto ou clique em <b>Escolher da biblioteca</b>. Descreva a imagem (texto alternativo): sem isso, ela não é aceita.</li>
+    <li>Marque as <span class="campo">Categorias</span> e, se for o caso, o <span class="campo">Órgão responsável</span> e a <span class="campo">Unidade</span> (escola).</li>
+    <li>Opcional: <span class="campo">Destacar na página inicial</span> e <span class="campo">Sair das listagens em</span> (para avisos com prazo).</li>
+    <li>Clique em <span class="botao">Salvar rascunho</span>. Depois de salvo, aparecem a <b>galeria de fotos</b> e o botão <b>Pré-visualizar no site</b>.</li>
+    <li>Quem publica clica em <span class="botao">Publicar agora</span>, ou escolhe a data em <b>Agendar para</b> e clica em <span class="botao">Agendar</span>.</li>
+  </ol>
+  <div class="dica"><b>Pré-visualizar no site</b> abre a notícia como ela vai ficar no portal, mesmo ainda em rascunho, com o aviso "Ainda não publicada". O link vale por 30 minutos e serve para mostrar a alguém antes de publicar.</div>
+  <div class="pend definir"><b>Falta definir · SMEDU</b>O fluxo de aprovação: quem escreve e quem publica as notícias da Secretaria (um redator e um publicador, ou a mesma pessoa).</div>
+
+  <!-- editar -->
+  <h3 id="t-editar">Editar, agendar e retirar do site</h3>
+  <figure><img src="img/painel-noticia-editar.jpg" alt="Notícia publicada aberta para edição" loading="lazy"><figcaption>Notícia publicada aberta pelo Administrador: etiqueta "Publicado", endereço travado e os botões Salvar alterações, Retirar do site e Excluir.</figcaption></figure>
+  <ol class="passos">
+    <li>Em <b>Notícias e avisos</b>, use a busca pelo título ou o filtro <span class="campo">Situação</span> (Rascunhos, Agendadas, Publicadas, Despublicadas).</li>
+    <li>Clique no título para abrir.</li>
+    <li>Altere o que precisar e clique em <span class="botao">Salvar alterações</span>. Se a notícia está publicada, a mudança aparece no portal em até 1 minuto.</li>
+    <li>Para tirar do ar sem apagar: <span class="botao">Retirar do site</span>. Para apagar de vez: <span class="botao">Excluir</span> (pede confirmação; não tem volta).</li>
+  </ol>
+  <figure><img src="img/painel-redator-bloqueado.jpg" alt="Notícia publicada vista pelo redator, só leitura" loading="lazy"><figcaption>O que o Redator vê ao abrir uma notícia publicada: o aviso "Só um publicador pode alterar" e os campos travados.</figcaption></figure>
+
+  <!-- foto -->
+  <h3 id="t-foto">Trocar uma foto</h3>
+  <p>Toda foto passa pela <b>biblioteca de mídias</b>: as imagens enviadas ficam guardadas e podem ser usadas de novo em qualquer conteúdo.</p>
+  <figure><img src="img/painel-biblioteca.jpg" alt="Biblioteca de mídias" loading="lazy"><figcaption>A biblioteca: busca pela descrição ou nome do arquivo, 24 imagens por página.</figcaption></figure>
+  <ol class="passos">
+    <li>Abra o conteúdo que tem a foto (tabela abaixo).</li>
+    <li>No campo da imagem, clique em <b>Escolher da biblioteca</b> e escolha uma foto já enviada, <b>ou</b> clique em <b>Arquivo</b> e envie uma nova (JPG, PNG ou WebP).</li>
+    <li>Ao enviar uma foto nova, escreva a <span class="campo">descrição da imagem</span> (texto alternativo), por exemplo "Alunos apresentando trabalhos na feira de ciências". É obrigatória.</li>
+    <li>Para tirar a foto, use <b>Remover imagem</b>.</li>
+    <li>Salve o conteúdo. Se estiver publicado, a troca aparece no portal em até 1 minuto.</li>
+  </ol>
+  <div class="tabela"><table>
+    <thead><tr><th>Qual foto</th><th>Onde trocar</th><th>Quem pode</th></tr></thead>
+    <tbody>
+      <tr><td>Foto da notícia e galeria</td><td>Conteúdo → Notícias e avisos → a notícia</td><td>quem edita / publica</td></tr>
+      <tr><td>Foto grande do carrossel (destaque)</td><td>Conteúdo → Banners e alertas → o banner (1200 × 514)</td><td>quem edita / publica</td></tr>
+      <tr><td>Foto de capa de uma página</td><td>Conteúdo → Páginas → a página → Foto de capa</td><td>quem edita / publica</td></tr>
+      <tr><td>Foto de capa de um serviço</td><td>Conteúdo → Serviços → o serviço → Foto de capa</td><td>quem edita / publica</td></tr>
+      <tr><td>Foto de um evento</td><td>Conteúdo → Agenda → o evento → Imagem</td><td>quem edita / publica</td></tr>
+      <tr><td>Foto de pessoa da equipe gestora</td><td>Rede → Equipe gestora → a pessoa (só com autorização)</td><td>Gerenciar a equipe</td></tr>
+      <tr><td>Foto da escola</td><td>Rede → Unidades e regiões → a escola</td><td>Gerenciar ou editar unidade</td></tr>
+      <tr><td>Foto do responsável de um setor</td><td>Estrutura → Estrutura organizacional → o setor</td><td>Administrador</td></tr>
+      <tr><td>Brasão e imagem de compartilhamento</td><td>Estrutura → Identidade visual e dados</td><td>Administrador</td></tr>
+      <tr><td>Fotos do bloco "Em foco"</td><td><span class="tag fazer">falta implementar</span> hoje pela Secke</td><td>Secke</td></tr>
+    </tbody>
+  </table></div>
+  <div class="pend definir"><b>Falta definir · SMEDU</b>A <b>autorização de uso de imagem</b> das fotos de alunos e servidores (item 9). Várias fotos de hoje são provisórias (banco de imagens livres ou do site da Prefeitura).</div>
+
+  <!-- escola -->
+  <h3 id="t-escola">Notícia da escola</h3>
+  <p>Uma notícia pode ser de uma escola. Isso serve para dois usos:</p>
+  <ul>
+    <li>A Secretaria marca a escola numa notícia sobre ela; o nome da escola aparece na notícia, no portal.</li>
+    <li>A própria escola escreve e publica as suas notícias, se a Secretaria der o papel "Comunicação da escola" a alguém de lá.</li>
+  </ul>
+  <figure><img src="img/painel-escola-noticia.jpg" alt="Nova notícia pela conta da escola" loading="lazy"><figcaption>Conta da escola: o campo <b>Unidade</b> já vem preenchido com a escola dela, sem a opção "notícia da organização", e não existe "Destacar na página inicial".</figcaption></figure>
+  <ol class="passos">
+    <li>O Administrador cria (ou usa) um papel com <b>Criar e editar conteúdo</b> e/ou <b>Publicar conteúdo</b> com alcance <b>"Só a unidade do vínculo"</b> (em Papéis e permissões).</li>
+    <li>Em <b>Vínculos</b>, dá esse papel à pessoa, escolhendo <b>Uma unidade</b> e a escola.</li>
+    <li>A pessoa entra no painel e vê só <b>Notícias e avisos</b>, com as notícias da escola dela.</li>
+    <li>Ela escreve a notícia e, se tiver "Publicar", publica. A lista dela mostra só as notícias da escola.</li>
+  </ol>
+  <p>Regras que o banco garante: a escola não escreve notícia de outra escola nem da Secretaria, não troca a escola de uma notícia e não coloca notícia em destaque na página inicial.</p>
+  <div class="pend definir"><b>Falta definir · SMEDU</b>Se as escolas vão publicar, quem em cada escola escreve, e se publica direto ou passa pela Secretaria (item 19).</div>
+
+  <!-- outros conteúdos -->
+  <h3 id="t-conteudos">Documentos, páginas, serviços, agenda e perguntas</h3>
+  <div class="cards">
+    <div class="card"><h4>Documentos e legislação</h4><p><b>Tipo</b> (Leis e Decretos da Área, Portarias, Resoluções, Editais, Atas dos conselhos, Planos, Relatórios…), número, ano, data, ementa e <b>situação de vigência</b> (vigente, alterado, revogado…). Depois de salvar: <b>anexar arquivos</b> (PDF até 20 MB, ou link externo) e <b>atos relacionados</b> ("regulamenta", "altera", "revoga").</p></div>
+    <div class="card"><h4>Páginas</h4><p>Páginas de texto (Sobre, Ouvidoria, Privacidade…). Podem ficar dentro de outra (<b>Página-mãe</b>): o endereço vira <span class="mono">/sobre/historico</span>. Têm <b>Foto de capa</b> opcional.</p></div>
+    <div class="card"><h4>Serviços</h4><p>Ficha da Carta de Serviços (Lei 13.460): público, quem pode solicitar, documentos, como solicitar, prazo, custo, canal, local e horário, órgão, <b>link do serviço</b> (site externo com https:// ou página do portal com /) e foto de capa.</p></div>
+    <div class="card"><h4>Agenda</h4><p>Nome, início e término (ou dia inteiro), local, endereço, resumo, descrição, tipo, categoria, órgão, imagem e link de inscrição ou transmissão.</p></div>
+    <div class="card"><h4>Perguntas frequentes</h4><p>Pergunta, resposta, categoria, órgão e ordem.</p></div>
+  </div>
+  <figure><img src="img/painel-servico-editar.jpg" alt="Edição de serviço com foto de capa" loading="lazy"><figcaption>Edição do serviço Área do Estudante, com a foto de capa à direita.</figcaption></figure>
+  <div class="pend definir"><b>Falta definir · SMEDU</b>Os documentos reais: atos municipais (Plano Municipal de Educação, resoluções do Conselho, portarias), editais e atas. Hoje a Legislação tem só 5 leis federais de referência (item 20).</div>
+
+  <!-- banners -->
+  <h3 id="t-avisos">Banners e avisos</h3>
+  <figure><img src="img/painel-destaque-novo.jpg" alt="Formulário de banner ou alerta" loading="lazy"></figure>
+  <div class="cards">
+    <div class="card"><h4>Banner com imagem</h4><p>Entra no carrossel da página inicial. Precisa de imagem larga (1200 × 514). Pode ter link, data para sair do ar e ordem.</p></div>
+    <div class="card"><h4>Alerta em faixa</h4><p>Faixa abaixo do cabeçalho, em todas as páginas. Nível <b>Informativo</b> (azul), <b>Atenção</b> (amarelo) ou <b>Urgente</b> (vermelho: abre como janela por cima da página).</p></div>
+  </div>
+  <div class="dica"><b>Use o Urgente com cuidado:</b> ele cobre a página até o visitante fechar. É para situações como suspensão de aulas.</div>
+
+  <!-- rede -->
+  <h3 id="t-rede">Unidades, regiões e equipe gestora</h3>
+  <figure><img src="img/painel-unidades.jpg" alt="Lista de unidades" loading="lazy"><figcaption>As 59 unidades da rede, com tipo, bairro, região, supervisor e situação.</figcaption></figure>
+  <ul>
+    <li><b>Unidades</b>: nome, sigla, tipo (creche, EMEI, EMEF…), etapas, INEP, endereço, contatos, foto, região e <b>supervisor responsável</b>. Alimentam a busca "Fale com o supervisor".</li>
+    <li>Quem só tem <b>Editar dados da unidade</b> (ex.: Diretor) muda contato, endereço, foto e etapas da própria escola, mas não região, tipo, INEP nem situação.</li>
+    <li><b>Regiões</b>: agrupam escolas (ex.: por supervisor). Servem também para dar permissão "por região".</li>
+    <li><b>Equipe gestora</b>: pessoas, cargo, grupo (Direção, Supervisão, Divisões), foto com <b>autorização de imagem</b> e se aparece no portal.</li>
+  </ul>
+  <div class="pend definir"><b>Falta definir · SMEDU</b>Os <b>supervisores de cada escola</b> e as regiões (item 2), os erros da lista oficial de escolas (item 3), as etapas de cada escola (item 4) e a equipe real (item 7). As 59 escolas estão marcadas "a confirmar".</div>
+
+  <!-- estrutura -->
+  <h3 id="t-estrutura">Menus, transparência, sistemas e estrutura</h3>
+  <div class="cards">
+    <div class="card"><h4>Menus</h4><p>Três menus: <b>principal</b>, <b>rodapé</b> e <b>acesso rápido</b>. Cada item leva a uma página, uma categoria ou um endereço; pode agrupar subitens. Botões para subir, descer, editar e remover.</p></div>
+    <div class="card"><h4>Transparência</h4><p>Seções e itens da Central. Cada item leva a uma página, categoria de documentos, sistema ou endereço. Seção sem item ativo some do site.</p></div>
+    <div class="card"><h4>Sistemas</h4><p>Cadastro dos sistemas externos. <b>Para cidadãos</b>: viram link no portal. <b>Para servidores</b>: viram atalho em "Meus sistemas", só para os papéis marcados (ou para todos).</p></div>
+    <div class="card"><h4>PNTP</h4><p>Os 96 critérios do Programa Nacional de Transparência Pública 2026, com situação e link de evidência de cada um. Ajuda a se preparar para a avaliação do Tribunal de Contas.</p></div>
+    <div class="card"><h4>Estrutura organizacional</h4><p>Setores, a quem são subordinados, competências, responsável (nome, cargo, foto, currículo), contatos e horário.</p></div>
+    <div class="card"><h4>Categorias e redirecionamentos</h4><p>Categorias de notícias, documentos, serviços, agenda e perguntas. Redirecionamentos levam endereços antigos para os novos; dá para importar uma lista (CSV).</p></div>
+  </div>
+  <div class="figuras-2">
+    <figure><img src="img/painel-menus.jpg" alt="Tela Menus" loading="lazy"><figcaption>Menus.</figcaption></figure>
+    <figure><img src="img/painel-sistemas.jpg" alt="Tela Sistemas" loading="lazy"><figcaption>Sistemas.</figcaption></figure>
+    <figure><img src="img/painel-transparencia.jpg" alt="Tela Transparência" loading="lazy"><figcaption>Transparência.</figcaption></figure>
+    <figure><img src="img/painel-pntp.jpg" alt="Tela PNTP" loading="lazy"><figcaption>PNTP 2026.</figcaption></figure>
+  </div>
+  <div class="pend definir"><b>Falta definir · SMEDU</b>A lista dos <b>sistemas que os servidores usam</b> (SISS, gestão escolar, diário de classe, RH, SEI, Bolsa +, SIMAPE…), quem usa cada um e como é o login (item 18). Sem ela, "Meus sistemas" não aparece. E os links de <b>contas públicas e conselhos</b> da Transparência (item 17).</div>
+
+  <!-- identidade -->
+  <h3 id="t-identidade">Identidade visual e dados</h3>
+  <figure><img src="img/painel-identidade.jpg" alt="Tela Identidade visual e dados" loading="lazy"></figure>
+  <ul>
+    <li><b>Cores e brasão</b>: cor principal e de destaque, com prévia do cabeçalho e conferência de contraste (mínimo 4,5:1). Cor ilegível não é salva.</li>
+    <li><b>Cores do layout</b>: destaque escuro, acento, fundo dos títulos, cabeçalho e as paletas dos cartões, cada uma conferida contra o texto que vai sobre ela.</li>
+    <li><b>Dados da organização</b>: nome curto, slogan, endereço, telefone, e-mail, horário e CNPJ (aparecem no rodapé e no Google).</li>
+    <li><b>Redes sociais</b>, <b>módulos do portal</b> (ligar ou desligar Agenda, Legislação…), <b>Navegação</b> (trilha no topo) e <b>Google</b> (código do Search Console).</li>
+  </ul>
+  <div class="pend definir"><b>Falta definir · SMEDU</b>Brasão oficial em alta resolução (item 10), CNPJ e dados institucionais (item 11).</div>
+
+  <!-- pessoas -->
+  <h3 id="t-pessoas">Dar acesso a alguém</h3>
+  <figure><img src="img/painel-vinculo-novo.jpg" alt="Formulário Dar papel a alguém" loading="lazy"><figcaption>Administração → Vínculos de usuários → Dar papel a alguém.</figcaption></figure>
+  <ol class="passos">
+    <li>Abra <b>Administração → Vínculos de usuários</b> e clique em <span class="botao">Dar papel a alguém</span>.</li>
+    <li>Escolha a <span class="campo">Pessoa</span> na lista, ou digite o <span class="campo">e-mail</span> de quem ainda não tem conta (o painel pede o nome completo).</li>
+    <li>Escolha o <span class="campo">Papel</span>.</li>
+    <li>Em <span class="campo">Onde o papel vale</span>, escolha <b>Toda a rede</b>, <b>Uma unidade</b> (e a escola) ou <b>Uma região</b>.</li>
+    <li>Clique em <span class="botao">Atribuir papel</span> ou <span class="botao">Convidar e atribuir papel</span>.</li>
+    <li>Se for convite, copie o <b>link de convite</b> e envie à pessoa. Ela abre, cria a senha e já entra.</li>
+  </ol>
+  <ul>
+    <li>Para tirar o acesso de quem saiu: <b>Suspender</b> (pode reativar depois) ou <b>Retirar</b> o papel. A conta e o histórico ficam guardados.</li>
+    <li>Uma pessoa pode ter vários papéis (ex.: diretora que também é professora).</li>
+    <li>Ninguém altera o próprio acesso.</li>
+  </ul>
+  <figure><img src="img/painel-papeis.jpg" alt="Papéis e permissões" loading="lazy"><figcaption>Papéis e permissões: à esquerda os papéis; à direita, as permissões do papel escolhido, cada uma com a chave liga/desliga e o alcance. A aba Histórico mostra quem mudou o quê.</figcaption></figure>
+
+  <!-- chamados -->
+  <h3 id="t-chamados">Chamados e manutenção</h3>
+  <div class="cards">
+    <div class="card"><h4>Chamados</h4><p>Pedidos à Secke: <b>solicitação editorial</b> (a Secke publica para a Secretaria), suporte técnico, incidente ou dúvida. Cada um tem protocolo, situação e conversa. Há um relatório mensal para o fiscal do contrato.</p></div>
+    <div class="card"><h4>Links quebrados</h4><p>Todo domingo o portal confere todos os links publicados. A tela mostra os que falharam; dá para conferir na hora com "Verificar agora".</p></div>
+    <div class="card"><h4>Auditoria</h4><p>Registro automático de todas as alterações: quem, quando e o que mudou (de → para). Não pode ser editado nem apagado.</p></div>
+    <div class="card"><h4>Exportar dados</h4><p>Gera um arquivo ZIP com todos os dados em formato aberto (JSON e planilhas). Guarda as 3 últimas exportações.</p></div>
+  </div>
+  <div class="pend definir"><b>Falta definir · Secke e SMEDU</b>O contrato da SMEDU no sistema (número, vigência e limite de solicitações). Sem ele, os chamados funcionam, mas sem saldo.</div>
+</section>
+
+<!-- ============================================================ ACESSOS -->
+<section class="cap" id="acessos">
+  <span class="olho">Fechamento</span>
+  <h2>Quem acessa qual sistema</h2>
+  <div class="tabela"><table>
+    <thead><tr><th>Sistema</th><th>Para que serve</th><th>Quem acessa</th><th>Como</th></tr></thead>
+    <tbody>
+      <tr><td><b>Portal</b></td><td>Site público da Secretaria</td><td>Qualquer pessoa</td><td>Endereço do portal, sem login</td></tr>
+      <tr><td><b>Painel</b></td><td>Manter o conteúdo e a estrutura do portal</td><td>Servidores com papel</td><td>"Acesso do servidor" no rodapé; e-mail e senha</td></tr>
+      <tr><td><b>Meus sistemas</b></td><td>Atalhos para os sistemas do dia a dia</td><td>Cada servidor, conforme o papel</td><td>Tela inicial do painel</td></tr>
+      <tr><td><b>Sistemas da Prefeitura</b> (SISS, Fiorilli, SEI…)</td><td>Matrícula, finanças, protocolo…</td><td>Conforme cada sistema</td><td>Link; login próprio de cada sistema</td></tr>
+      <tr><td><b>CI eletrônica</b> <span class="tag fazer">em construção</span></td><td>Comunicação interna oficial</td><td>Servidores</td><td>Mesmo login do painel (planejado)</td></tr>
+      <tr><td><b>Área do Estudante</b> <span class="tag fazer">futuro</span></td><td>Conteúdo, reforço e dúvidas</td><td>Estudantes e professores</td><td>Mesmo login (planejado)</td></tr>
+      <tr><td><b>Supabase, Cloudflare, GitHub</b></td><td>Banco, hospedagem e código</td><td>Só a Secke</td><td>Contas técnicas da Secke</td></tr>
+    </tbody>
+  </table></div>
+  <div class="pend fazer"><b>Falta implementar · Secke</b><b>Login único</b> com os satélites: os sistemas novos da Secke serão construídos no mesmo banco, com a mesma conta e as mesmas permissões. Para os sistemas que a Secke já tem (Bolsa +, SIMAPE), decidir sistema por sistema entre migrar ou usar o portal como login central.</div>
+</section>
+
+<!-- ============================================================ PENDÊNCIAS -->
+<section class="cap" id="pendencias">
+  <span class="olho">Fechamento</span>
+  <h2>Tudo o que falta</h2>
+  <p class="intro">A mesma lista que aparece espalhada pelo manual, reunida para acompanhamento. A lista completa da Secretaria, com o formato de cada pedido, está em <span class="mono">docs/reuniao/smedu-pendencias.md</span>.</p>
+
+  <h3><span class="tag definir">Falta definir</span> com a SMEDU</h3>
+  <div class="tabela"><table>
+    <thead><tr><th>Assunto</th><th>Hoje no sistema</th><th>Impede ir ao ar?</th></tr></thead>
+    <tbody>
+      <tr><td>Domínio oficial, CNPJ e primeiro Administrador</td><td>endereço de teste; Administrador de teste</td><td><b>sim</b></td></tr>
+      <tr><td>Supervisores de cada escola e regiões</td><td>"não informado"</td><td><b>sim</b></td></tr>
+      <tr><td>Equipe gestora real</td><td>nomes e fotos fictícios</td><td><b>sim</b></td></tr>
+      <tr><td>Autorização de uso de imagem</td><td>fotos provisórias</td><td><b>sim</b></td></tr>
+      <tr><td>Páginas legais (Ouvidoria, Acesso à Informação, Privacidade)</td><td>textos provisórios com dados públicos</td><td><b>sim</b></td></tr>
+      <tr><td>Agenda real</td><td>6 eventos fictícios</td><td><b>sim</b></td></tr>
+      <tr><td>Matrícula 2027</td><td>datas de dados públicos</td><td><b>sim</b></td></tr>
+      <tr><td>Erros da lista de escolas e etapas</td><td>59 escolas "a confirmar"</td><td>não</td></tr>
+      <tr><td>Brasão em alta resolução</td><td>brasão do site da Prefeitura</td><td>não</td></tr>
+      <tr><td>Quem publica (fluxo de aprovação) e papéis usados</td><td>papéis padrão e de teste</td><td>não</td></tr>
+      <tr><td>Escolas publicam notícias?</td><td>recurso pronto, ninguém com acesso</td><td>não</td></tr>
+      <tr><td>Sistemas usados pelos servidores e e-mail institucional</td><td>nenhum sistema cadastrado</td><td>não</td></tr>
+      <tr><td>Contas públicas e conselhos (Transparência)</td><td>atalho para o site da Prefeitura</td><td>não</td></tr>
+      <tr><td>Leis municipais, documentos, perguntas e órgãos</td><td>conteúdo provisório</td><td>não</td></tr>
+      <tr><td>Números da rede</td><td>Censo e IDEB públicos</td><td>não</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3><span class="tag definir">Falta definir</span> pela Secke</h3>
+  <ul>
+    <li>Conta da Cloudflare da produção e plano pago (US$ 5/mês).</li>
+    <li>Provedor do e-mail do sistema (SMTP).</li>
+    <li>Papéis Redator e Publicador como padrão de toda organização nova.</li>
+    <li>Tirar do menu a tela antiga "Usuários".</li>
+    <li>Contrato da SMEDU no sistema (saldo dos chamados).</li>
+  </ul>
+
+  <h3><span class="tag fazer">Falta implementar</span> pela Secke</h3>
+  <div class="tabela"><table>
+    <thead><tr><th>O quê</th><th>Para quê</th></tr></thead>
+    <tbody>
+      <tr><td>Editar pelo painel a página inicial: cartões de serviços (quais, ícone, ordem, "Em breve"), "Em foco", ordem e títulos dos blocos, botão do cabeçalho</td><td>a Secretaria não depender da Secke para mudar a página inicial</td></tr>
+      <tr><td>E-mail do sistema (SMTP)</td><td>convites e "esqueci a senha" chegarem por e-mail</td></tr>
+      <tr><td>Publicação na produção, com o domínio oficial</td><td>ir ao ar</td></tr>
+      <tr><td>Página de cada escola <i>(adiado)</i></td><td>pais acharem as notícias e os dados da escola do filho</td></tr>
+      <tr><td>Teste com leitor de tela (NVDA)</td><td>garantir a acessibilidade além da verificação automática</td></tr>
+      <tr><td>Satélites: CI eletrônica, Área do Estudante, Ouvidoria própria</td><td>ecossistema da Secretaria, com login único</td></tr>
+      <tr><td>Função para os papéis Professor e Estudante</td><td>chega com a Área do Estudante</td></tr>
+      <tr><td>Apagar contas, papéis e dados de teste</td><td>antes da ida ao ar</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============================================================ GLOSSÁRIO -->
+<section class="cap" id="glossario">
+  <span class="olho">Referência</span>
+  <h2>Glossário</h2>
+  <div class="tabela"><table>
+    <tbody>
+      <tr><td><b>Alcance</b></td><td>Onde uma permissão vale: toda a rede, só a região ou só a unidade da pessoa.</td></tr>
+      <tr><td><b>Biblioteca de mídias</b></td><td>Todas as imagens já enviadas ao painel, reutilizáveis.</td></tr>
+      <tr><td><b>Homologação</b></td><td>Ambiente de teste, igual ao oficial, onde tudo é conferido antes. Não aparece no Google.</td></tr>
+      <tr><td><b>Papel</b></td><td>Conjunto de permissões dado a uma pessoa (Administrador, Redator, Diretor…).</td></tr>
+      <tr><td><b>Pré-visualização</b></td><td>Link temporário (30 min) que mostra um rascunho como ele vai ficar no portal.</td></tr>
+      <tr><td><b>Produção</b></td><td>O ambiente oficial, com o domínio da Secretaria.</td></tr>
+      <tr><td><b>Rascunho</b></td><td>Conteúdo salvo que ainda não aparece no portal.</td></tr>
+      <tr><td><b>Redirecionamento</b></td><td>Regra que leva um endereço antigo para o novo, sem perder visitantes nem a posição no Google.</td></tr>
+      <tr><td><b>Satélite</b></td><td>Aplicativo separado que usa o mesmo login e os mesmos papéis do painel.</td></tr>
+      <tr><td><b>Texto alternativo</b></td><td>Descrição da imagem para quem usa leitor de tela. Obrigatório no painel.</td></tr>
+      <tr><td><b>Unidade</b></td><td>Escola, creche ou outra unidade da rede.</td></tr>
+      <tr><td><b>Vínculo</b></td><td>A ligação entre uma pessoa e um papel, com o lugar onde vale.</td></tr>
+    </tbody>
+  </table></div>
+  <p style="color:var(--tinta-suave);font-size:.9rem;margin-top:2rem">Manual gerado pela Secke em 17/10/2026, a partir do sistema em homologação. As fotos de tela mostram dados de teste e conteúdo provisório.</p>
+</section>
+
+</div>
+</main>
+</div>
