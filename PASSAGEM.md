@@ -24,8 +24,8 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 | **Roteiro do que falta para concluir** | Este repositório: `docs/Roteiro para Concluir.md` |
 | **Pendências com a SMEDU (tudo o que depende da Secretaria/Prefeitura)** | Este repositório: `docs/reuniao/smedu-pendencias.md` |
 | **Supabase, produção** | Projeto **Portal Municipal**, ref `qgywucdnaeheqndcxtho` (sa-east-1) |
-| **Supabase, homologação** | Branch `homologacao` do mesmo projeto, ref `kvilgamsyneenjtlllcf`. O portal em desenvolvimento lê daqui (D-14) |
-| **Homologação publicada (conta Cloudflare pessoal willquerubim2025, D-80)** | Portal (abre a SMEDU): https://portal-municipal-homologacao.willquerubim2025.workers.dev · Painel: https://painel-municipal-homologacao.willquerubim2025.workers.dev · Publicar: GitHub → Actions → "Publicar homologação" (D-79) |
+| **Supabase, homologação** | **Não existe mais** (branch `homologacao` apagada em ~20/10/2026, D-105). Tudo roda na produção |
+| **Site publicado (produção, D-105)** | Portal: https://portal-municipal.willquerubim2025.workers.dev · Painel: https://painel-municipal.willquerubim2025.workers.dev · Publicar: GitHub → Actions → "Publicar produção". Os endereços `*-homologacao` dão erro 500 (banco apagado): não usar |
 
 ### Branches deste repositório
 - **`main` é a referência** (15/10/2026): contém todo o trabalho de 12 a 14/10, ou seja, docs, design, prévias, este arquivo e o `CLAUDE.md`. Comece sempre por ela.
@@ -34,7 +34,14 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 
 ---
 
-## Estado atual (atualizado em 16/10/2026)
+## Estado atual (atualizado em 21/10/2026)
+
+> **Atenção (21/10/2026):** de 18 a 21/10 o trabalho foi registrado só no `portal-municipal` (decisões **D-101 a D-123** em `docs/06-decisoes.md`; pendências em `docs/07-pendencias.md`). Resumo:
+> - **Sem homologação (D-105):** a branch `homologacao` do Supabase foi apagada. Portal e painel rodam **só na produção** (endereços na tabela acima). O conteúdo da SMEDU foi restaurado do backup de 19/10 (D-106), inclusive os dados fictícios, que precisam sair antes do domínio oficial.
+> - **Design de 20 e 21/10:** brasão maior (D-107, D-113 a D-115), cores configuráveis (D-109 a D-112), vídeos nas páginas de serviço (D-116 a D-120), bloco **Sistemas** na página inicial (D-121, D-122).
+> - **CI Eletrônica (D-123):** integrada à produção. Falta o William: liberar o schema `ci` na API do Supabase (conferido em 21/10, à noite: **ainda não liberado**) e acertar o segredo `CLOUDFLARE_API_TOKEN` no repositório `ci-eletronica`.
+> - Os itens abaixo que falam de homologação são de antes da D-105.
+
 
 - **Jeriquara está fora (D-82):** dispensa não ganha; não fazer nada para Jeriquara. O produto é multi-organização; a organização em foco é a SMEDU.
 - **Banco:** migrações 0001 a 0023 aplicadas na produção e na homologação. Permissões por papel, unidades, equipe gestora e página inicial configurável (fase 1A, D-38) já existem.
@@ -72,6 +79,12 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 ---
 
 ## Diário das sessões (mais recente no topo)
+
+### 21/10/2026 (noite) — sessão `nifty-lamport`, computador de casa
+- Conferido o GitHub: as `main` dos dois repositórios estão em dia (código até a D-123). Este arquivo estava parado em 17/10 e foi atualizado (aviso no "Estado atual" e endereços da produção na tabela).
+- Produção no ar: portal (início, notícias, serviços) e painel respondem 200. Homologação dá 500, esperado (banco apagado, D-105).
+- CI Eletrônica: o schema `ci` continua fora da API (`PGRST106`, só `public` e `graphql_public`).
+- O usuário de teste `redator.teste@secke.dev` (15/10) ficava na homologação e foi apagado junto com ela.
 
 ### 17/10/2026 — sessão `great-newton`
 - **Revisão das páginas internas** e, com o OK do William ("manda bala"), **D-100**: Carta de Serviços em cards, coluna lateral (Nesta seção, Mais procurados, Atendimento) em páginas, serviços e órgãos, **foto de capa** opcional em páginas e serviços (migração 0027, aplicada pelo William nos dois bancos), resumo da notícia sem repetição, link interno de serviço na mesma aba. Tudo no ar na homologação; axe sem violações.
