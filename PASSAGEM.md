@@ -82,7 +82,7 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 
 ### 22/10/2026 — sessão `nifty-lamport`, computador de casa
 - **D-124, tela dos vídeos dos serviços no painel** (pendência da D-116), na `main` do `portal-municipal`: Carta de Serviços → editar serviço → "Vídeos explicativos". Envia o vídeo (MP4/WebM, até 50 MB, até 6), gera a capa sozinha, ordena, edita o título da seção e o texto de apoio com botão ao lado de cada vídeo. Testado com o Supabase simulado (17 verificações, axe limpo).
-- **Falta:** publicar o painel de produção (GitHub → Actions → "Publicar produção", só o painel) e conferir na Matrícula Escolar com o banco real.
+- **Painel de produção publicado** (rotina "Publicar produção" #23, verde). **Falta:** o William abrir a Matrícula Escolar no painel e conferir os 2 vídeos com o banco real.
 - Visto no teste: o menu lateral do painel passa da largura no celular (anotado em `07-pendencias.md`).
 
 ### 21/10/2026 (noite) — sessão `nifty-lamport`, computador de casa
