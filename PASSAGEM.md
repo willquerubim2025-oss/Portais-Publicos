@@ -81,6 +81,10 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 
 ## Diário das sessões (mais recente no topo)
 
+### 22/10/2026 (tarde) — sessão `affectionate-maxwell`
+- **Material de portfólio:** `docs/portfolio/Portal-Educacao-Paulinia-SECKE.pdf` (28 páginas): capa, visão geral de tudo o que o portal tem (cidadão, comunicação, transparência, acessibilidade, painel, tecnologia, sistemas integrados) e uma folha por página do portal (26), com título, descrição e captura da página inteira, tiradas do portal publicado em 22/10. Também existe uma apresentação de vendas em slides (artifact privado no Claude do William).
+- **Portal (D-127 a D-133 no `portal-municipal`):** só o brasão no cabeçalho, 20% menor; moldura branca nos cards de notícia (página inicial e /noticias, com o fundo da página inicial); destaque com "arte pronta" e a arte "Novo Portal da Educação" como 1º slide (2000 × 722, preenche a área no computador); "Em foco" 1 cm mais abaixo; faixa vermelha de homologação escondida (`config.faixa_homologacao = false`; o portal continua fora do Google).
+
 ### 22/10/2026 (manhã) — sessão `affectionate-maxwell`, computador do trabalho
 - **CI Eletrônica no ar:** banco da CI aplicado na produção (versão consolidada, D-66 do repositório `ci-eletronica`), SMEDU configurada (63 caixas; William gestor de 2 caixas, iniciais WQ), aplicativo publicado pela rotina "Publicar produção" do `ci-eletronica` (segredos da Cloudflare cadastrados pelo William). Cartão do portal virou link.
 - **D-125:** o "Exposed schemas" do Supabase foi salvo, mas não aplicado (nem com reinício do projeto). Contorno aprovado: `alter role authenticator set pgrst.db_schemas = 'public, graphql_public, ci'`. Segurança conferida (visitante só usa `ci.verificar`). Pendência: chamado ao Supabase e depois desfazer o contorno.
