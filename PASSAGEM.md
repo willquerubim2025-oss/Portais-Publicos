@@ -34,12 +34,13 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 
 ---
 
-## Estado atual (atualizado em 21/10/2026)
+## Estado atual (atualizado em 22/10/2026)
 
-> **Atenção (21/10/2026):** de 18 a 21/10 o trabalho foi registrado só no `portal-municipal` (decisões **D-101 a D-123** em `docs/06-decisoes.md`; pendências em `docs/07-pendencias.md`). Resumo:
+> **Atenção (21/10/2026):** de 18 a 22/10 o trabalho foi registrado só no `portal-municipal` (decisões **D-101 a D-126** em `docs/06-decisoes.md`; pendências em `docs/07-pendencias.md`). Resumo:
 > - **Sem homologação (D-105):** a branch `homologacao` do Supabase foi apagada. Portal e painel rodam **só na produção** (endereços na tabela acima). O conteúdo da SMEDU foi restaurado do backup de 19/10 (D-106), inclusive os dados fictícios, que precisam sair antes do domínio oficial.
 > - **Design de 20 e 21/10:** brasão maior (D-107, D-113 a D-115), cores configuráveis (D-109 a D-112), vídeos nas páginas de serviço (D-116 a D-120), bloco **Sistemas** na página inicial (D-121, D-122).
-> - **CI Eletrônica (D-123):** integrada à produção. Falta o William: liberar o schema `ci` na API do Supabase (conferido em 21/10, à noite: **ainda não liberado**) e acertar o segredo `CLOUDFLARE_API_TOKEN` no repositório `ci-eletronica`.
+> - **CI Eletrônica (D-123, D-125):** **no ar desde 22/10/2026** em https://ci-eletronica.willquerubim2025.workers.dev e ligada ao cartão "CI Eletrônica" da página inicial. O painel do Supabase não aplicou o "Exposed schemas"; a lista de schemas foi gravada no banco (`pgrst.db_schemas` no papel `authenticator`, D-125). **Regra:** schema novo entra na tela Data API **e** nessa lista; erro `PGRST106` = conferir essa lista primeiro. Chamado ao Supabase pendente.
+> - **Bloco Sistemas (D-126, 22/10):** caixa na largura das outras seções, círculos de 84 px; 6 sistemas, entre eles **Pesquisas da Educação** ("Em breve", a construir em 22/10).
 > - Os itens abaixo que falam de homologação são de antes da D-105.
 
 
@@ -79,6 +80,12 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 ---
 
 ## Diário das sessões (mais recente no topo)
+
+### 22/10/2026 (manhã) — sessão `affectionate-maxwell`, computador do trabalho
+- **CI Eletrônica no ar:** banco da CI aplicado na produção (versão consolidada, D-66 do repositório `ci-eletronica`), SMEDU configurada (63 caixas; William gestor de 2 caixas, iniciais WQ), aplicativo publicado pela rotina "Publicar produção" do `ci-eletronica` (segredos da Cloudflare cadastrados pelo William). Cartão do portal virou link.
+- **D-125:** o "Exposed schemas" do Supabase foi salvo, mas não aplicado (nem com reinício do projeto). Contorno aprovado: `alter role authenticator set pgrst.db_schemas = 'public, graphql_public, ci'`. Segurança conferida (visitante só usa `ci.verificar`). Pendência: chamado ao Supabase e depois desfazer o contorno.
+- **D-126:** seção Sistemas na largura das outras seções, círculos e textos menores; novo cartão **Pesquisas da Educação** (em breve).
+- **Falta:** testar a CI com login (o William entra com o e-mail e a senha do painel); o e-mail "Magic Link" do Supabase precisa mostrar o código `{{ .Token }}` para a criação do PIN; endereço do sistema de pesquisas quando estiver pronto.
 
 ### 22/10/2026 — sessão `nifty-lamport`, computador de casa
 - **D-124, tela dos vídeos dos serviços no painel** (pendência da D-116), na `main` do `portal-municipal`: Carta de Serviços → editar serviço → "Vídeos explicativos". Envia o vídeo (MP4/WebM, até 50 MB, até 6), gera a capa sozinha, ordena, edita o título da seção e o texto de apoio com botão ao lado de cada vídeo. Testado com o Supabase simulado (17 verificações, axe limpo).
