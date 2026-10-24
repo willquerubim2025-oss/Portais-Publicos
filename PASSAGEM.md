@@ -88,7 +88,8 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 - **CI testada com login:** modelo do e-mail "Magic Link" com o código `{{ .Token }}` (feito pelo William); PIN criado.
 - **CI Eletrônica — D-69 a D-74 (`ci-eletronica/docs/01`):** Administração (migrações 0033 e 0034 aplicadas na produção); material do guia do administrador (D-70); redesenho em estilo de cliente de e-mail (D-71) e ajustes de zonas/resumo (D-72); impressão e PDF com QR Code, CI para fora, cancelar e retificar (D-73); pedidos de ajuda, CIs (estrutura), exportação, período no calendário, importação por planilha, "Esqueci a senha", timbre vindo do cadastro do portal (D-74). Correção de sessão vencida ("JWT expired").
 - **Portal — D-134:** Edge Function `alterar-pessoa` (corrige nome e e-mail/login; recusa quem atende outra organização).
-- **Próximo passo:** esperar a SMEDU (servidor de e-mail, de acordo com IA, domínios, lista de pessoas). Enquanto isso, o William pode testar como administrador: incluir um feriado, criar um grupo, imprimir uma CI.
+- **Guia do Usuário da CI (D-75):** `ci-eletronica/docs/guia/Guia-CI-Eletronica.pdf`, 57 páginas, uma unidade por papel (operador, gestor, administrador), gerado por código com as telas reais e dados fictícios. Padrão para todos os manuais: D-135 no `portal-municipal`.
+- **Próximo passo:** a CI fica parada esperando a SMEDU (servidor de e-mail, de acordo com IA, domínios, lista de pessoas). **Próximo sistema satélite: Pesquisas da Educação.**
 
 
 ### 22/10/2026 (tarde) — sessão `affectionate-maxwell`
