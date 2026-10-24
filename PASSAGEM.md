@@ -34,7 +34,10 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 
 ---
 
-## Estado atual (atualizado em 22/10/2026)
+## Estado atual (atualizado em 24/10/2026)
+
+> **CI Eletrônica (24/10/2026): pronta até onde não depende da Prefeitura.** Decisões D-69 a D-74 no repositório `ci-eletronica` (`docs/01`). Tela de Administração completa (unidades, pessoas e papéis, calendário com período, grupos, configuração, pedidos de ajuda, CIs só pela estrutura, importar pessoas por planilha, corrigir nome/e-mail); visual novo de cliente de e-mail corporativo (D-71/D-72; tela de entrada aprovada, não mexer); impressão/PDF com QR Code real, CI para fora, cancelar/retificar, exportar listas, "Esqueci a senha". Material para o futuro guia do administrador: `ci-eletronica/docs/06-material-para-o-guia.md` (atualizar a cada função nova). **Falta só o que depende da SMEDU/Prefeitura:** servidor de e-mail (avisos e lembretes), de acordo para usar IA, domínios para o login único e os dados reais (pessoas, cargos, iniciais, calendário, grupos), que o administrador já cadastra pela tela.
+
 
 > **Atenção (21/10/2026):** de 18 a 22/10 o trabalho foi registrado só no `portal-municipal` (decisões **D-101 a D-126** em `docs/06-decisoes.md`; pendências em `docs/07-pendencias.md`). Resumo:
 > - **Sem homologação (D-105):** a branch `homologacao` do Supabase foi apagada. Portal e painel rodam **só na produção** (endereços na tabela acima). O conteúdo da SMEDU foi restaurado do backup de 19/10 (D-106), inclusive os dados fictícios, que precisam sair antes do domínio oficial.
@@ -80,6 +83,13 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 ---
 
 ## Diário das sessões (mais recente no topo)
+
+### 24/10/2026 — sessão `affectionate-maxwell`, computador de casa
+- **CI testada com login:** modelo do e-mail "Magic Link" com o código `{{ .Token }}` (feito pelo William); PIN criado.
+- **CI Eletrônica — D-69 a D-74 (`ci-eletronica/docs/01`):** Administração (migrações 0033 e 0034 aplicadas na produção); material do guia do administrador (D-70); redesenho em estilo de cliente de e-mail (D-71) e ajustes de zonas/resumo (D-72); impressão e PDF com QR Code, CI para fora, cancelar e retificar (D-73); pedidos de ajuda, CIs (estrutura), exportação, período no calendário, importação por planilha, "Esqueci a senha", timbre vindo do cadastro do portal (D-74). Correção de sessão vencida ("JWT expired").
+- **Portal — D-134:** Edge Function `alterar-pessoa` (corrige nome e e-mail/login; recusa quem atende outra organização).
+- **Próximo passo:** esperar a SMEDU (servidor de e-mail, de acordo com IA, domínios, lista de pessoas). Enquanto isso, o William pode testar como administrador: incluir um feriado, criar um grupo, imprimir uma CI.
+
 
 ### 22/10/2026 (tarde) — sessão `affectionate-maxwell`
 - **Material de portfólio:** `docs/portfolio/Portal-Educacao-Paulinia-SECKE.pdf` (28 páginas): capa, visão geral de tudo o que o portal tem (cidadão, comunicação, transparência, acessibilidade, painel, tecnologia, sistemas integrados) e uma folha por página do portal (26), com título, descrição e captura da página inteira, tiradas do portal publicado em 22/10. Também existe uma apresentação de vendas em slides (artifact privado no Claude do William).
