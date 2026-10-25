@@ -91,7 +91,8 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 
 ### 25/10/2026 — sessão `affectionate-maxwell`, computador de casa
 - **Apresentação impressa do Portal da Educação (D-136 do `portal-municipal`):** `docs/portfolio/apresentacao/`. Página inicial dividida em 4 partes (página de imagem + página de explicação), destaque de abertura, matrícula com vídeos, serviços, notícias, transparência, acessibilidade, celular, integração com os sistemas e a CI Eletrônica, painel (papéis, cores, destaques, menus), perguntas sobre segurança, problemas e o que fazer e, por último, a tecnologia. Fotos tiradas do portal publicado; refazer com `fonte/capturar.cjs`, `fonte/preparar.py` e `fonte/montar.py`.
-- **Próximo passo:** Pesquisas da Educação (esperando respostas do William: tipo de pesquisa, quem cria e responde, anonimato, resultados).
+- **Sistema de Pesquisas — levantamento fechado:** repositório novo `willquerubim2025-oss/pesquisas` (privado). Decisões D-01 a D-55 em `docs/01-levantamento-de-requisitos.md`; resumo e 8 regras em `docs/02-funcionalidades-consolidadas.md`. Banco no Supabase Portal Municipal, schema `pesquisa`, autônomo e destacável (D-43). WhatsApp oficial: item 21 de `docs/reuniao/smedu-pendencias.md`.
+- **Próximo passo:** William valida o resumo (`pesquisas/docs/02`) → protótipo das telas → banco → construção.
 
 ### 24/10/2026 — sessão `affectionate-maxwell`, computador de casa
 - **CI testada com login:** modelo do e-mail "Magic Link" com o código `{{ .Token }}` (feito pelo William); PIN criado.
