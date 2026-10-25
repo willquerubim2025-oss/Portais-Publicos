@@ -187,3 +187,13 @@ Fonte da carga inicial (12/10/2026, homologação): a página da Secretaria de E
 - **No site hoje (provisório, dados públicos):** 9 perguntas frequentes; 5 leis federais de referência em Legislação (LDB, ECA, Fundeb, Alimentação Escolar e Lei 13.460, com link para o Planalto); texto de competências dos 4 órgãos; fotos de capa em Sobre a Secretaria, Área do Estudante e Matrícula Escolar.
 - **O que precisamos:** que a Secretaria confira as perguntas e respostas; os **atos municipais** da área (Plano Municipal de Educação, resoluções do Conselho, portarias); as competências oficiais e os responsáveis de cada setor; e se pode usar as fotos (item 9).
 - **Bloqueia ir ao ar?** Não. Os textos ficam marcados como provisórios no banco até a confirmação.
+
+## 21. WhatsApp oficial para o sistema de Pesquisas (25/10/2026)
+- **O que precisamos:**
+  - um **número de celular dedicado** (chip novo, que não esteja em uso no WhatsApp comum) em nome da Secretaria;
+  - os dados para a **verificação da empresa na Meta** (CNPJ da Prefeitura/Secretaria, nome oficial, site, e-mail e um responsável);
+  - quem **paga** as mensagens (cobrança da Meta por mensagem enviada, em cartão ou fatura) e um limite mensal;
+  - autorização para cadastrar o **celular/WhatsApp** de diretores, coordenadores e servidores, e o texto do aviso de consentimento (LGPD).
+- **Onde será usado:** envio dos links das pesquisas e dos lembretes pelo WhatsApp oficial da Secretaria (requisitos do sistema de Pesquisas, D-29/D-30).
+- **O que muda conforme a resposta:** com número e conta → envio automático com o nome verificado da Secretaria; sem isso → o gestor envia com o botão "Enviar pelo WhatsApp", do próprio celular, um por um.
+- **Bloqueia ir ao ar?** Não. O sistema funciona com o envio manual e com e-mail/QR Code até a conta ficar pronta (a aprovação da Meta costuma levar dias).
