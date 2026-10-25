@@ -86,6 +86,9 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 
 ## Diário das sessões (mais recente no topo)
 
+### 25/10/2026 — sessão `peaceful-edison`, conta 2
+- **Autorizações do Supabase automáticas:** `.claude/settings.json` + `.claude/hooks/supabase-guard.py`. Leitura, consultas e alterações de dados (SELECT, INSERT, UPDATE/DELETE com WHERE), logs, advisors, tipos, branches e deploy de Edge Function passam sem perguntar. **Pergunta antes:** CREATE/ALTER/DROP/TRUNCATE, RLS e políticas, GRANT/REVOKE, blocos DO, UPDATE/DELETE sem WHERE, `apply_migration`, `merge_branch`, `reset_branch`, `delete_branch`, pausar/criar projeto, segredos e qualquer ferramenta nova. Vale a partir da próxima sessão. Para outro projeto, copiar a pasta `.claude/` para o repositório dele e fazer commit.
+
 ### 25/10/2026 — sessão `affectionate-maxwell`, computador de casa
 - **Apresentação impressa do Portal da Educação (D-136 do `portal-municipal`):** `docs/portfolio/apresentacao/`. Página inicial dividida em 4 partes (página de imagem + página de explicação), destaque de abertura, matrícula com vídeos, serviços, notícias, transparência, acessibilidade, celular, integração com os sistemas e a CI Eletrônica, painel (papéis, cores, destaques, menus), perguntas sobre segurança, problemas e o que fazer e, por último, a tecnologia. Fotos tiradas do portal publicado; refazer com `fonte/capturar.cjs`, `fonte/preparar.py` e `fonte/montar.py`.
 - **Próximo passo:** Pesquisas da Educação (esperando respostas do William: tipo de pesquisa, quem cria e responde, anonimato, resultados).
