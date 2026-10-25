@@ -34,7 +34,9 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 
 ---
 
-## Estado atual (atualizado em 24/10/2026)
+## Estado atual (atualizado em 25/10/2026)
+
+> **Apresentação impressa do Portal da Educação (25/10/2026, D-136 do `portal-municipal`):** `docs/portfolio/apresentacao/Portal-Educacao-Apresentacao.pdf`, 31 páginas A4, gerada por código (passo a passo no `LEIA-ME.md` da pasta). Substitui o portfólio antigo para entregar à Secretária. **Falta:** telefone e e-mail de contato na contracapa (marcadores `[telefone]` e `[e-mail]`).
 
 > **CI Eletrônica (24/10/2026): pronta até onde não depende da Prefeitura.** Decisões D-69 a D-74 no repositório `ci-eletronica` (`docs/01`). Tela de Administração completa (unidades, pessoas e papéis, calendário com período, grupos, configuração, pedidos de ajuda, CIs só pela estrutura, importar pessoas por planilha, corrigir nome/e-mail); visual novo de cliente de e-mail corporativo (D-71/D-72; tela de entrada aprovada, não mexer); impressão/PDF com QR Code real, CI para fora, cancelar/retificar, exportar listas, "Esqueci a senha". Material para o futuro guia do administrador: `ci-eletronica/docs/06-material-para-o-guia.md` (atualizar a cada função nova). **Falta só o que depende da SMEDU/Prefeitura:** servidor de e-mail (avisos e lembretes), de acordo para usar IA, domínios para o login único e os dados reais (pessoas, cargos, iniciais, calendário, grupos), que o administrador já cadastra pela tela.
 
@@ -83,6 +85,10 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 ---
 
 ## Diário das sessões (mais recente no topo)
+
+### 25/10/2026 — sessão `affectionate-maxwell`, computador de casa
+- **Apresentação impressa do Portal da Educação (D-136 do `portal-municipal`):** `docs/portfolio/apresentacao/`. Página inicial dividida em 4 partes (página de imagem + página de explicação), destaque de abertura, matrícula com vídeos, serviços, notícias, transparência, acessibilidade, celular, integração com os sistemas e a CI Eletrônica, painel (papéis, cores, destaques, menus), perguntas sobre segurança, problemas e o que fazer e, por último, a tecnologia. Fotos tiradas do portal publicado; refazer com `fonte/capturar.cjs`, `fonte/preparar.py` e `fonte/montar.py`.
+- **Próximo passo:** Pesquisas da Educação (esperando respostas do William: tipo de pesquisa, quem cria e responde, anonimato, resultados).
 
 ### 24/10/2026 — sessão `affectionate-maxwell`, computador de casa
 - **CI testada com login:** modelo do e-mail "Magic Link" com o código `{{ .Token }}` (feito pelo William); PIN criado.
