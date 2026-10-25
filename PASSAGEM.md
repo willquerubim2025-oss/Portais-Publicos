@@ -84,6 +84,9 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 
 ## Diário das sessões (mais recente no topo)
 
+### 25/10/2026 — sessão `peaceful-edison`, conta 2
+- **Autorizações do Supabase automáticas:** `.claude/settings.json` + `.claude/hooks/supabase-guard.py`. Leitura, consultas e alterações de dados (SELECT, INSERT, UPDATE/DELETE com WHERE), logs, advisors, tipos, branches e deploy de Edge Function passam sem perguntar. **Pergunta antes:** CREATE/ALTER/DROP/TRUNCATE, RLS e políticas, GRANT/REVOKE, blocos DO, UPDATE/DELETE sem WHERE, `apply_migration`, `merge_branch`, `reset_branch`, `delete_branch`, pausar/criar projeto, segredos e qualquer ferramenta nova. Vale a partir da próxima sessão. Para outro projeto, copiar a pasta `.claude/` para o repositório dele e fazer commit.
+
 ### 24/10/2026 — sessão `affectionate-maxwell`, computador de casa
 - **CI testada com login:** modelo do e-mail "Magic Link" com o código `{{ .Token }}` (feito pelo William); PIN criado.
 - **CI Eletrônica — D-69 a D-74 (`ci-eletronica/docs/01`):** Administração (migrações 0033 e 0034 aplicadas na produção); material do guia do administrador (D-70); redesenho em estilo de cliente de e-mail (D-71) e ajustes de zonas/resumo (D-72); impressão e PDF com QR Code, CI para fora, cancelar e retificar (D-73); pedidos de ajuda, CIs (estrutura), exportação, período no calendário, importação por planilha, "Esqueci a senha", timbre vindo do cadastro do portal (D-74). Correção de sessão vencida ("JWT expired").
