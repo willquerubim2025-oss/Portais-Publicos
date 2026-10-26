@@ -95,7 +95,8 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 - **Protótipo aprovado** (`pesquisas/prototipo/index.html`, 5 telas) e modelo de dados em `pesquisas/docs/04-modelo-de-dados.md`.
 - **Banco pronto e testado (26/10, D-60 de `pesquisas`):** migrações `pesquisa_0001` a `pesquisa_0007` aplicadas no Supabase principal; regras testadas em transação desfeita, tudo passou. Situação, testes e pendências em `pesquisas/docs/04`, seção 10. Falta marcar o schema `pesquisa` na tela Data API do Supabase.
 - **Aplicativo, passo 1 pronto (26/10):** tela de quem responde em `pesquisas/app` (link pessoal `/r/:token`, pesquisa aberta `/p/:id`, comprovante `/v/:codigo`), testada com o banco. Duas pesquisas "(demonstração)" no banco. **No ar** em https://pesquisas.willquerubim2025.workers.dev (segredos da Cloudflare cadastrados no repositório `pesquisas`).
-- **Próximo passo:** painel do gestor (criar, enviar, situação, lembrar), depois resultados, administração, envio (WhatsApp/e-mail) e IA.
+- **Painel do gestor no ar (26/10, passo 2):** entrar, Início com situação/lembrar/parciais/"Mandar à mão" (D-61), Minhas pesquisas, editor completo, Para quem, enviar. Conta de teste `teste.pesquisas@secke.dev` (gestora) só para testes: tirar antes de ir ao ar.
+- **Próximo passo:** resultados completos (passo 3: gráficos, comparar, PDF, planilha), depois grupos e administração (4), envio automático e IA (5).
 
 ### 24/10/2026 — sessão `affectionate-maxwell`, computador de casa
 - **CI testada com login:** modelo do e-mail "Magic Link" com o código `{{ .Token }}` (feito pelo William); PIN criado.
