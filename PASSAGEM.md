@@ -88,6 +88,12 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 
 ## Diário das sessões (mais recente no topo)
 
+### 27/10/2026 (tarde) — sessão `affectionate-maxwell`
+- **Pesquisas:** assistente de IA funcionando com a chave paga e testado (criar conversando, ditar perguntas, colar questionário pronto, ajustes; D-65/D-66); opção "Vale sozinha" em várias escolhas (D-67, regra também no banco). William vai testar o que está pronto.
+- **Falta (Pesquisas):** (1) envio automático por WhatsApp e e-mail, a construir pronto para ligar; (2) Guia do Usuário e apresentação impressa (molde D-137); (3) da SMEDU/Prefeitura: WhatsApp oficial, servidor de e-mail, de acordo da IA, lista de pessoas, quem aprova pela Secretaria, tipos/etapas oficiais; (4) antes de abrir: tirar a conta de teste, encerrar as demonstrações, conferir o schema `pesquisa` na tela Data API, domínio oficial.
+- **Duas decisões pendentes com o William** (`pesquisas/docs/01`): **Q-29** pesquisa permanente (sem data de fim) e **Q-25** publicar resultado no portal.
+- **Próximo passo:** depois do teste do William, envio automático pronto para ligar e, em seguida, o guia e a apresentação.
+
 ### 26 e 27/10/2026 — sessão `affectionate-maxwell`
 - **Pesquisas, passos 3 e 4 no ar** (https://pesquisas.willquerubim2025.workers.dev):
   - **Resultados:** gráficos por pergunta, filtros (tipo, região, etapa, unidade), "Comparar", modo apresentação, PDF e planilha.
