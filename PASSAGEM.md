@@ -34,7 +34,9 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 
 ---
 
-## Estado atual (atualizado em 25/10/2026)
+## Estado atual (atualizado em 27/10/2026)
+
+> **Sistema de Pesquisas (27/10/2026): no ar e ligado ao cartão do portal.** Quem responde, painel do gestor, resultados, aprovação, Minhas respostas, grupos e administração prontos (repositório `pesquisas`, D-01 a D-64). Falta: envio automático por WhatsApp/e-mail (depende da Prefeitura; até lá o gestor manda o link à mão), assistente de IA (depende do de acordo), guia e apresentação, e os dados reais da SMEDU.
 
 > **Apresentação impressa do Portal da Educação (25/10/2026, D-136 do `portal-municipal`):** `docs/portfolio/apresentacao/Portal-Educacao-Apresentacao.pdf`, 31 páginas A4, gerada por código (passo a passo no `LEIA-ME.md` da pasta). Substitui o portfólio antigo para entregar à Secretária. **Falta:** telefone e e-mail de contato na contracapa (marcadores `[telefone]` e `[e-mail]`).
 
@@ -85,6 +87,17 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 ---
 
 ## Diário das sessões (mais recente no topo)
+
+### 26 e 27/10/2026 — sessão `affectionate-maxwell`
+- **Pesquisas, passos 3 e 4 no ar** (https://pesquisas.willquerubim2025.workers.dev):
+  - **Resultados:** gráficos por pergunta, filtros (tipo, região, etapa, unidade), "Comparar", modo apresentação, PDF e planilha.
+  - **Aprovação** de pesquisa para pais e comunidade pelo link `/aprovar/...` (aprovar ou devolver com comentário, D-62) e portal do destinatário "Minhas respostas".
+  - **Grupos** (criar com segmentos, "quem, e onde", escolas, pessoas e exceções; compartilhar com outro gestor).
+  - **Administração:** pessoas com contato e lotação, importar planilha colando do Excel, papéis pelo e-mail do portal, segmentos, escolas e setores, envelope das pesquisas e "passar para outro gestor", configuração e histórico (D-63).
+  - Migrações `pesquisa_0011` a `pesquisa_0013` aplicadas e testadas em transação desfeita.
+- **Cartão "Pesquisas da Educação" ligado no portal** (D-64 de `pesquisas`): saiu do "Em breve" e abre o sistema (público servidor).
+- **Antes de ir ao ar de verdade:** cadastrar as pessoas da SMEDU (planilha), escolher quem aprova pela Secretaria (Administração → Configuração), tirar a conta de teste e encerrar as pesquisas "(demonstração)".
+- **Próximo passo:** envio automático (WhatsApp e e-mail, depende da conta oficial e do SMTP da Prefeitura) e assistente de IA prontos para ligar; depois o Guia do Usuário e a apresentação impressa (molde D-137).
 
 ### 25/10/2026 — sessão `peaceful-edison`, conta 2
 - **Autorizações do Supabase automáticas:** `.claude/settings.json` + `.claude/hooks/supabase-guard.py`. Leitura, consultas e alterações de dados (SELECT, INSERT, UPDATE/DELETE com WHERE), logs, advisors, tipos, branches e deploy de Edge Function passam sem perguntar. **Pergunta antes:** CREATE/ALTER/DROP/TRUNCATE, RLS e políticas, GRANT/REVOKE, blocos DO, UPDATE/DELETE sem WHERE, `apply_migration`, `merge_branch`, `reset_branch`, `delete_branch`, pausar/criar projeto, segredos e qualquer ferramenta nova. Vale a partir da próxima sessão. Para outro projeto, copiar a pasta `.claude/` para o repositório dele e fazer commit.
