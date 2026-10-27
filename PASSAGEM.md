@@ -96,6 +96,7 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
   - **Administração:** pessoas com contato e lotação, importar planilha colando do Excel, papéis pelo e-mail do portal, segmentos, escolas e setores, envelope das pesquisas e "passar para outro gestor", configuração e histórico (D-63).
   - Migrações `pesquisa_0011` a `pesquisa_0013` aplicadas e testadas em transação desfeita.
 - **Cartão "Pesquisas da Educação" ligado no portal** (D-64 de `pesquisas`): saiu do "Em breve" e abre o sistema (público servidor).
+- **Assistente de IA pronto (27/10, D-65/D-66 de `pesquisas`):** "Criar com o assistente" (montar a pesquisa conversando ou colando um questionário pronto) e o assistente do editor com sugestões e "Ver como ficaria". Edge Function `pesquisa-ia` no ar. **Para funcionar falta:** a chave paga da Anthropic guardada pelo William nos segredos do Supabase (`ANTHROPIC_API_KEY`) e ligar em Administração → Configuração depois do de acordo da Secretaria.
 - **Antes de ir ao ar de verdade:** cadastrar as pessoas da SMEDU (planilha), escolher quem aprova pela Secretaria (Administração → Configuração), tirar a conta de teste e encerrar as pesquisas "(demonstração)".
 - **Próximo passo:** envio automático (WhatsApp e e-mail, depende da conta oficial e do SMTP da Prefeitura) e assistente de IA prontos para ligar; depois o Guia do Usuário e a apresentação impressa (molde D-137).
 
