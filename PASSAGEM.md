@@ -34,7 +34,9 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 
 ---
 
-## Estado atual (atualizado em 27/10/2026)
+## Estado atual (atualizado em 31/10/2026)
+
+- **SIMAPE:** banco já no Portal Municipal (schema `geoescola`); falta publicar o novo `dist.zip` e conferir, depois excluir o projeto GEOESCOLAS.
 
 > **Sistema de Pesquisas (27/10/2026): no ar e ligado ao cartão do portal.** Quem responde, painel do gestor, resultados, aprovação, Minhas respostas, grupos e administração prontos (repositório `pesquisas`, D-01 a D-64). Falta: envio automático por WhatsApp/e-mail (depende da Prefeitura; até lá o gestor manda o link à mão), assistente de IA (depende do de acordo), guia e apresentação, e os dados reais da SMEDU.
 
@@ -87,6 +89,11 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 ---
 
 ## Diário das sessões (mais recente no topo)
+
+### 30 e 31/10/2026 — sessão `affectionate-maxwell` (SIMAPE)
+- **SIMAPE (GeoEscola) migrado para o Portal Municipal** (D-138 do `portal-municipal`): schema `geoescola`, destacável para outros órgãos. Repositório novo `willquerubim2025-oss/geoescola` (código que estava só no computador do William; a planilha ESTUDO.xlsx com dados pessoais foi retirada).
+- Dados copiados servidor a servidor e conferidos; 6 funções do servidor publicadas com prefixo `geoescola-`; app adaptado; teste completo com conta de teste (retirada) — reprocessar uma simulação deu os mesmos números.
+- **Próximo passo (William):** marcar `geoescola` na tela Data API; publicar `geoescola/dist.zip` na Hostinger; entrar e conferir. Só depois excluir o projeto antigo GEOESCOLAS (ficou ligado para o site atual não cair). Pendências em `portal-municipal/docs/07-pendencias.md`.
 
 ### 27/10/2026 (tarde) — sessão `affectionate-maxwell`
 - **Pesquisas:** assistente de IA funcionando com a chave paga e testado (criar conversando, ditar perguntas, colar questionário pronto, ajustes; D-65/D-66); opção "Vale sozinha" em várias escolhas (D-67, regra também no banco); assistente aceita PDF editável, PDF digitalizado ou foto de questionário (D-68, sem OCR à parte). William vai testar o que está pronto.
