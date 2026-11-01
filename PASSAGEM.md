@@ -22,7 +22,6 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 | **Prévias navegáveis (HTML autocontido, abre sem internet)** | Este repositório: `docs/previa/` (`index.html` é a página inicial). Todas no padrão aprovado. Para gerá-las, veja `ferramentas/LEIA-ME.md` |
 | **Sistema visual, marca e capturas** | Este repositório: `docs/design/` |
 | **Roteiro do que falta para concluir** | Este repositório: `docs/Roteiro para Concluir.md` |
-| **Sistema de Atendimento para restaurantes (projeto separado, sem repositório próprio ainda)** | Este repositório: `projetos/sistema-atendimento/README.md` (decisões A-01 a A-06, pontos em aberto, próximo passo) |
 | **Pendências com a SMEDU (tudo o que depende da Secretaria/Prefeitura)** | Este repositório: `docs/reuniao/smedu-pendencias.md` |
 | **Supabase, produção** | Projeto **Portal Municipal**, ref `qgywucdnaeheqndcxtho` (sa-east-1) |
 | **Supabase, homologação** | **Não existe mais** (branch `homologacao` apagada em ~20/10/2026, D-105). Tudo roda na produção |
@@ -90,11 +89,6 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 ---
 
 ## Diário das sessões (mais recente no topo)
-
-### 31/10 e 01/11/2026 — sessão `vigilant-newton` (Sistema de Atendimento, projeto separado)
-- Avaliado o projeto de pedidos por mesa. **Decisão:** terminal ESP32 fica para depois (custo de R$ 350 a 535 contra tablet a R$ 400 a 450). Fase 1 = tablet ou celular do garçom e lançamento no caixa, com dois modos: **Cardápio** e **Assistente de Pedido** (voz item por item, correção tocando no item e falando, revisão lida ao cliente, envio para a impressora de cada setor). Gestão básica (caixa, relatório por setor, ingredientes, estoque) pensada desde o banco.
-- Tudo registrado em `projetos/sistema-atendimento/README.md`. Não mexe nos Portais Públicos.
-- **Próximo passo:** William manda a lista de equipamentos (tablets, impressoras) para avaliação; depois, especificação da Fase 1 e repositório próprio.
 
 ### 30 e 31/10/2026 — sessão `affectionate-maxwell` (SIMAPE)
 - **SIMAPE (GeoEscola) migrado para o Portal Municipal** (D-138 do `portal-municipal`): schema `geoescola`, destacável para outros órgãos. Repositório novo `willquerubim2025-oss/geoescola` (código que estava só no computador do William; a planilha ESTUDO.xlsx com dados pessoais foi retirada).
