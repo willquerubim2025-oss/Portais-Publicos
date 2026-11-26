@@ -49,6 +49,9 @@ I = {
     'livro': '<path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>',
     'engrenagem': '<path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M2 14h4M10 8h4M18 16h4"/>',
     'treino': '<path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>',
+    'orbita': '<circle cx="12" cy="12" r="3"/><ellipse cx="12" cy="12" rx="10" ry="4.5"/><ellipse cx="12" cy="12" rx="4.5" ry="10" transform="rotate(45 12 12)"/>',
+    'pin': '<path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>',
+    'ia': '<path d="M12 3l1.9 4.6L18.5 9l-4.6 1.9L12 15.5l-1.9-4.6L5.5 9l4.6-1.4z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9z"/>',
     'mapa': '<path d="M14.1 6 9.9 4.1a2 2 0 0 0-1.8 0L3.6 6.3A1 1 0 0 0 3 7.2v12.6a1 1 0 0 0 1.4.9l4.5-2.2a2 2 0 0 1 1.8 0l4.2 1.9a2 2 0 0 0 1.8 0l4.5-2.2a1 1 0 0 0 .6-.9V4.7a1 1 0 0 0-1.4-.9l-4.5 2.2a2 2 0 0 1-1.8 0Z"/><path d="M15 6v15M9 3v15"/>',
 }
 
@@ -62,10 +65,14 @@ def img(n):
     return f'../img/{n}.jpg'
 
 
+ROTULOS = {'ci': 'CI Eletrônica · Secretaria Municipal de Educação', 'pq': 'Pesquisas da Educação · Secretaria Municipal de Educação',
+           'sim': 'SIMAPE · Planejamento Escolar', 'escola': 'Portal da Educação · página da escola (simulação)'}
+
+
 def navegador(nome, marcas=(), cls=''):
     """Foto do portal dentro de uma janela de navegador, com números (x%, y%)."""
     b = ''.join(f'<span class="mc" style="left:{x}%;top:{y}%">{i}</span>' for i, (x, y) in enumerate(marcas, 1))
-    return (f'<div class="nav {cls}"><div class="nav-barra"><i></i><i></i><i></i><span>Portal da Educação · Secretaria Municipal de Educação</span></div>'
+    return (f'<div class="nav {cls}"><div class="nav-barra"><i></i><i></i><i></i><span>{ROTULOS.get(nome.split("-")[0], "Portal da Educação · Secretaria Municipal de Educação")}</span></div>'
             f'<div class="nav-img"><img src="{img(nome)}">{b}</div></div>')
 
 
@@ -119,9 +126,25 @@ HOME = {
 }
 
 
+TELAS = [('tela-servicos', 'Tela por tela', 'Carta de Serviços', [('documento', 'Todos os serviços', 'Busca e cards; cada um com quem pode pedir, prazo e como fazer.'), ('busca', 'Busca por serviço', 'Digite o que precisa e o serviço aparece.'), ('ok', 'Lei 13.460/2017', 'No modelo da Carta de Serviços ao Usuário.')]), ('tela-estudante', 'Tela por tela', 'Área do Estudante', [('escola', 'Tudo do estudante', 'Vestibulinho, bolsas, uniforme e matrícula numa página só.'), ('link', 'Atalhos diretos', 'Cada item leva ao serviço ou ao sistema certo.'), ('celular', 'No celular', 'Pensada para o aluno que acessa pelo telefone.')]), ('tela-noticias', 'Tela por tela', 'Notícias', [('imagem', 'Com foto', 'Grade que valoriza as fotos das escolas.'), ('busca', 'Busca e categorias', 'A notícia antiga continua fácil de achar.'), ('mundo', 'No Google e no WhatsApp', 'Cada notícia com endereço próprio e prévia bonita.')]), ('tela-noticia', 'Tela por tela', 'A notícia aberta', [('imagem', 'Foto e galeria', 'Foto de destaque, galeria e a fonte da informação.'), ('calendario', 'Datas claras', 'Publicação e atualização, sempre à vista.'), ('enviar', 'Compartilhar', 'Pronta para mandar às famílias no WhatsApp.')]), ('tela-eventos', 'Tela por tela', 'Agenda de eventos', [('calendario', 'Calendário da rede', 'Reuniões, provas e formações com data e local.'), ('relogio', 'Página do evento', 'Horário, local e quem organiza.'), ('olho', 'Sem recado perdido', 'A família e a escola veem a mesma agenda.')]), ('tela-transparencia', 'Tela por tela', 'Central de Transparência', [('olho', 'Por assunto', 'Como pedem a Lei de Acesso à Informação e a LC 131/2009.'), ('documento', 'Documentos', 'Relatórios, convênios, conselhos e prestação de contas.'), ('estrela', 'Radar da Transparência', 'Organizada pelos critérios do PNTP.')]), ('tela-legislacao', 'Tela por tela', 'Legislação com vigência', [('livro', 'Leis e portarias', 'Busca e filtros por tipo, ano e assunto.'), ('ok', 'Situação de cada norma', 'Em vigor, revogada ou alterada, sem dúvida.'), ('documento', 'Texto e arquivo', 'O texto na página e o PDF original.')]), ('tela-numeros', 'Tela por tela', 'Educação em Números', [('grafico', 'Indicadores', 'Unidades, matrículas, IDEB e professores.'), ('documento', 'Com fonte', 'A origem de cada dado, sempre informada.'), ('olho', 'A rede à vista', 'A Secretaria mostra o tamanho do que faz.')]), ('tela-estrutura', 'Tela por tela', 'Estrutura organizacional', [('pessoas', 'Quem é quem', 'Órgãos, responsáveis e competências.'), ('fone', 'Contato direto', 'Telefone e e-mail de cada área.'), ('ok', 'Lei 12.527/2011', 'O que a Lei de Acesso pede, organizado.')]), ('tela-perguntas', 'Tela por tela', 'Perguntas frequentes', [('pergunta', 'As dúvidas de sempre', 'Respondidas antes de a família ligar.'), ('busca', 'Na busca do portal', 'A resposta aparece quando a pessoa procura.'), ('caneta', 'A equipe atualiza', 'Nova dúvida, nova resposta, pelo painel.')]), ('tela-busca', 'Tela por tela', 'Busca no portal inteiro', [('busca', 'Uma busca só', 'Notícias, serviços, páginas, documentos e perguntas.'), ('raio', 'Mostra o que é cada resultado', 'Serviço, pergunta frequente, órgão ou notícia, com a data.'), ('ok', 'Sem se perder', 'A família acha o que precisa sem conhecer o menu.')])]
+
+
+def tela(nome, sobre, titulo, cards, extra=()):
+    """Uma tela inteira do portal na página, com três cartões curtos embaixo."""
+    c = ''.join(f'<div>{ic(a, 20)}<b>{t}</b><small>{d}</small></div>' for a, t, d in cards)
+    return (f'<span class="sobre">{sobre}</span><h2 class="tela-tit">{titulo}</h2>'
+            f'<div class="tela-img">{navegador(nome)}</div>'
+            + (f'<ul class="tela-extra">{"".join(f"<li><b>{t}</b> {d}</li>" for t, d in extra)}</ul>' if extra else '')
+            + f'<div class="tela-cards">{c}</div>')
+
+
 def paginas():
     P = []
     n = [1]
+    marca = {}
+
+    def M(chave):
+        marca[chave] = n[0]
 
     def nova(html):
         P.append(html)
@@ -135,7 +158,7 @@ def paginas():
 <div class="capa-arte"><img src="{img("destaque-0")}"></div>
 <div class="capa-mock">{navegador("home-capa")}</div>
 <div class="capa-cel"><img src="{img("cel-home")}"></div>
-<div class="capa-pe"><span>Secretaria Municipal de Educação de Paulínia</span><span>Outubro de 2026</span></div></section>''')
+<div class="capa-pe"><span>Secretaria Municipal de Educação de Paulínia</span><span>Novembro de 2026</span></div></section>''')
 
     # 2. o desafio
     nova(f'''<section class="pg escura desafio">
@@ -174,21 +197,23 @@ def paginas():
 {rodape(3)}</section>''')
 
     # 4. sumário
-    itens = [('casa', 'O portal', 'A página inicial, parte por parte, e a capa que muda com a Secretaria', 5),
-             ('video', 'Para a família', 'Matrícula com vídeos, serviços, notícias, transparência e a rede', 14),
-             ('acess', 'Para todos', 'Acessibilidade e celular', 20),
-             ('link', 'Integração', 'Sistemas da Secretaria e a CI Eletrônica', 22),
-             ('caneta', 'O painel', 'A Secretaria no comando, sem programador', 24),
-             ('pergunta', 'Perguntas e respostas', 'Segurança, dados, treinamento e o que pode dar errado', 27),
-             ('escudo', 'Tecnologia', 'A base técnica, para quem quer os detalhes', 29),
-             ('seta', 'Próximos passos', 'Do endereço de demonstração ao ar', 30)]
+    itens = [('casa', 'O portal', 'A página inicial, parte por parte, e a página de destaque', '@portal'),
+             ('video', 'Vídeos de orientação', 'A matrícula explicada em vídeo, com legenda', '@videos'),
+             ('documento', 'Tela por tela', 'Serviços, notícias, eventos, transparência, legislação e a rede', '@telas'),
+             ('acess', 'Para todos', 'Acessibilidade e celular', '@todos'),
+             ('orbita', 'Sistemas em órbita', 'CI Eletrônica, Pesquisas e SIMAPE: geolocalização e vagas', '@orbita'),
+             ('escola', 'Uma página para cada escola', 'O próximo passo possível', '@escola'),
+             ('caneta', 'O painel', 'A Secretaria no comando, sem programador', '@painel'),
+             ('pergunta', 'Perguntas e respostas', 'Segurança, dados, treinamento e o que pode dar errado', '@perguntas'),
+             ('escudo', 'Tecnologia e próximos passos', 'A base técnica e o caminho até o ar', '@tecnologia')]
     nova(f'''<section class="pg clara sumario">
 <span class="sobre">Neste material</span><h2>O que você vai ver</h2>
-<ol class="sum">{"".join(f'<li><span class="s-ic">{ic(a, 26)}</span><div><b>{t}</b><small>{d}</small></div><span class="s-n">{p:02d}</span></li>' for a, t, d, p in itens)}</ol>
+<ol class="sum">{"".join(f'<li><span class="s-ic">{ic(a, 26)}</span><div><b>{t}</b><small>{d}</small></div><span class="s-n">{p}</span></li>' for a, t, d, p in itens)}</ol>
 <div class="nota-demo">{ic("olho", 20)} <span>Todas as imagens são do portal <b>já construído e funcionando</b> no endereço de demonstração. Algumas fotos e nomes de pessoas são ilustrativos, para a apresentação.</span></div>
 {rodape(4)}</section>''')
 
     # 5..12. página inicial: imagem / explicação
+    M('portal')
     for parte in range(1, 5):
         h = HOME[parte]
         nova(f'''<section class="pg vitrine">
@@ -201,83 +226,42 @@ def paginas():
 <div class="porque"><span>Por que importa</span><p>{h["porque"]}</p></div>
 {rodape(n[0])}</section>''')
 
-    # 13. carrossel
+    # 13. a página de destaque (carrossel)
     nova(f'''<section class="pg clara carrossel">
-<span class="sobre">A capa do portal</span><h2>Uma vitrine que muda com a Secretaria</h2>
-<p class="intro">O carrossel de destaques abre o portal. A Secretaria troca as fotos, os textos e as artes de campanha pelo painel, em minutos: matrícula, vestibulinho, uniforme, eventos.</p>
-<div class="slides">{"".join(f'<div class="slide"><img src="{img(f"destaque-{i}")}"><span>{i + 1}</span></div>' for i in range(3))}</div>
+<span class="sobre">A página de destaque</span><h2>A capa do portal muda com a Secretaria</h2>
+<p class="intro">O carrossel de destaques abre o portal. A Secretaria troca fotos, textos e artes de campanha pelo painel, em minutos: o novo portal, o uniforme, o Barco Escola, a matrícula.</p>
+<div class="slides quatro">{"".join(f'<div class="slide"><img src="{img(f"destaque-{i}")}"><span>{i + 1}</span></div>' for i in range(4))}</div>
 <div class="tres">
-  <div>{ic("imagem", 24)}<b>Foto ou arte pronta</b><small>Foto com título e botão, ou a arte da campanha inteira, como um outdoor.</small></div>
+  <div>{ic("imagem", 24)}<b>Foto ou arte pronta</b><small>Foto com título e botão, ou a arte inteira da campanha, como um outdoor.</small></div>
   <div>{ic("calendario", 24)}<b>Agendado</b><small>O destaque entra e sai do ar sozinho, na data marcada.</small></div>
   <div>{ic("acess", 24)}<b>Acessível</b><small>Para sozinho com o mouse, tem botão de pausa e texto alternativo.</small></div>
 </div>
 {rodape(n[0])}</section>''')
 
     # 14. matrícula (imagem)
+    M('videos')
     nova(f'''<section class="pg vitrine">
-<div class="vitrine-topo"><span class="sobre">Serviço com vídeo</span><h2>Matrícula escolar</h2><p>A página que mais resolve: explica, mostra e leva direto ao sistema</p></div>
+<div class="vitrine-topo"><span class="sobre">Vídeos de orientação</span><h2>Matrícula escolar</h2><p>A página que mais resolve: explica em vídeo, mostra e leva direto ao sistema</p></div>
 <div class="vitrine-img alta">{navegador("matricula-topo")}</div>
 {rodape(n[0], True)}</section>''')
 
     # 15. matrícula (explicação)
     nova(f'''<section class="pg clara explica">
-<span class="sobre">Serviço com vídeo</span><h2>Ver, entender e resolver na mesma página</h2>
+<span class="sobre">Vídeos de orientação</span><h2>A família vê, entende e resolve na mesma página</h2>
 <div class="video-destaque">{navegador("matricula-videos")}</div>
-{numerados([("Vídeos curtos e legendados", "Cada etapa explicada em vídeo, com legenda. Quem prefere ler tem o mesmo conteúdo logo abaixo."),
+{numerados([("Vídeos curtos de orientação", "“Como fazer a inscrição no SISS” e “Como funciona a fila da creche”: cada etapa explicada em vídeo, com legenda. Quem prefere ler tem o mesmo conteúdo ao lado."),
             ("Ao lado de cada vídeo, o resumo e o botão", "“Fazer a inscrição” leva direto ao sistema da creche, sem procurar."),
             ("Quem pode, prazos, documentos e passo a passo", "No modelo da Carta de Serviços (Lei 13.460/2017), em linguagem simples."),
-            ("Menos gente na fila, menos telefone tocando", "A dúvida mais comum já está respondida antes de a família precisar perguntar.")])}
+            ("Em qualquer serviço", "A equipe coloca vídeos em qualquer página de serviço pelo painel: vestibulinho, uniforme, bolsa de estudo. Menos fila e menos telefone tocando.")])}
 {rodape(n[0])}</section>''')
 
-    # 16. serviços e área do estudante
-    nova(f'''<section class="pg clara dupla">
-<span class="sobre">Para a família</span><h2>Carta de Serviços e Área do Estudante</h2>
-<div class="colagem">{navegador("servicos")}{navegador("estudante")}</div>
-<div class="tres">
-  <div>{ic("documento", 24)}<b>Todos os serviços</b><small>Busca e cards com ícone; cada serviço com quem pode pedir, prazo, custo e como fazer.</small></div>
-  <div>{ic("escola", 24)}<b>Área do Estudante</b><small>Vestibulinho, bolsas, uniforme, matrícula e a escola de cada um, numa página só.</small></div>
-  <div>{ic("busca", 24)}<b>Busca no portal inteiro</b><small>Notícias, serviços, páginas, documentos e perguntas, numa busca só.</small></div>
-</div>
-<div class="frase">Cada serviço explicado do mesmo jeito: quem pode pedir, prazo, documentos e o passo a passo. A família sabe o que levar antes de sair de casa.</div>
-{rodape(n[0])}</section>''')
-
-    # 17. notícias e eventos
-    nova(f'''<section class="pg clara dupla">
-<span class="sobre">Comunicação</span><h2>Notícias e eventos com página própria</h2>
-<div class="colagem">{navegador("noticia")}{navegador("evento")}</div>
-<div class="tres">
-  <div>{ic("imagem", 24)}<b>Foto, galeria e fonte</b><small>Cada notícia com foto de destaque, galeria, data de publicação e de atualização.</small></div>
-  <div>{ic("mundo", 24)}<b>Pronto para compartilhar</b><small>Aparece bonito no Google, no WhatsApp e nas redes sociais.</small></div>
-  <div>{ic("calendario", 24)}<b>Agenda da rede</b><small>Reuniões, provas, formações: com data, horário, local e quem organiza.</small></div>
-</div>
-<div class="frase">A comunicação da Educação deixa de se perder no site geral: tem endereço próprio, aparece no Google e chega às famílias pelo WhatsApp.</div>
-{rodape(n[0])}</section>''')
-
-    # 18. transparência e legislação
-    nova(f'''<section class="pg clara dupla">
-<span class="sobre">Transparência</span><h2>Transparência e legislação, organizadas</h2>
-<div class="colagem">{navegador("transparencia")}{navegador("legislacao")}</div>
-<div class="tres">
-  <div>{ic("olho", 24)}<b>Central de Transparência</b><small>Por assunto, como pedem a Lei de Acesso à Informação e a LC 131/2009.</small></div>
-  <div>{ic("livro", 24)}<b>Legislação com vigência</b><small>Leis, decretos e portarias com busca, filtros e a situação de cada norma.</small></div>
-  <div>{ic("pessoas", 24)}<b>Estrutura organizacional</b><small>Órgãos, responsáveis, competências e contatos (Lei 12.527/2011).</small></div>
-</div>
-<div class="frase">O que a lei pede, organizado por assunto e fácil de achar. Menos pedidos de informação, mais confiança.</div>
-{rodape(n[0])}</section>''')
-
-    # 19. números e escolas
-    nova(f'''<section class="pg clara dupla">
-<span class="sobre">A rede municipal</span><h2>Educação em números e estrutura</h2>
-<div class="colagem">{navegador("numeros")}{navegador("estrutura")}</div>
-<div class="tres">
-  <div>{ic("grafico", 24)}<b>Indicadores com fonte</b><small>Unidades, matrículas, IDEB e professores, sempre com a origem de cada dado.</small></div>
-  <div>{ic("mapa", 24)}<b>Escolas e supervisores</b><small>A família digita a escola ou o bairro e acha o supervisor responsável.</small></div>
-  <div>{ic("pergunta", 24)}<b>Perguntas frequentes</b><small>As dúvidas mais comuns respondidas, também encontradas pela busca.</small></div>
-</div>
-<div class="frase">Os números da rede e quem responde por cada área, sempre à vista: a Secretaria mostra o que faz.</div>
-{rodape(n[0])}</section>''')
+    # 16..26. tela por tela: uma tela inteira por página
+    M('telas')
+    for nome, sobre, titulo, cards in TELAS:
+        nova(f'''<section class="pg clara tela">{tela(nome, sobre, titulo, cards)}{rodape(n[0])}</section>''')
 
     # 20. acessibilidade
+    M('todos')
     nova(f'''<section class="pg escura acess">
 <span class="sobre">Para todos</span><h2>Acessível de verdade</h2>
 <p class="intro">Seguindo o eMAG (modelo do Governo Federal) e as diretrizes internacionais WCAG.</p>
@@ -300,40 +284,109 @@ def paginas():
 <div class="legendas-cel"><span>Início</span><span>Matrícula</span><span>Notícias</span><span>Serviços</span></div>
 {rodape(n[0])}</section>''')
 
-    # 22. integração
-    nova(f'''<section class="pg escura integracao">
-<span class="sobre">Integração</span><h2>Os sistemas da Educação, num só lugar</h2>
-<p class="intro">A faixa “Sistemas da Secretaria” reúne os sistemas que famílias e servidores usam. Quem entra no portal já é levado ao lugar certo.</p>
-<div class="integra-img">{navegador("sistemas")}</div>
-<div class="fluxo-integra">
-  <div><span>{ic("casa", 24)}</span><b>Entra no portal</b><small>pelo celular ou computador</small></div><i>{ic("seta", 22)}</i>
-  <div><span>{ic("link", 24)}</span><b>Toca no sistema</b><small>na faixa “Sistemas da Secretaria”</small></div><i>{ic("seta", 22)}</i>
-  <div><span>{ic("ok", 24)}</span><b>Cai no lugar certo</b><small>sem procurar endereço, sem errar</small></div>
-</div>
-<div class="integra-lista">
-  <div><b>SISS · Educação Infantil</b><small>Inscrição e fila de espera das creches</small></div>
-  <div><b>Transferência</b><small>Pedido de troca de creche ou EMEI</small></div>
-  <div><b>Matrícula escolar</b><small>Pedido de vaga no Fundamental</small></div>
-  <div><b>Uniforme escolar</b><small>Cadastro para receber o uniforme</small></div>
-  <div class="novo"><b>CI Eletrônica</b><small>Comunicação interna digital (SECKE)</small></div>
-  <div class="novo"><b>Pesquisas da Educação</b><small>Em construção (SECKE)</small></div>
-</div>
+    # sistemas em órbita
+    M('orbita')
+    sat = [('ci', 'CI Eletrônica', 'Comunicação interna sem papel', 'documento', 'SECKE'),
+           ('pq', 'Pesquisas da Educação', 'Questionários com assistente de IA', 'grafico', 'SECKE'),
+           ('sim', 'SIMAPE', 'Geolocalização e planejamento de vagas', 'pin', 'SECKE'),
+           ('siss', 'SISS · Creches', 'Inscrição e fila de espera', 'escola', 'Prefeitura'),
+           ('mat', 'Matrícula escolar', 'Pedido de vaga no Fundamental', 'livro', 'Prefeitura'),
+           ('uni', 'Uniforme escolar', 'Cadastro para receber', 'pessoas', 'Prefeitura'),
+           ('tra', 'Transferência', 'Troca de creche ou EMEI', 'seta', 'Prefeitura'),
+           ('pai', 'Painel do portal', 'Onde a equipe publica', 'caneta', 'SECKE')]
+    orb = ''.join(f'<div class="sat s{k}{" secke" if o == "SECKE" else ""}"><span>{ic(a, 22)}</span><b>{t}</b><small>{d}</small></div>' for k, (c, t, d, a, o) in enumerate(sat))
+    nova(f'''<section class="pg escura orbita-pg">
+<span class="sobre">Sistemas em órbita</span><h2>O portal no centro.<br><em>Os sistemas da Educação em volta.</em></h2>
+<p class="intro">O portal é a porta de entrada. Em volta dele giram os sistemas que famílias e servidores usam, com o mesmo login para os servidores e a mesma identidade da Educação.</p>
+<div class="orbita"><i class="anel a1"></i><i class="anel a2"></i><div class="nucleo">{ic("casa", 34)}<b>Portal da<br>Educação</b></div>{orb}</div>
+<div class="legenda-orb"><span><i class="ponto secke"></i>Sistemas SECKE, integrados ao portal</span><span><i class="ponto"></i>Sistemas da Prefeitura, ligados pelo portal</span></div>
 {rodape(n[0], True)}</section>''')
 
-    # 23. CI eletrônica
-    nova(f'''<section class="pg clara ci">
-<span class="sobre">Já integrada ao portal</span><h2>CI Eletrônica: a comunicação interna sem papel</h2>
-<div class="ci-grid"><div>{navegador("ci-inicio")}</div><div class="ci-folha"><img src="{img("ci-impressao")}"></div></div>
-<div class="tres quatro">
-  <div>{ic("enviar", 24)}<b>Escrever e enviar</b><small>A CI com a cara do modelo oficial, numerada automaticamente.</small></div>
-  <div>{ic("cadeado", 24)}<b>Assinatura com PIN</b><small>Assinatura eletrônica pessoal, com código e QR Code de verificação.</small></div>
-  <div>{ic("mapa", 24)}<b>O caminho da CI</b><small>Quem recebeu, quando, o que cada setor despachou e onde está parada.</small></div>
-  <div>{ic("documento", 24)}<b>Imprimir e PDF</b><small>A folha oficial sai pronta, inclusive para outros órgãos.</small></div>
+    # integração: a faixa no portal
+    nova(f'''<section class="pg clara integracao2">
+<span class="sobre">Sistemas em órbita</span><h2>Um clique e a pessoa está no sistema certo</h2>
+<p class="intro">A faixa “Sistemas da Secretaria de Educação”, na página inicial, reúne tudo. Os sistemas dos servidores (CI Eletrônica, Pesquisas e SIMAPE) entram com o mesmo e-mail e senha do portal.</p>
+<div class="integra-img">{navegador("sistemas")}</div>
+<div class="fluxo-integra claro">
+  <div><span>{ic("casa", 24)}</span><b>Entra no portal</b><small>pelo celular ou computador</small></div><i>{ic("seta", 22)}</i>
+  <div><span>{ic("link", 24)}</span><b>Toca no sistema</b><small>na faixa da página inicial</small></div><i>{ic("seta", 22)}</i>
+  <div><span>{ic("chave", 24)}</span><b>Mesmo login</b><small>o servidor usa o e-mail e a senha de sempre</small></div>
 </div>
-<div class="nota-demo">{ic("estrela", 20)} <span>Setores e escolas trocam CIs em segundos, sem papel, sem malote e com tudo registrado. Acompanha um <b>guia do usuário completo</b> para treinamento.</span></div>
+<div class="frase">Um só endereço para lembrar. Uma só senha para o servidor. Uma só cara para a Educação.</div>
+{rodape(n[0])}</section>''')
+
+    # CI eletrônica: tela inteira + detalhes
+    nova(f'''<section class="pg clara tela">{tela("ci-inicio", "Sistema em órbita · CI Eletrônica", "A comunicação interna, sem papel",
+        [("enviar", "Escrever e enviar", "A CI no modelo oficial, numerada sozinha."), ("cadeado", "Assinatura com PIN", "Assinatura eletrônica pessoal, com QR Code."), ("relogio", "Nada fica parado", "Avisa quando uma CI está parada há dias.")],
+        [("Início do dia:", "o que chegou, o que está em andamento, o que espera assinatura e o que está parado, numa tela só."),
+         ("Por unidade:", "cada setor e cada escola tem a sua caixa; quem troca de unidade troca de caixa num clique."),
+         ("Folha oficial:", "a CI sai no modelo da Prefeitura, com número, data, assinatura eletrônica e QR Code."),
+         ("Ditado por voz:", "dá para falar em vez de digitar; o sistema escreve o texto na folha."),
+         ("Para fora da Secretaria:", "a CI também vai para outros órgãos, em PDF, com verificação pública.")])}{rodape(n[0])}</section>''')
+    nova(f'''<section class="pg clara ci">
+<span class="sobre">Sistema em órbita · CI Eletrônica</span><h2>O caminho de cada CI, do envio à resposta</h2>
+<div class="ci-grid2"><div>{navegador("ci-caminho")}<small>O fluxograma do trâmite: quem recebeu, quando, quanto tempo ficou e o que cada setor despachou.</small></div>
+<div class="ci-folha"><img src="{img("ci-impressao")}"><small>A folha oficial, pronta para imprimir ou salvar em PDF, com o código de verificação.</small></div></div>
+<div class="tres quatro">
+  <div>{ic("mapa", 24)}<b>Tramitação livre</b><small>Cópias em paralelo para várias unidades ao mesmo tempo.</small></div>
+  <div>{ic("escudo", 24)}<b>Verificação pública</b><small>Qualquer pessoa confere se a assinatura é verdadeira.</small></div>
+  <div>{ic("busca", 24)}<b>Consulta e relatórios</b><small>Pesquisa por número, assunto, unidade e período.</small></div>
+  <div>{ic("treino", 24)}<b>Guia do usuário</b><small>57 páginas ilustradas, uma unidade por papel.</small></div>
+</div>
+{rodape(n[0])}</section>''')
+
+    # Pesquisas
+    nova(f'''<section class="pg clara tela">{tela("pq-editor", "Sistema em órbita · Pesquisas da Educação", "Pesquisas e questionários da rede, do jeito certo",
+        [("caneta", "Monta em minutos", "Capa, perguntas, escala de satisfação e quantidades por tamanho."), ("pessoas", "Para quem", "Escolas, servidores, pais e comunidade, por grupos."), ("ok", "Uma resposta por pessoa", "Identificada ou anônima, com comprovante.")],
+        [("Assistente de IA:", "monta a pesquisa a partir do que a pessoa conta e sugere melhorias, sempre com “Ver como ficaria” antes."),
+         ("Aprovação:", "pesquisa para pais e comunidade passa por quem aprova na Secretaria antes de sair."),
+         ("Quem falta:", "o gestor vê quem já respondeu e quem falta, e manda o lembrete com o link pessoal de cada um."),
+         ("Resultados:", "gráficos por pergunta, comparação entre regiões e tipos de escola, PDF, apresentação e planilha.")])}{rodape(n[0])}</section>''')
+    nova(f'''<section class="pg clara pq2">
+<span class="sobre">Sistema em órbita · Pesquisas da Educação</span><h2>Do questionário ao resultado, com um assistente de IA</h2>
+<div class="pq-grid2"><div>{navegador("pq-assistente")}<small>“Criar com o assistente”: a pessoa conta o que quer saber e o assistente monta a pesquisa (aceita até o PDF ou a foto de um questionário em papel).</small></div>
+<div class="pq-cel"><img src="{img("pq-celular")}"><small>Quem responde vê a pesquisa no celular, uma pergunta por tela.</small></div></div>
+<div class="pq-res">{navegador("pq-resultados2")}<small>Resultados em gráficos, com filtros por tipo de escola e região, modo apresentação, PDF e planilha.</small></div>
+{rodape(n[0])}</section>''')
+
+    # SIMAPE
+    nova(f'''<section class="pg clara tela">{tela("sim-bairros", "Sistema em órbita · SIMAPE", "Geolocalização: a rede inteira no mapa",
+        [("pin", "Alunos e escolas no mapa", "13 mil alunos e 90 escolas georreferenciados."), ("mapa", "Bairros e setores", "Cobertura de cada escola, bairro por bairro."), ("grafico", "Indicadores na hora", "Alocados, sem vaga e quem precisa de transporte.")],
+        [("Geolocalização:", "cada aluno e cada escola no ponto certo do mapa, a partir do endereço."),
+         ("Cobertura:", "que bairros cada escola atende dentro do raio, e onde a rede não chega."),
+         ("Setores:", "vagas e demanda por setor, para decidir onde abrir turma ou ampliar escola."),
+         ("Consulta pública:", "a família consulta a matrícula e a escola de destino pelo CPF do responsável.")])}{rodape(n[0])}</section>''')
+    nova(f'''<section class="pg clara sim2">
+<span class="sobre">Sistema em órbita · SIMAPE</span><h2>Planejar vagas antes de faltar vaga</h2>
+<p class="intro">Cenários de demanda com os alunos reais: o sistema distribui cada aluno na escola mais próxima com vaga na série e mostra onde vai faltar, onde sobra e quem vai precisar de transporte.</p>
+<div class="sim-grid">{navegador("sim-demanda")}{navegador("sim-relatorio")}</div>
+<div class="tres">
+  <div>{ic("raio", 24)}<b>Simulação em segundos</b><small>12 mil alunos distribuídos por proximidade, série a série.</small></div>
+  <div>{ic("ia", 24)}<b>Projetor de solução</b><small>Uma IA lê o cenário e sugere onde ampliar ou abrir turmas.</small></div>
+  <div>{ic("documento", 24)}<b>Relatórios</b><small>Cobertura por escola e demanda por setor, prontos para imprimir.</small></div>
+</div>
+{rodape(n[0])}</section>''')
+    nova(f'''<section class="pg clara sim3">
+<span class="sobre">Sistema em órbita · SIMAPE</span><h2>Aluno novo: a resposta para a família na hora</h2>
+<div class="sim3-grid"><div>{navegador("sim-aluno-novo")}<small>Data de nascimento e CEP: o sistema diz a série (idade em 31/03), o setor, o bairro e as escolas mais próximas que atendem a série, com distância e vagas.</small></div>
+<div class="sim-folha"><img src="{img("sim-aluno-novo-relatorio")}"><small>O relatório colorido, com o mapa, para entregar à família.</small></div></div>
+{rodape(n[0])}</section>''')
+
+    # uma página para cada escola (possibilidade)
+    M('escola')
+    nova(f'''<section class="pg clara escola-pg">
+<span class="sobre">O próximo passo possível</span><h2>Uma página para cada escola</h2>
+<p class="intro">Hoje cada escola já publica as próprias notícias pelo painel, só nas dela. O passo seguinte é cada unidade ter a sua página no portal: recados, eventos, equipe, horário e como chegar, mantida pela própria escola.</p>
+<div class="escola-img">{navegador("escola-mock")}<span class="selo-sim">Simulação · ainda não está no portal</span></div>
+<div class="tres">
+  <div>{ic("escola", 24)}<b>Mantida pela escola</b><small>O papel “Escola” do painel já existe: cada uma mexe só no que é seu.</small></div>
+  <div>{ic("pin", 24)}<b>Ligada ao mapa</b><small>Endereço e localização vêm do cadastro das unidades e do SIMAPE.</small></div>
+  <div>{ic("pessoas", 24)}<b>Perto da família</b><small>Recados e eventos da escola do filho, num endereço só.</small></div>
+</div>
 {rodape(n[0])}</section>''')
 
     # 24. painel 1
+    M('painel')
     nova(f'''<section class="pg escura painel1">
 <span class="sobre">O painel</span><h2>A Secretaria no comando.<br><em>Sem programador.</em></h2>
 <p class="intro">Tudo o que aparece no portal é mantido pela própria equipe da Educação, num painel simples. Com um treinamento básico, quem sabe usar e-mail sabe publicar uma notícia.</p>
@@ -371,6 +424,7 @@ def paginas():
 {rodape(n[0])}</section>''')
 
     # 27. perguntas
+    M('perguntas')
     pq = [('É seguro?', 'Sim. O acesso ao painel é por usuário e senha pessoais, cada pessoa só vê e altera o que o seu papel permite, e o próprio banco de dados confere essas regras a cada pedido.'),
           ('Onde ficam os dados?', 'Em um banco de dados no Brasil (São Paulo), com cópia de segurança diária guardada por 30 dias.'),
           ('Precisa de programador para atualizar?', 'Não. Notícias, páginas, destaques, cores, menus e sistemas são mantidos pela equipe da Secretaria no painel.'),
@@ -398,6 +452,7 @@ def paginas():
 {rodape(n[0])}</section>''')
 
     # 29. tecnologia
+    M('tecnologia')
     tec = [('nuvem', 'Cloudflare', 'Rede global: o portal abre rápido em qualquer lugar e é protegido contra ataques e picos de acesso.'),
            ('banco', 'Supabase · PostgreSQL', 'Banco de dados profissional, hospedado em São Paulo.'),
            ('cadeado', 'Segurança por registro (RLS)', 'Cada linha do banco tem regra de acesso: a regra vale no banco, não só na tela.'),
@@ -431,6 +486,9 @@ def paginas():
 <div class="cc-texto"><span class="selo">SECKE Sistemas</span><h2>Vamos colocar a Educação<br>na palma da mão das famílias?</h2>
 <p>Sistemas públicos com foco na experiência de quem usa.</p>
 <div class="contato"><span>{ic("fone", 20)} [telefone]</span><span>{ic("enviar", 20)} [e-mail]</span></div></div></section>''')
+    # números de página no sumário
+    for k, v in marca.items():
+        P = [x.replace(f'@{k}<', f'{v:02d}<') for x in P]
     return P
 
 

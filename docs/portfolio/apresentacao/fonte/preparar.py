@@ -51,6 +51,28 @@ for n in ['cel-home', 'cel-matricula', 'cel-noticias', 'cel-servicos']:
     salvar(Image.open(S / f'{n}.png'), n, 900)
 for n in ['painel-noticia-editar', 'painel-biblioteca', 'painel-destaque-novo', 'painel-identidade', 'painel-menus', 'painel-papeis', 'painel-escola-noticia']:
     salvar(Image.open(PAINEL / f'{n}.jpg'), n)
-for n in ['inicio', 'impressao']:
-    salvar(Image.open(CI / f'{n}.png'), f'ci-{n}')
+for n in ['inicio', 'impressao']:  # fotos do guia da CI (ou as tiradas para esta versão, mais abaixo)
+    if (CI / f'{n}.png').exists():
+        salvar(Image.open(CI / f'{n}.png'), f'ci-{n}')
 print('ok')
+
+# ---------- versão de novembro de 2026: telas inteiras e sistemas em órbita
+salvar(Image.open(S / 'destaque-3.png'), 'destaque-3', 1800)
+TELA_H = 1480  # px CSS: uma "tela inteira" que cabe na página A4 com título e legenda
+for n in ['servicos', 'estudante', 'noticias', 'noticia', 'eventos', 'transparencia', 'legislacao', 'numeros', 'estrutura',
+          'supervisor', 'perguntas', 'sobre', 'documentos', 'busca', 'matricula']:
+    t = Image.open(S / f'{n}.png')
+    salvar(t.crop((0, 0, t.width, min(t.height, TELA_H * 2))), f'tela-{n}')
+salvar(Image.open(S / 'escola-mock.png'), 'escola-mock')
+SC = Path('/tmp/claude-0/-home-user/e426da3e-632a-5f70-b821-e1e97995df77/scratchpad/apr')  # fotos dos sistemas (ver LEIA-ME)
+for pasta, pref, nomes in [('ci-img', 'ci', ['inicio', 'ci-receber', 'caminho', 'nova-op', 'impressao', 'celular', 'verificar']),
+                           ('pq', 'pq', ['editor', 'assistente', 'nova', 'previa', 'resultados', 'resultados2', 'cel-aberta']),
+                           ('sim', 'sim', ['mapa', 'bairros', 'relatorio', 'demanda', 'aluno-novo', 'aluno-novo-relatorio', 'login'])]:
+    for n in nomes:
+        f = SC / pasta / f'{n}.png'
+        if f.exists():
+            salvar(Image.open(f), f'{pref}-{n.replace(pref + "-", "")}', 1800)
+f = SC / 'pq' / 'previa.png'
+if f.exists():  # só o celular da prévia
+    Image.open(f).convert('RGB').crop((878, 125, 2002, 1800)).save(D / 'pq-celular.jpg', quality=84, optimize=True)
+print('ok novembro')

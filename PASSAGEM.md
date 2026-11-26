@@ -90,6 +90,10 @@ William trabalha com **duas contas do Claude**, alternando por causa dos limites
 
 ## Diário das sessões (mais recente no topo)
 
+### 26/11/2026 — sessão `affectionate-maxwell` (apresentação do portal)
+- **Apresentação impressa do Portal da Educação refeita** (D-148 do `portal-municipal`): 31 → 46 páginas, `docs/portfolio/apresentacao/`. Novas: página de destaque com as 4 artes, vídeos de orientação, **tela por tela** (11 páginas com uma tela inteira cada), **sistemas em órbita** (diagrama + CI Eletrônica, Pesquisas e SIMAPE com geolocalização e "Aluno novo") e **uma página para cada escola** (simulação marcada como tal). Sumário com números automáticos.
+- Antes (12–13/11): portal de demonstração do **Procon Hortolândia** (D-146, D-147 do `portal-municipal`) em https://procon-hortolandia.willquerubim2025.workers.dev.
+
 ### 30 e 31/10/2026 — sessão `affectionate-maxwell` (SIMAPE)
 - **SIMAPE (GeoEscola) migrado para o Portal Municipal** (D-138 do `portal-municipal`): schema `geoescola`, destacável para outros órgãos. Repositório novo `willquerubim2025-oss/geoescola` (código que estava só no computador do William; a planilha ESTUDO.xlsx com dados pessoais foi retirada).
 - Dados copiados servidor a servidor e conferidos; 6 funções do servidor publicadas com prefixo `geoescola-`; app adaptado; teste completo com conta de teste (retirada) — reprocessar uma simulação deu os mesmos números.

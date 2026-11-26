@@ -17,7 +17,7 @@ const U = 'https://portal-municipal.willquerubim2025.workers.dev';
   }
   // home inteira (depois é cortada em partes)
   let p = await pg(); await abrir(p, '/'); await p.screenshot({ path: 'img-bruto/home.png', fullPage: true });
-  for (const i of [1, 2]) { await p.evaluate((i) => document.querySelector(`[data-ir="${i}"]`)?.click(), i); await p.waitForTimeout(1200);
+  for (const i of [1, 2, 3]) { await p.evaluate((i) => document.querySelector(`[data-ir="${i}"]`)?.click(), i); await p.waitForTimeout(1200);
     await p.locator('.v-destaque').screenshot({ path: `img-bruto/destaque-${i}.png` }); }
   await p.evaluate(() => document.querySelector('[data-ir="0"]')?.click()); await p.waitForTimeout(1200);
   await p.locator('.v-destaque').screenshot({ path: 'img-bruto/destaque-0.png' });
@@ -25,7 +25,8 @@ const U = 'https://portal-municipal.willquerubim2025.workers.dev';
   for (const [n, url] of [['matricula', '/servicos/matricula-escolar'], ['servicos', '/servicos'], ['noticias', '/noticias'],
     ['noticia', '/noticias/paulinia-abre-cadastro-para-uniforme-escolar-de-2027'], ['transparencia', '/transparencia'], ['legislacao', '/legislacao'],
     ['supervisor', '/fale-com-o-supervisor'], ['numeros', '/educacao-em-numeros'], ['estrutura', '/estrutura-organizacional'], ['estudante', '/servicos/area-do-estudante'],
-    ['perguntas', '/perguntas-frequentes'], ['acessibilidade', '/acessibilidade'], ['bolsa', '/servicos/bolsa-de-estudo'], ['evento', '/eventos/prova-do-vestibulinho-2027']]) {
+    ['perguntas', '/perguntas-frequentes'], ['acessibilidade', '/acessibilidade'], ['bolsa', '/servicos/bolsa-de-estudo'], ['evento', '/eventos/prova-do-vestibulinho-2027'],
+    ['sobre', '/sobre'], ['documentos', '/documentos'], ['busca', '/busca?q=matr%C3%ADcula'], ['eventos', '/eventos']]) {
     p = await pg(); await abrir(p, url); await p.screenshot({ path: `img-bruto/${n}.png`, fullPage: true }); await p.close(); console.log('ok', n);
   }
   // alto contraste
